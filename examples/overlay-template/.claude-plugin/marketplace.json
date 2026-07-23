@@ -1,0 +1,16 @@
+{
+  "name": "yourchurch",
+  "description": "Your Church's private Claude Code plugins. Currently: rockrms-yourchurch — the overlay for the public rockrms plugin.",
+  "owner": {
+    "name": "Your Church",
+    "email": "you@yourchurch.org"
+  },
+  "plugins": [
+    {
+      "name": "rockrms-yourchurch",
+      "source": "./",
+      "description": "Your Church's overlay: instance facts and intentional deviations. Install alongside rockrms.",
+      "category": "productivity"
+    }
+  ]
+}

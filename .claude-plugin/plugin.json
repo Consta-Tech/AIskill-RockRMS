@@ -1,0 +1,10 @@
+{
+  "name": "rockrms",
+  "description": "Rock RMS development environment for Claude Code: house rules injected at session start, Lava / T-SQL / HTMX language references, Rock database schema docs, BEMA Room Management docs, and pre-push audit skills.",
+  "author": {
+    "name": "Consta Tech",
+    "email": "tim@consta.tips"
+  },
+  "homepage": "https://github.com/Consta-Tech/AIskill-RockRMS",
+  "repository": "https://github.com/Consta-Tech/AIskill-RockRMS"
+}

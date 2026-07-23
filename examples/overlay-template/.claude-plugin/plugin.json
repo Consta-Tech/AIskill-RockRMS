@@ -1,0 +1,8 @@
+{
+  "name": "rockrms-yourchurch",
+  "description": "Your Church's overlay for the rockrms plugin: instance facts and intentional deviations from stock behavior. Install alongside rockrms@consta-tech.",
+  "author": {
+    "name": "Your Church",
+    "email": "you@yourchurch.org"
+  }
+}
