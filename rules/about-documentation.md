@@ -99,6 +99,38 @@ Endpoint files follow a similar boilerplate pattern but include endpoint-specifi
 - The "Enabled Lava Commands" field lists the commands that must be enabled on this endpoint in Rock's admin UI for the Lava to execute correctly. Use `-` if no commands are needed.
 
 
+#### Boilerplate templates
+Field-by-field templates for the boilerplate ship with the plugin's skills — the Dynamic Data pair in the `surface-dynamicdata` skill's `assets/boilerplates/`, the other three in the `language-lava` skill's. A workspace may override any of them with its own `.claude/templates/` copy:
+
+| Template | Applies to |
+|---|---|
+| `boilerplate-block-DynamicData-Query.md` | `-Query.lava.sql` files under `_code/Block-DynamicData/PageId_*/` |
+| `boilerplate-block-DynamicData-FormattedOutput.md` | `-FormattedOutput.lava` files under `_code/Block-DynamicData/PageId_*/` |
+| `boilerplate-block-LavaApplicationContent.md` | `.lava` files under `_code/Block-LavaApplicationContent/PageId_*/` |
+| `boilerplate-LavaEndpoint.md` | `.lava` files under `_code/LavaApplications/*/Endpoints/` |
+| `boilerplate-LavaShortcode.md` | `.lava` files under `_code/ShortCodes/ShortCodeId_*/` |
+
+
+### Choosing the comment syntax in a `.lava.sql` file
+A Dynamic Data query passes through two engines: Lava renders the file first, and SQL Server then receives whatever Lava produced. So the two comment syntaxes are not interchangeable — they have different destinations.
+
+- A **Lava** comment (`//-` for one line, `/- ... -/` for a block) is stripped by the Lava engine. It never reaches SQL Server.
+- A **SQL** comment (`--` for one line, `/* ... */` for a block) survives into the query text SQL Server parses, and will show up in Profiler and in the cached plan.
+
+Two rules follow from that:
+
+1. **The boilerplate is always a SQL block comment** (`/* ... */`). It should survive into the text you paste into your SQL client when you are debugging the query outside of Rock.
+2. **Line comments are layer-matched.** A note about Lava-layer code takes a Lava comment; a note about SQL takes a SQL comment.
+
+```
+{% assign input_CampusId = 'Global' | PageParameter:'c1' | AsInteger %} //- Campus picker on the PageParameterFilter Block
+
+-- Stage 1: @FilteredRows — one row per Attendance record. All filtering happens here.
+DECLARE @FilteredRows table (
+```
+
+Getting this backwards costs little but costs something real: a `--` comment written *about a Lava assignment* ships a sentence about Lava to the database on every single execution, where it surfaces in a query plan somebody else is trying to read.
+
 ### In-line comments
 In addition to the boilerplate, each file can have many in-line comments.
 
@@ -122,6 +154,14 @@ These README documents are intended to contain details that are specific to that
 ## Shared Reference Docs in AIskill-RockRMS
 Knowledge that pertains to all Rock RMS development lives in the `Consta-Tech/AIskill-RockRMS` repository and reaches every developer through this plugin's skill references.
 
-Shared knowledge about anything related to configuring things in Rock, writing code for Rock, and tested/verified/confirmed behaviors that are specific to Rock.
+Shared knowledge about anything related to configuring things in Rock, writing code for Rock, and tested/verified/confirmed behaviors that are specific to Rock. When you learn something new that is worth sharing (a tested behavior, a gotcha, a schema note), propose it as a PR to `Consta-Tech/AIskill-RockRMS` so the whole team receives it automatically.
 
-When you learn something new that is worth sharing (a tested behavior, a gotcha, a schema note), propose it as a PR to `Consta-Tech/AIskill-RockRMS` so the whole team receives it automatically.
+
+## Writing Style
+
+### Spell out BlockType and entity names in prose
+Write "Dynamic Data block" and "Lava Application Content block" — never "DD block" or "LAC block". The same goes for any shorthand coined mid-conversation: PageParameterFilter, AttendanceOccurrence, RegistrationInstance, and so on.
+
+An abbreviation that is obvious while you are working is not obvious months later, and these documents are read by collaborators who were never in the conversation where the shorthand was invented. The cost of spelling it out is a few characters; the cost of not doing so is a reader who has to reverse-engineer what "DD" meant.
+
+This applies to prose in shared reference docs, to README files, and to in-file comment blocks. Inside code samples, identifiers such as CSS class names and log prefixes are placeholders a reader will rename anyway — but prefer a spelled-out or abbreviation-free name there too when it costs nothing (`my-block-root` over `my-dd-root`).
