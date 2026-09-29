@@ -10,6 +10,7 @@ Ground rules for the whole flow:
 
 - **Never overwrite an existing file, directory, or symlink.** Whatever already exists is left untouched and reported in the final summary. Re-running this command on a half-scaffolded workspace is repair mode: it fills gaps only.
 - The user may be new to development. Explain each step in one plain sentence as you go; do not assume they know what git, symlinks, or JSON are.
+- Whenever you tell the user something to type, enclose the exact text in backticks (`` `exit` ``); whenever you name a keyboard key to press, enclose it in single quotes ('Enter').
 - Scaffold templates live in `${CLAUDE_PLUGIN_ROOT}/templates/`. Read them from there — do not reconstruct their content from memory.
 
 ## Step 1 — Preflight
@@ -91,8 +92,8 @@ Per the interview answer:
 
    > One note: settings I just wrote apply fully in your NEXT session, so restart Claude Code before doing real work here.
    >
-   > 1. Type `exit`, press Enter.
-   > 2. Back at your terminal, type `claude`, press Enter.
+   > 1. Type `exit`, press 'Enter'.
+   > 2. Back at your terminal, type `claude`, press 'Enter'.
    >
    > When the new session opens, just say hello — I'll offer you a menu of ways to get started.
 
