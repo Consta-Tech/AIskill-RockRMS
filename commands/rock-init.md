@@ -87,9 +87,13 @@ Per the interview answer:
 
 1. Summarize: what was created, what already existed and was skipped, and (shared-repo layout) where the church clone sits.
 2. Note that a **new session** in this directory will pick up `CLAUDE.md` and the settings; if this session was started before `.claude/settings.json` existed, some settings apply only after restart.
-3. Close by offering the workspace menu:
-   1. Ask a question about Rock in general
-   2. Ask a debugging question about my current Rock instance
-   3. Ask a brainstorming question about a new solution
-   4. Help me write a prompt file
-   5. Help me document some knowledge
+3. Do **not** offer to start work in this session — the settings aren't live yet. Close by walking the user out and back in, keystroke by keystroke:
+
+   > One note: settings I just wrote apply fully in your NEXT session, so restart Claude Code before doing real work here.
+   >
+   > 1. Type `exit`, press Enter.
+   > 2. Back at your terminal, type `claude`, press Enter.
+   >
+   > When the new session opens, just say hello — I'll offer you a menu of ways to get started.
+
+   (That last line works because the `CLAUDE.md` just written tells the next session to offer the workspace menu on a vague opener.)
