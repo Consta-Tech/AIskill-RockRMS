@@ -33,7 +33,7 @@ Ask with AskUserQuestion, in one call where possible. Only the applicable questi
    - *Help me* — "I know what git is, and I prefer that you help me manage the git commands in this workspace"
    - *I'll manage it* — "I know what git is, I will manage it myself. Do not offer to help with git unless I ask first"
 2. **Code layout** (skip when overlay defaults exist): does their church keep Rock code in a shared GitHub repo?
-   - *Shared repo* — follow up for the `owner/name`; `_code` becomes a symlink into a sibling clone of that repo.
+   - *Shared repo* — follow up by asking them to **copy and paste the repo's GitHub URL** ("open the repo in your browser and paste the address here"). Accept whatever arrives and normalize it yourself: an `https://github.com/...` URL (with or without `.git`, and strip any trailing path like `/tree/main/_code` down to the repo), an SSH `git@github.com:...` form, or a bare `owner/name` from users who know the shorthand. Confirm the normalized `owner/name` back to them before cloning. `_code` becomes a symlink into a sibling clone of that repo.
    - *No shared repo* — `_code` is created as a plain local directory.
 3. **Instance basics** (skip when an overlay `instance-facts` skill exists; every field skippable): internal/staff site URL, its Site Id if known, external site URL.
 
