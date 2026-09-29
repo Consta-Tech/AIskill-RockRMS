@@ -11,7 +11,9 @@ claude plugin marketplace add Consta-Tech/AIskill-RockRMS
 claude plugin install rockrms@consta-tech
 ```
 
-Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup — including the developer workspace repo, the `_code` symlink, and troubleshooting — is in **[INSTALL.md](INSTALL.md)**.
+Then initialize your workspace: `cd` into (or create) your workspace directory, start `claude`, and run **`/rock-init`** — it interviews you and scaffolds the whole workspace (`CLAUDE.md`, `_code`, a local `docs/` knowledgebase, settings).
+
+Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup and troubleshooting are in **[INSTALL.md](INSTALL.md)**.
 
 ## What's inside
 
@@ -25,6 +27,7 @@ Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup — incl
 | `skills/language-html-htmx` | Front-end gotchas verified inside Rock blocks (sticky positioning, debounced HTMX triggers, smooth-scroll after cascades). |
 | `skills/format-tsql` | `/rockrms:format-tsql` — restyles any T-SQL query to house style. |
 | `skills/audit-pre-push-1` `-2` | The two-part pre-push documentation audit (code files, then READMEs). |
+| `commands/rock-init` + `templates/` | `/rock-init` — interviews you and scaffolds a complete workspace repo from the templates; reads an installed church overlay's `workspace-defaults` skill instead of interviewing when one is present. |
 
 Reference-pack skills load on demand: Claude sees each skill's one-line description in every session and reads the underlying reference files only when the task calls for them.
 
@@ -45,6 +48,8 @@ AIskill-RockRMS/
 ├── .claude-plugin/     # plugin.json + marketplace.json (this repo is its own marketplace)
 ├── rules/              # Always-on house rules (Claude Code-specific, hook-injected)
 ├── hooks/              # SessionStart hook that injects rules/
+├── commands/           # /rock-init — the workspace initializer
+├── templates/          # Workspace files /rock-init scaffolds from
 ├── skills/             # The skill packs (agentskills.io format, harness-neutral)
 │   └── <skill>/
 │       ├── SKILL.md    # Index + when-to-use routing

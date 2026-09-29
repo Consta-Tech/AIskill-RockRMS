@@ -1,0 +1,4 @@
+input_box/
+CLAUDE.local.md
+.claude/settings.local.json
+.DS_Store

@@ -8,8 +8,9 @@ The overlay is its own repo, its own plugin, and its own one-plugin marketplace.
 
 1. Copy this directory into a new repo in your church's GitHub org (e.g., `YourOrg/AIskill-RockRMS-ABC`, where ABC is your church's abbreviation). Private is fine — and recommended once instance facts accumulate.
 2. Replace every `yourchurch` placeholder in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`, and rewrite `skills/instance-facts/SKILL.md` with your instance's real values.
-3. **Do not add a `version` field to `plugin.json`.** Left unset, every git push is a new version and installs auto-update.
-4. Publish, then install alongside the generic pack:
+3. Fill in `skills/workspace-defaults/SKILL.md` — it's what makes the generic `/rock-init` command scaffold **your** church's workspace layout without interviewing each developer (or delete it to keep the interview).
+4. **Do not add a `version` field to `plugin.json`.** Left unset, every git push is a new version and installs auto-update.
+5. Publish, then install alongside the generic pack:
 
    ```bash
    claude plugin marketplace add Consta-Tech/AIskill-RockRMS
