@@ -3,7 +3,7 @@ RockRMS is a church management system created by Spark Dev and developed between
 
 In the context of talking about web development in the context of Rock RMS and Lava, you might hear the word, "Helix". This refers to Triumph's implementation of HTMX for the context of being used within Rock RMS.
 
-Most of its initial documentation can be found at https://community.rockrms.com/developer//helix
+Most of its initial documentation can be found at https://community.rockrms.com/developer/helix
 
 The architecture relies on each Rock RMS instance defining a "Lava Application", which can have various "Lava Application Endpoints".
 
@@ -91,6 +91,8 @@ The correct pattern is to combine an explicit `hx-params` whitelist with dynamic
 ```
 
 Note: buttons can use static `hx-vals` (no `js:` prefix) since they don't need to read a dynamic value from a form control.
+
+**Confirmed beyond this BlockType (Tested August 2026).** The same leakage occurs from markup rendered by an **Obsidian Dynamic Data** block — its content also sits inside the ASP.NET page form. Two otherwise-identical buttons measured 38 characters of `Form` data with `hx-params="Id,Label"` against 15,497 characters without it. Treat the whitelist as mandatory for any `hx-post` on a Rock page, regardless of which BlockType emitted the markup. See the `surface-dynamicdata` skill's `DynamicData-With-Htmx.md`.
 
 ## `js:` Prefix Requires Object-Literal Form (Tested May 2026)
 Helix's HTMX integration parses `hx-vals='js:...'` more strictly than stock HTMX. The contents are expected to be an **object literal** (the `{...}` you see in the canonical example above). Bare expressions — including direct function calls — fail with a swallowed `SyntaxError: Unexpected token '}'` inside `helix-script.js`.
@@ -215,6 +217,9 @@ If a feature suddenly "breaks the page" the moment it tries to call an endpoint:
 
 The fix is always the same: swap `fetch(...)` for `htmx.ajax('GET', url, { target, swap })`.
 
+## Related: markup HTMX never registered
+The symptoms above assume HTMX is driving the request. A control whose element was never *processed* by HTMX fails differently — silently, with no request at all. That is the normal state of any markup injected into the page after HTMX initializes, including everything rendered by an Obsidian Dynamic Data block. See the `surface-dynamicdata` skill's `DynamicData-With-Htmx.md`.
+
 
 # Programmatic `htmx.ajax()` with `values` (Tested March 2026)
 The `htmx.ajax()` JavaScript API supports a `values` option that is the programmatic equivalent of `hx-vals`. When used with a POST request, the values are sent as form-encoded POST body data and are accessible via `{{ Form }}` in the Lava Application Endpoint.
@@ -263,7 +268,7 @@ The pattern above (per-control `hx-post`) is for **inline, per-row interactions*
 
 For batch submission, `<lava-form>` combined with a single `hx-post` on a submit button is the appropriate pattern. Be aware that the `Form` payload will include the ViewState noise alongside your actual form data — your endpoint will need to ignore the extra keys and read only the ones it cares about.
 
-> The `{[ checkboxlist ]}` and other form-control ShortCodes used in the example below are documented in `ShortCodes/Helix-Form-Controls.md`.
+> The `{[ checkboxlist ]}` and other form-control ShortCodes used in the example below are documented in `Helix-Form-Controls.md` in this skill.
 
 For the sake of example, if I configure a new Block and its BlockType is **Lava Application Content**, and if its Code Template is:
 ```html
@@ -494,7 +499,9 @@ The response contains the primary swap element followed by one or more OOB eleme
 1. HTMX receives the full response.
 2. It identifies elements with `hx-swap-oob="true"` and **extracts them** from the response before processing the primary swap.
 3. The primary swap proceeds normally (e.g., `outerHTML` replaces the target `<tr>`).
-4. Each OOB element is swapped into the DOM element with the matching `id`. By default, OOB swaps replace the **innerHTML** of the matching element.
+4. Each OOB element is swapped into the DOM element with the matching `id`. By default, OOB swaps replace the **outerHTML** of the matching element — the returned element replaces the existing one entirely, so its own `class`, `style`, and `data-*` attributes take effect.
+
+> **Corrected August 2026.** This step previously read `innerHTML`, which was wrong. Verified by returning an OOB element carrying a `style` the original element did not have, and confirming the style took effect. The practical consequence: one OOB element can update a value *and* restyle its container in a single swap — but it must also **re-declare every attribute the original had**, because nothing of the original survives. That is why the OOB spans throughout this codebase repeat their full `class` list (house rule: *the OOB span must replicate all CSS classes from the original element*).
 
 ## Confirmed Behaviors
 - OOB elements are correctly extracted and do **not** appear inside the primary swap target.
@@ -503,6 +510,92 @@ The response contains the primary swap element followed by one or more OOB eleme
 - `htmx:afterSettle` fires **twice** when OOB elements are present (once per swap). See the toast notification section above for the deduplication pattern.
 - OOB elements and `data-toast-*` attributes can coexist in the same response without interfering with each other.
 - The primary swap element and OOB elements are siblings at the top level of the response (no wrapping container needed).
+
+## OOB resolution is page-wide, not block-scoped (Tested August 2026)
+As far as HTMX is concerned the page is one DOM; Rock's block boundaries do not exist. Verified with a single response that updated three regions at once:
+
+- An endpoint invoked from an **Obsidian Dynamic Data** block OOB-swapped elements rendered by a **Lava Application Content** block and by an **HTML Content** block. All three targets updated from one click.
+- Markup delivered via OOB is **processed on arrival**, including when it lands in a block that had nothing to do with the request. A `<button>` injected by OOB into the Lava Application Content block fired normally when clicked.
+- That injected button then targeted an element back inside the Dynamic Data block — cross-block targeting works in both directions.
+
+The practical consequence: one block can drive the UI of any other block on the page. A Dynamic Data block's write endpoint can refresh a KPI row, a badge, or a counter rendered somewhere else entirely, without a page reload and without those elements knowing where the request came from.
+
+Note that the Dynamic Data side requires `htmx.process()` on the block's own initial render before any of this works — see the `surface-dynamicdata` skill's `DynamicData-With-Htmx.md`.
+
+
+# `{% sql %}` Timeout Inside an Endpoint (Tested August 2026)
+A `{% sql %}` block inside a Lava Application Endpoint defaults to a **30-second** command timeout, and when it expires it fails in a way that every normal error path will miss.
+
+**The default is overridable on the command itself** — `{% sql timeout:'60' %}`, in seconds. See the `language-lava` skill's `Lava-Language.md` → "Sql Command" → "Timeout". This is the primary safeguard; everything below is about what happens when you exceed whatever limit is in force.
+
+## The measurement
+A GET endpoint running `WAITFOR DELAY` for a requested duration:
+
+| Requested | Elapsed | HTTP status | `htmx:afterRequest` `successful` | Response body |
+|---|---|---|---|---|
+| 5s | 5.1s | 200 | `true` | the expected result |
+| 35s | 30.7s | 200 | `true` | `Lava Error: (Block: sql) Execution Timeout Expired.` |
+| 90s | 30.1s | 200 | `true` | same |
+| 150s | 30.2s | 200 | `true` | same |
+
+The probe declared no `timeout:`, so all four runs cut off at the 30-second default regardless of how long the query asked for. There is no *endpoint-level* setting for this — the control lives on the `{% sql %}` command.
+
+## The dangerous part: it is not an error to anything downstream
+**The request returns HTTP `200` and HTMX reports `successful = true`.** The failure exists only as a string in the response body. Consequences:
+
+- `htmx:responseError` **never fires**. Neither does `htmx:sendError`.
+- HTMX **swaps the error text into the DOM** as though it were content. A table body, a `<tr>`, a badge — whatever the target was, it now contains `Lava Error: (Block: sql) Execution Timeout Expired.`
+- An endpoint that returns JSON produces a body that is not JSON, so `JSON.parse` throws and the caller falls into its generic catch — reporting something vague like "unexpected response" rather than "the query timed out."
+- Any monitoring that watches HTTP status codes will never see it.
+
+In the observed case the response contained *only* the error string — the rest of the template did not render. That is the safer of the two possibilities (a write endpoint does not proceed on empty result data), but it has only been observed with the `{% sql %}` block near the top of the template; whether a block further down aborts the remaining render is untested.
+
+## Handling it: prevention, not detection
+**The standard is that every `{% sql %}` inside an endpoint declares an explicit `timeout:`**, sized from the query's measured worst case rather than left at the default. The safeguard belongs in the Lava, not in client-side JavaScript scattered across the blocks and pages that happen to call the endpoint.
+
+```lava
+{% sql return:'array_Roster' timeout:'60' pCamp:'{{ var_Camp }}' %}
+    ...
+{% endsql %}
+```
+
+### A downstream `{% if %}` cannot catch a timeout
+Guarding the *result* after the fact does not work for this failure. **Rock discards the entire rendered output and substitutes the error string** — confirmed by placing literal markers both before and after the `{% sql %}` block and finding neither in the response. It is not that the template stops at the failing tag; nothing the template produced survives at all.
+
+So no `{% if %}`, no `{% capture %}`, no fallback markup anywhere in that endpoint can influence what comes back. The only server-side lever is `timeout:` itself.
+
+That is at least the safe direction of failure for a write endpoint: a `{% sql %}` lookup that times out cannot fall through to a `{% modifyentity %}` block with empty data, because the render is already dead.
+
+Testing an empty result (`{% assign obj = array_Ctx | First %}{% if obj == null %}`) is still worth doing — it catches a query that returned no rows, which is a different and more common condition. It does not catch a timeout.
+
+### Detection is deliberately not standardized
+With `timeout:` declared from the query's measured worst case, a timeout represents a genuine outage rather than a routine condition — and interception machinery costs more than it returns. Decided 2026-08-13.
+
+For anything that renders a JSON response, the failure already lands safely without new code: the body is not JSON, `JSON.parse` throws, and the caller's existing catch reports that nothing was changed, which is true.
+
+If detection ever becomes unavoidable for a specific endpoint, the HTTP status is useless, so it has to be content-based — an `htmx:beforeSwap` listener checking `event.detail.xhr.responseText` for `Lava Error: (Block: sql)` and cancelling the swap. A last resort for one endpoint, not a house pattern.
+
+### Open question: a server-side wrapper endpoint
+Untested idea, parked 2026-08-13. A wrapper endpoint that calls the real one via `{% renderlavaendpoint %}` and inspects the captured output *might* survive the inner abort, since the failing `{% sql %}` lives in the inner template:
+
+```lava
+{% capture var_Inner %}{% renderlavaendpoint slug:'real-endpoint' %}{% endcapture %}
+{% if var_Inner contains 'Lava Error' %}
+    <div class="alert alert-warning">That query took too long.</div>
+{% else %}
+    {{ var_Inner }}
+{% endif %}
+```
+
+If the inner abort does not propagate, this is a fully server-side guard with no JavaScript. Two costs even if it works: two endpoint renders per request, and the context-inheritance rules below ("Merge Fields Inside Lava Application Endpoints") mean the producer sees only what `route:` carries — `QueryString` is not inherited and `PageParameter` is null in both. To test: build `_probe-wrap` around `_probe-slow` and call it with `?Seconds=35`.
+
+### Open question: an open `{% dbtransaction %}` when the timeout fires
+Untested, raised 2026-08-18. `{% dbtransaction %}` renders its inner content into a buffer and only commits at `{% enddbtransaction %}`, so an endpoint that times out partway through a transaction should never reach the commit — the `using` block disposes and EF6 rolls back an uncommitted transaction. That is the expected outcome, but it has not been observed, and the failure mode if wrong is a partially committed write that the 200-response gives you no signal about.
+
+Worth confirming before putting a `{% dbtransaction %}` inside an endpoint whose query is anywhere near its `timeout:`. See the `language-lava` skill ("DB Transaction Command") for the transaction mechanism, and note the related trap documented there: a `{% sql %}` write inside a transaction cannot set `TransactionResult.Success = false`, so it commits silently when it writes the wrong thing.
+
+## Compared to the Dynamic Data block
+The Dynamic Data block exposes a configurable `Timeout Length` (default `30`); an endpoint's `{% sql %}` exposes `timeout:`. **Equivalent controls, same default** — so moving a heavy query out of a Dynamic Data block into an endpoint costs no budget, as long as the `timeout:` is declared to match whatever the block was configured for.
 
 
 # Merge Fields Inside Lava Application Endpoints (Tested May 2026)

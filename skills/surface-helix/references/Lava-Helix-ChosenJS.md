@@ -34,7 +34,7 @@ The `!e.originalEvent` guard prevents infinite loops: native events wrapped by j
 
 ## CSS Considerations
 - `overflow: hidden` on any ancestor element will clip the Chosen dropdown menu.
-- The `{[ dropdown ]}` Lava Shortcode (see `ShortCodes/Helix-Form-Controls.md`) cannot be used with HTMX because `hx-vals` requires single quotes that collide with the shortcode's `additionalattributes` parameter delimiter.
+- The `{[ dropdown ]}` Lava Shortcode (see `Helix-Form-Controls.md`) cannot be used with HTMX because `hx-vals` requires single quotes that collide with the shortcode's `additionalattributes` parameter delimiter.
 - Use raw `<select>` elements with the class `chosen-select` or a custom class (e.g., `js-conndefault-chosen`).
 
 ## Lava `| Where` Filter and Null Values

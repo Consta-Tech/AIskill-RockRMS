@@ -23,13 +23,20 @@ Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup and trou
 | `skills/rock-sql-schema` | Annotated `CREATE TABLE` references for the Rock database, grouped by JOIN affinity. |
 | `skills/rock-blocktypes` | Tested behavior notes for Group Attendance, Sign-Up, and Check-in Schedule Builder blocks, plus cron expressions and Property-vs-Attribute. |
 | `skills/bema-room-management` | Full reference for the BEMA Room Management 2.0 plugin (schema, blocks, workflows) as BEMA ships it. |
-| `skills/language-lava` | The Lava language reference (Lava ≠ Liquid!), Helix/HTMX, ShortCodes, form controls, tested `{% modifyentity %}` behaviors, and boilerplate templates. |
+| `skills/language-lava` | The Lava language reference (Lava ≠ Liquid!), ShortCodes, tested `{% modifyentity %}` behaviors, and boilerplate templates. |
 | `skills/language-html-htmx` | Front-end gotchas verified inside Rock blocks (sticky positioning, debounced HTMX triggers, smooth-scroll after cascades). |
+| `skills/surface-dynamicdata` | Working in the Dynamic Data block: the Query + Lava Template pair, settings that matter, PageParameterFilter wiring, the `htmx.process()` requirement, and why every "current URL" filter returns the BlockActions endpoint. |
+| `skills/surface-htmlcontent` | Working in the HTML Content block: caching and context settings, what renders here that a Dynamic Data block cannot, and the nested-`<form>` trap. |
+| `skills/surface-helix` | The Helix workbench: Lava Applications, Endpoints, and the Lava Application Content block — configuration, the devtools dev loop, tested Helix behaviors, Triumph's form controls, Chosen.js re-init. |
+| `skills/surface-lava-tester` | The Lava Tester block as a REPL, a console for `{% modifyentity %}` corrections, and a host for measurement probes. |
+| `skills/surface-sql-editor` | Rock's SQL Command page versus a desktop client, when to graduate, and how results get back to Claude. |
 | `skills/format-tsql` | `/rockrms:format-tsql` — restyles any T-SQL query to house style. |
 | `skills/audit-pre-push-1` `-2` | The two-part pre-push documentation audit (code files, then READMEs). |
 | `commands/rock-init` + `templates/` | `/rock-init` — interviews you and scaffolds a complete workspace repo from the templates; reads an installed church overlay's `workspace-defaults` skill instead of interviewing when one is present. |
 
 Reference-pack skills load on demand: Claude sees each skill's one-line description in every session and reads the underlying reference files only when the task calls for them.
+
+The skills split along one seam: `language-*` skills carry what is true of a language **anywhere**; `surface-*` skills carry how to collaborate in a particular Rock **workbench** — its settings, its test loop, what its errors look like, and what to hand back to Claude. Knowledge lives in exactly one of them and the other cross-references it by skill name.
 
 ## Church overlays
 

@@ -1,6 +1,6 @@
 {
   "name": "rockrms",
-  "description": "Rock RMS development environment for Claude Code: house rules injected at session start, Lava / T-SQL / HTMX language references, Rock database schema docs, BEMA Room Management docs, and pre-push audit skills.",
+  "description": "Rock RMS development environment for Claude Code: house rules injected at session start, Lava / T-SQL / HTMX language references, Rock database schema docs, BEMA Room Management docs, workbench skills for the Dynamic Data, HTML Content, Helix, Lava Tester, and SQL editor surfaces, and pre-push audit skills.",
   "author": {
     "name": "Consta Tech",
     "email": "tim@consta.tips"

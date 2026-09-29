@@ -1,12 +1,12 @@
 # Helix Form Controls
 
-These ShortCodes are form-control components developed by Triumph Tech as part of Helix (see `../Lava-with-Helix.md`). They provide a declarative way to render standard HTML form controls inside **Lava Application Content** blocks without writing raw HTML.
+These ShortCodes are form-control components developed by Triumph Tech as part of Helix (see `Lava-with-Helix.md`). They provide a declarative way to render standard HTML form controls inside **Lava Application Content** blocks without writing raw HTML.
 
 **Categories:** System, Helix
 
 All of these wrap themselves in `{[ rockcontrol ]}`, which renders a standard Bootstrap `form-group` container with label, validation, and `required` styling.
 
-For general ShortCode concepts (types, parameters, authoring rules), see `../Lava-ShortCodes.md`.
+For general ShortCode concepts (types, parameters, authoring rules), see the `language-lava` skill's `Lava-ShortCodes.md`.
 
 
 ---
@@ -192,7 +192,7 @@ Numeric input prepended with the configured currency symbol from `Global` attrib
 | `validationmessage` | `Please select an item.` | Validation message. |
 | `additionalattributes` | | Extra HTML attributes added to the `<select>`. |
 
-> **HTMX Limitation:** The `{[ dropdown ]}` ShortCode cannot be used with `hx-vals` because `hx-vals` requires single quotes around its JSON value, which collide with the ShortCode's `additionalattributes` parameter delimiter. Use a raw `<select>` element instead when HTMX attributes are needed. See `../Lava-Helix-ChosenJS.md` for the recommended pattern.
+> **HTMX Limitation:** The `{[ dropdown ]}` ShortCode cannot be used with `hx-vals` because `hx-vals` requires single quotes around its JSON value, which collide with the ShortCode's `additionalattributes` parameter delimiter. Use a raw `<select>` element instead when HTMX attributes are needed. See `Lava-Helix-ChosenJS.md` for the recommended pattern.
 
 
 ---
@@ -464,12 +464,12 @@ Slider control rendered via `Rock.controls.rangeSlider` with configurable min, m
 
 ## Usage with HTMX / Helix
 
-These form-control ShortCodes generate standard HTML form controls. When used inside a `<lava-form>` with an `hx-post` submit button, the control values are included in `{{ Form }}` on the endpoint side (along with ASP.NET ViewState noise — see `../Lava-with-Helix.md` > Form Serialization Behavior).
+These form-control ShortCodes generate standard HTML form controls. When used inside a `<lava-form>` with an `hx-post` submit button, the control values are included in `{{ Form }}` on the endpoint side (along with ASP.NET ViewState noise — see `Lava-with-Helix.md` > Form Serialization Behavior).
 
 ### Known Limitations
 
-1. **`{[ dropdown ]}` with `hx-vals`:** The ShortCode's `additionalattributes` parameter uses single-quote delimiters, which conflict with `hx-vals`'s JSON syntax. Use a raw `<select>` instead when HTMX attributes are needed on the element. See `../Lava-Helix-ChosenJS.md` for the recommended Chosen.js pattern.
+1. **`{[ dropdown ]}` with `hx-vals`:** The ShortCode's `additionalattributes` parameter uses single-quote delimiters, which conflict with `hx-vals`'s JSON syntax. Use a raw `<select>` instead when HTMX attributes are needed on the element. See `Lava-Helix-ChosenJS.md` for the recommended Chosen.js pattern.
 
-2. **Per-control `hx-post`:** When using inline/per-row interactions (e.g., a dropdown that submits on change), prefer raw HTML controls with explicit `hx-params` whitelists over these ShortCodes. The ShortCodes are best suited for form-based layouts submitted with a single button. See `../Lava-with-Helix.md` > Form Serialization Behavior for the `hx-params` whitelist pattern.
+2. **Per-control `hx-post`:** When using inline/per-row interactions (e.g., a dropdown that submits on change), prefer raw HTML controls with explicit `hx-params` whitelists over these ShortCodes. The ShortCodes are best suited for form-based layouts submitted with a single button. See `Lava-with-Helix.md` > Form Serialization Behavior for the `hx-params` whitelist pattern.
 
 3. **`name` collisions in tables:** If you render these ShortCodes inside table rows (e.g., a `{[ checkboxlist ]}` per row with the same `name`), all rows' values will be submitted together. Use distinct `name` values per row or use the per-control `hx-post` pattern instead.

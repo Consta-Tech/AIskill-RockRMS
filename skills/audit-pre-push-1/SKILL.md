@@ -47,7 +47,7 @@ Ask the user: **"Which boilerplate template(s) should I enforce for files in thi
 
 Check two locations for available `.md` template files:
 
-1. This plugin's shared boilerplates at `../language-lava/assets/boilerplates/` (relative to this skill's directory) — e.g., `boilerplate-LavaEndpoint.md`, `boilerplate-block-LavaApplicationContent.md`, `boilerplate-LavaShortcode.md`.
+1. This plugin's shared boilerplates, relative to this skill's directory: `../language-lava/assets/boilerplates/` (`boilerplate-LavaEndpoint.md`, `boilerplate-block-LavaApplicationContent.md`, `boilerplate-LavaShortcode.md`) and `../surface-dynamicdata/assets/boilerplates/` (`boilerplate-block-DynamicData-Query.md`, `boilerplate-block-DynamicData-FormattedOutput.md`).
 2. The project's own `.claude/templates/`, if it exists — project-local templates take precedence when both define a template for the same file category.
 
 Each template file contains prose descriptions and heuristic guidelines followed by an `## Example` section showing the desired boilerplate with proper whitespace, block formatting, and list formatting. Read the full template file — apply the heuristic guidelines for judgment calls and use the Example as the concrete structural reference.

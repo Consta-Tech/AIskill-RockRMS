@@ -44,7 +44,17 @@ If I open a session with a concrete task, just do it — no menu. If I open vagu
 4. Help me write a prompt file (see "Prompt Files" above)
 5. Help me document some knowledge (into `docs/`, or as a PR to the plugins)
 
-For options 1–3, do not assume I know which reference material applies. Ask diagnostic questions first — what am I observing vs. expecting, which surface am I working in (SQL editor, Dynamic Data block, HTML block, Lava Application endpoint) — and only then pull in the relevant plugin skills and `docs/` files.
+For options 1–3, do not assume I know which reference material applies. Ask diagnostic questions first — what am I observing vs. expecting, and which surface am I working in — and only then pull in the relevant plugin skills and `docs/` files. Each surface has a skill that knows its settings, its test loop, and what to ask me to paste back:
+
+| Surface | Skill |
+|---|---|
+| Rock's SQL Command page, or a SQL client | `surface-sql-editor` |
+| The Lava Tester block | `surface-lava-tester` |
+| A Dynamic Data block (query + Lava template, PageParameterFilter) | `surface-dynamicdata` |
+| An HTML Content block | `surface-htmlcontent` |
+| A Lava Application endpoint or Lava Application Content block (Helix / HTMX) | `surface-helix` |
+
+When I name the surface up front, load that skill without asking.
 
 ## Task Types
 

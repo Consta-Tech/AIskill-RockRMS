@@ -9,7 +9,7 @@ Concrete values for Your Church's Rock RMS instance. Generic Rock and Lava guida
 
 ## Sites
 
-- The internal (staff) site is `rock.yourchurch.org`, **Site Id `?`** — verify it with the method in the `language-lava` skill's `Lava-with-Helix.md`, then record the value here.
+- The internal (staff) site is `rock.yourchurch.org`, **Site Id `?`** — verify it with the method in the `surface-helix` skill's `Lava-with-Helix.md`, then record the value here.
 - Every Lava Application Endpoint URL on that site begins with `/api/v2/lava-app/{SiteId}/`.
 
 ## Adding facts

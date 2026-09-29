@@ -164,4 +164,4 @@ Detailed parameter references, examples, and usage notes for documented ShortCod
 
 | File | Categories | ShortCodes |
 |------|------------|------------|
-| [Helix-Form-Controls](Helix-Form-Controls.md) | System, Helix | rockcontrol, textbox, memo, currency, dropdown, checkboxlist, radiobuttonlist, campuspicker, definedvaluepicker, datepicker, daterangepicker, rangeslider |
+| Helix-Form-Controls (in the `surface-helix` skill) | System, Helix | rockcontrol, textbox, memo, currency, dropdown, checkboxlist, radiobuttonlist, campuspicker, definedvaluepicker, datepicker, daterangepicker, rangeslider |

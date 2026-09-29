@@ -1,0 +1,128 @@
+/---------------------------------------------------------------------------------------------------------
+
+    Path:
+    surface-lava-tester/assets/Lava-Coercion-Probe.lava
+
+    A single-render probe for Lava's undocumented type-coercion behavior. Paste the whole file
+    into a Lava Tester block (or an HTML Content block with Lava enabled) and compare the rendered output against the
+    `(expect: ...)` annotation on each line.
+
+    Required Lava Command(s):
+    - Sql        (Groups D, F and G use the two {% sql %} fixtures; the rest run without them)
+
+    Every `(expect: ...)` value below was MEASURED against Rock on 21-AUG-2026, except the three
+    lines marked `(expect: ... UNVERIFIED)`, which state what the filter reference predicts but
+    have never been run. A mismatch means either Rock's behavior changed or the annotation was
+    wrong — both worth chasing.
+
+    Findings are written up in the `language-lava` skill's `Lava-Language.md` under these headings (if your
+    plugin version does not carry them yet, the `(expect: ...)` annotations here are the record):
+    - "Zero, '0', and type coercion"
+    - "AsInteger coercion and failure mode"
+    - "Split, contains, Size, and Default — measured edges"
+
+    WHEN TO RE-RUN
+    1. After a Rock version upgrade, before trusting any of the above sections.
+    2. Before relying on a filter edge case that the `#### FilterName` reference does not state.
+       READ THAT REFERENCE FIRST — two of the behaviors originally "discovered" by this probe
+       were already documented in it (Split's RemoveEmpty default, and lexical string comparison).
+       This probe is for what the reference omits, not a substitute for reading it.
+    3. When adding a filter to your vocabulary whose failure mode matters (anything guarding
+       SQL interpolation, in particular).
+
+    BUILD RULES (keep these if you extend it)
+    - ONE source line per test: the {% assign %} and its output share the line, so no
+      whitespace-control markers are needed and each source line yields exactly one output line.
+    - No filter pipes inside an {% if %} test — Lava cannot evaluate them there. Pre-assign.
+    - Riskiest tests LAST within each group, so a mid-render failure still leaves data above it.
+      If output stops early, note where — that is a result too.
+
+---------------------------------------------------------------------------------------------------------/
+
+{% sql return:'rows_Ints' %}
+    SELECT 0 AS "V"
+    UNION ALL
+    SELECT 1
+    ;
+{% endsql %}
+{% sql return:'rows_Empty' %}
+    SELECT 1 AS "V" WHERE 1 = 0
+    ;
+{% endsql %}
+{% assign array_SqlInts = rows_Ints | Select:'V' %}
+{% assign obj_IntRow = rows_Ints | First %}
+
+<pre style="font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; line-height:1.6; white-space:pre; overflow-x:auto;">
+=== GROUP A - Default: what counts as "empty"? ===
+''              : [{{ '' | Default:'FELLBACK' }}]   (expect: [FELLBACK])
+' ' (a space)   : [{{ ' ' | Default:'FELLBACK' }}]   (expect: [FELLBACK] - whitespace counts as empty)
+'0'             : [{{ '0' | Default:'FELLBACK' }}]   (expect: [0])
+false           : [{{ false | Default:'FELLBACK' }}]   (expect: [False] - a bool passes straight through)
+{% assign a = '' | Split:',' %}empty array     : [{{ a | Default:'FELLBACK' }}]   (expect: a .NET type name - never pipe a collection through Default)
+{% assign n = rows_Empty | Default:'FELLBACK' %}empty SQL set   : [{{ n }}]   (expect: a .NET type name)
+{% assign n = obj_IntRow.V | Default:'FELLBACK' %}SQL int 0       : [{{ n }}]   (expect: [0])
+
+=== GROUP B - equality, truthiness, and type coercion ===
+{% assign t = '0' %}if '0'            : {% if t %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign t = '' %}if ''             : {% if t %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - an empty STRING is truthy; only null/false are falsy)
+{% assign l = '0' %}{% assign r = '0' %}'0' == '0'       : {% if l == r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign r = 0 %}'0' == 0 (int)   : {% if l == r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - == coerces)
+{% assign l = obj_IntRow.V %}{% assign r = '0' %}SQL 0 == '0'     : {% if l == r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign l = '0' %}{% assign r = obj_IntRow.V %}'0' == SQL 0     : {% if l == r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - coercion is SYMMETRIC, unlike the relational operators in Group G)
+{{ '0' | AsBoolean }} <- '0' | AsBoolean   (expect: false - AsBoolean DOES coerce, unlike Default)
+{{ obj_IntRow.V | Trim }} <- SQL int 0 | Trim   (expect: 0 - Trim accepts a boxed int)
+
+=== GROUP C - AsInteger: the input_ sanitizing filter (SECURITY-CRITICAL) ===
+'-5'            : [{{ '-5' | AsInteger }}]   (expect: [-5] - negatives ARE accepted; see the guard note below)
+' 7 '           : [{{ ' 7 ' | AsInteger }}]   (expect: [7])
+'1.9'           : [{{ '1.9' | AsInteger }}]   (expect: [1] - truncates, does not round)
+'abc'           : [{{ 'abc' | AsInteger }}]   (expect: [] - null)
+'12abc'         : [{{ '12abc' | AsInteger }}]   (expect: [] - NO partial parse; the whole input is discarded)
+'1 OR 1=1'      : [{{ '1 OR 1=1' | AsInteger }}]   (expect: [])
+'1;DROP TABLE'  : [{{ '1;DROP TABLE' | AsInteger }}]   (expect: [])
+'0x10'          : [{{ '0x10' | AsInteger }}]   (expect: [] - hex is not recognized)
+''              : [{{ '' | AsInteger }}]   (expect: [])
+null            : [{{ null | AsInteger }}]   (expect: [])
+{% assign t = 'abc' | AsInteger %}'abc' is null    : {% if t == null %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - fails to NULL, not to '')
+'abc' is ''      : {% if t == '' %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - critical: '' would have been TRUTHY)
+'abc' truthy     : {% if t %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - so `{% raw %}{% if input_X %}{% endraw %}` rejects garbage)
+'abc' >= 1       : {% if t >= 1 %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE)
+{% assign t = '-5' | AsInteger %}'-5' truthy      : {% if t %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE  <- this is why the `>= 1` half of the guard is load-bearing)
+'-5' >= 1        : {% if t >= 1 %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE <- ...and this is the half that rejects it)
+
+=== GROUP D - contains (the |id| idiom and ms_Needs) ===
+{% assign var_Set = '|1|13|' %}{% assign var_Probe = '|13|' %}'|1|13|' contains '|13|'  : {% if var_Set contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign var_Probe = '|3|' %}'|1|13|' contains '|3|'   : {% if var_Set contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - the whole point of the pipe delimiters)
+{% assign var_Probe = '13' %}'|1|13|' contains '13'    : {% if var_Set contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - ...and why they are needed)
+{% assign var_Probe = 'abc' %}'ABC' contains 'abc'       : {% if 'ABC' contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - case-SENSITIVE)
+{% assign array_Str = 'a,b' | Split:',' %}{% assign var_Probe = 'b' %}Split-array contains 'b'  : {% if array_Str contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+array_SqlInts (sanity)    : {{ array_SqlInts | ToJSON }}   (expect: [0,1] - Select works on {% raw %}{% sql %}{% endraw %} rows)
+{% assign var_Probe = '1' %}SQL-int array contains '1' : {% if array_SqlInts contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - works on NON-string arrays, contra the reference entry)
+{% assign var_Probe = 1 %}SQL-int array contains 1   : {% if array_SqlInts contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign var_Probe = 13 %}'|1|13|' contains 13 (int) : {% if var_Set contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign var_Null = null %}{% assign var_Probe = 'x' %}null contains 'x'         : {% if var_Null contains var_Probe %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - null-safe, does not throw)
+
+=== GROUP E - Split (RemoveEmpty defaults TRUE - see the #### Split reference) ===
+{% assign a = 'a,b' | Split:',' %}{% assign n = a | Size %}'a,b'          -> size [{{ n }}] {{ a | ToJSON }}   (expect: 2)
+{% assign a = 'a' | Split:',' %}{% assign n = a | Size %}'a'            -> size [{{ n }}] {{ a | ToJSON }}   (expect: 1)
+{% assign a = 'a,,b' | Split:',' %}{% assign n = a | Size %}'a,,b'         -> size [{{ n }}] {{ a | ToJSON }}   (expect: 2 - the empty entry is DROPPED)
+{% assign a = ',a' | Split:',' %}{% assign n = a | Size %}',a'           -> size [{{ n }}] {{ a | ToJSON }}   (expect: 1 - leading empty DROPPED; fatal for positional splits)
+{% assign a = 'a,,b' | Split:',',false %}{% assign n = a | Size %}'a,,b' RemoveEmpty=false -> size [{{ n }}] {{ a | ToJSON }}   (expect: 3 UNVERIFIED)
+{% assign a = ',a' | Split:',',false %}{% assign n = a | Size %}',a'   RemoveEmpty=false -> size [{{ n }}] {{ a | ToJSON }}   (expect: 2 UNVERIFIED)
+{% assign a = ',a' | Split:',',false,2 %}{% assign n = a | Size %}',a'   false,Max=2      -> size [{{ n }}] {{ a | ToJSON }}   (expect: 2 UNVERIFIED - the form used by the input_ date-range convention)
+{% assign a = '' | Split:',' %}{% assign n = a | Size %}''             -> size [{{ n }}] {{ a | ToJSON }}   (expect: 0 - an EMPTY array, not [""])
+{% assign a = null | Split:',' %}{% assign n = a | Size %}null           -> size [{{ n }}] {{ a | ToJSON }}   (expect: 0 - does not throw)
+
+=== GROUP F - Size on non-arrays ===
+{% assign n = 'abc' | Size %}'abc'          | Size : [{{ n }}]   (expect: [3] - character count)
+{% assign n = '' | Size %}''             | Size : [{{ n }}]   (expect: [0])
+{% assign n = 12345 | Size %}12345 (int)    | Size : [{{ n }}]   (expect: [0] - an integer has no length)
+{% assign n = rows_Empty | Size %}empty SQL set  | Size : [{{ n }}]   (expect: [0])
+{% assign n = null | Size %}null           | Size : [{{ n }}]   (expect: [0] - so Size cannot tell empty from null from wrong-type)
+
+=== GROUP G - relational operators: lexical or numeric? ===
+{% assign l = '10' %}{% assign r = '9' %}'10' > '9'  : {% if l > r %}TRUE{% else %}FALSE{% endif %}   (expect: FALSE - BOTH strings, so LEXICAL)
+{% assign l = 10 %}{% assign r = '9' %}10   > '9'  : {% if l > r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE - one side numeric, so numeric)
+{% assign l = '10' %}{% assign r = 9 %}'10' > 9    : {% if l > r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+{% assign l = obj_IntRow.V %}{% assign r = '0' %}SQL 0 >= '0' : {% if l >= r %}TRUE{% else %}FALSE{% endif %}   (expect: TRUE)
+</pre>

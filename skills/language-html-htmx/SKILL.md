@@ -17,4 +17,7 @@ description: Tested HTML, CSS, and HTMX behaviors and gotchas for front-end code
 
 ## Related skills
 
-- `language-lava` — Helix (Rock's HTMX implementation for Lava Applications), Helix form controls, and the Chosen.js re-initialization pattern after HTMX swaps.
+- `surface-helix` — Helix (Rock's HTMX implementation for Lava Applications), its tested behaviors, Triumph's form controls, and the Chosen.js re-initialization pattern after HTMX swaps.
+- `surface-dynamicdata` — why `hx-*` attributes rendered by an Obsidian Dynamic Data block are inert until the template calls `htmx.process()`.
+- `surface-htmlcontent` — the nested-`<form>` trap and where the HTMX runtime on a page comes from.
+- `language-lava` — the Lava these blocks and endpoints are written in.
