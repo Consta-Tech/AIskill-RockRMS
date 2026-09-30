@@ -1,0 +1,27 @@
+# Your Church's knowledge catalog. Same format as the rockrms plugin's knowledge/manifest.yaml:
+# a flat list of flat mappings; quote a value that contains ": ". See that repo's CONTRIBUTING.md
+# for the field reference and the three provenance tiers.
+
+- id: yourchurch-instance-facts
+  category: instance-facts
+  title: Your Church — instance constants (sites, Site Id, key Ids)
+  skill: instance-facts
+  file: SKILL.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-01-01
+  notes: "Values verified against the live instance; each carries its verification date."
+
+- id: yourchurch-workspace-defaults
+  category: house
+  title: Your Church — workspace defaults consumed by /rock-init
+  skill: workspace-defaults
+  file: SKILL.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-01-01
+  notes: "House convention: repo names, symlink layout, settings, CLAUDE.md values."

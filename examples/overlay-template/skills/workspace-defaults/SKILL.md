@@ -5,6 +5,9 @@ description: Your Church's workspace scaffold defaults, consumed by the rockrms 
 
 # Your Church Workspace Defaults
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
 The values `/rock-init` uses instead of interviewing a developer at your church. With this skill installed, the only interview question left is the git preference. (Delete this skill from your overlay if you'd rather developers answer the interview themselves.)
 
 ## Code layout

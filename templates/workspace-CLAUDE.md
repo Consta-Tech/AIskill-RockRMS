@@ -56,6 +56,8 @@ For options 1–3, do not assume I know which reference material applies. Ask di
 
 When I name the surface up front, load that skill without asking.
 
+The plugin answers Rock questions only from its documented references (the injected knowledge-boundaries rule). When a topic is not covered it says so and asks whether to answer from general knowledge, marked unverified, or to start documenting it with `/rockrms:add-knowledge`. `/rockrms:knowledge-current` lists what is documented; `/rockrms:changelog` shows what changed in the plugin.
+
 ## Task Types
 
 When I start a conversation, I will tell you whether this is:

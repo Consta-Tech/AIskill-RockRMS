@@ -41,6 +41,7 @@ Ask with AskUserQuestion, in one call where possible. Only the applicable questi
      Accept whatever arrives and normalize it yourself: an `https://` URL (with or without `.git`, and strip any trailing path like `/tree/main/...` down to the repo), an SSH `git@...` form, or a bare `owner/name` from users who know the shorthand. A non-GitHub host (Bitbucket, GitLab, …) is fine — just clone it with `git clone` rather than `gh`. Confirm the normalized repo back to them before cloning. `_code` becomes a symlink into a sibling clone of that repo.
    - *No shared repo* — `_code` is created as a plain local directory.
 3. **Instance basics** (skip when an overlay `instance-facts` skill exists; every field skippable): internal/staff site URL, its Site Id if known, external site URL.
+4. **Rock version** (skippable; skip when an overlay `instance-facts` skill states one): which Rock version the instance runs. Tell them where to look — in Rock, Admin Tools > System Information shows it (e.g. `v18.2.4`) — and that skipping is fine; the value can be filled in later. The `rockrms` plugin's `knowledge-current` skill uses it to flag references verified on a newer Rock version than theirs.
 
 ## Step 4 — Scaffold
 
@@ -52,6 +53,7 @@ Create each item below, skipping anything that already exists:
 2. **`docs/`** — the user's local knowledgebase:
    - `docs/README.md` from `templates/workspace-docs-README.md`.
    - `docs/instance-facts.md` from `templates/workspace-instance-facts.md`, with the interview answers filled in. When an overlay `instance-facts` skill exists, still scaffold the file but fill `{{OVERLAY_POINTER}}` with a note that church-wide constants live in the overlay skill and this file is for personal / not-yet-upstreamed values; otherwise remove the placeholder line.
+     Fill the Rock version row as a **real table row**, never a comment: `{{ROCK_VERSION}}` becomes the answer (or the overlay's value), `{{ROCK_VERSION_VERIFIED}}` becomes today's date in `YYYY-MM-DD`. When the question was skipped, write `unknown` and leave the Verified cell empty — the row must still exist so it can be filled in later.
 3. **`input_box/`** — `mkdir input_box`.
 4. **`.gitignore`** from `templates/workspace-gitignore`. If one already exists, do not replace it — instead show which of the template's lines are missing and ask whether to append them.
 5. **`.claude/settings.json`** — from the overlay's `workspace-defaults` block when there is one. Otherwise build it: `permissions.additionalDirectories: ["../<church-repo>"]` only in the shared-repo layout, plus:

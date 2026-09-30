@@ -13,6 +13,14 @@ Verified constants for my Rock RMS instance. Record only values that have been *
 
 Lava Application endpoint URLs begin with `/api/v2/lava-app/{SiteId}/` — the Site Id of the **site serving the request**, not the Lava Application's Id.
 
+## Rock version
+
+| Rock version | Verified |
+|---|---|
+| {{ROCK_VERSION}} | {{ROCK_VERSION_VERIFIED}} |
+
+Find it under Admin Tools > System Information. The `rockrms` plugin's `knowledge-current` skill reads this row to flag references that were verified on a **newer** Rock version than this instance runs; keep it current after every upgrade.
+
 ## Key Ids
 
 | Entity | Id | What it is | Verified |
@@ -21,4 +29,4 @@ Lava Application endpoint URLs begin with `/api/v2/lava-app/{SiteId}/` — the S
 
 ## Notes
 
-<!-- Anything else verified about this instance: Rock version, installed plugins, campus structure, … -->
+<!-- Anything else verified about this instance: installed plugins, campus structure, … -->
