@@ -37,7 +37,7 @@ No cloning needed — Claude Code fetches this repo from GitHub and keeps it upd
 claude plugin list
 ```
 
-You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `audit-pre-push-1`, `audit-pre-push-2`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rules" appear in the session context.
+You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `audit-pre-push-1`, `audit-pre-push-2`, `knowledge-current`, `changelog`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rules" appear in the session context. `/rockrms:changelog` prints the installed commit and the newest release notes; `/rockrms:knowledge-current` prints everything the plugin documents.
 
 ### Update
 
@@ -92,7 +92,7 @@ The plugin content (rules, references, skills) is maintained in this repo. To pr
 git clone https://github.com/Consta-Tech/AIskill-RockRMS.git
 ```
 
-Branch, edit, and open a PR. Once merged, every installed developer receives the change automatically. Don't clone this repo into `~/.claude/skills/` — combined with the marketplace install, the skills would load twice.
+Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the provenance tiers, the manifest-row requirement, and the render check (enable it with `git config core.hooksPath .githooks`). Inside a session, `/rockrms:add-knowledge` drafts a reference from a URL and stops before the commit. Once merged, every installed developer receives the change automatically. Don't clone this repo into `~/.claude/skills/` — combined with the marketplace install, the skills would load twice.
 
 ## Troubleshooting
 
