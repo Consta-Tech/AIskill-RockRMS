@@ -10,7 +10,7 @@ GitHub:
 
 ### Each ROW = one `[GroupLocation]` record
 
-The grid queries `[GroupLocation]` (your doc at line 142). Each row represents a single `GroupLocation.Id` — a pairing of one `[Group]` + one `[Location]`.
+The grid queries `[GroupLocation]` (schema: `GroupLocation-and-GroupSchedule.md` in the `rock-sql-schema` skill). Each row represents a single `GroupLocation.Id` — a pairing of one `[Group]` + one `[Location]`.
 
 | Column in UI | Source | SQL Detail |
 |---|---|---|
@@ -28,7 +28,7 @@ The schedules shown as columns come from `[Schedule]` filtered by:
 
 ### Each CELL (checkbox) = presence/absence of a row in `[GroupLocationSchedule]`
 
-This is the junction table (your doc at line 640). It has only two columns:
+This is the junction table (same schema file). It has only two columns:
 
 ```
 [GroupLocationSchedule]

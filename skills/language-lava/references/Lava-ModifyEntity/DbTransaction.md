@@ -8,7 +8,7 @@ Wraps a group of entity writes so that they either all commit or all roll back.
 
 For the language-level reference (parameters, `TransactionResult` shape, basic usage), see [`../Lava-Language.md`](../Lava-Language.md) > "DB Transaction Command". This file documents the *mechanism* — the behaviors that are not obvious from the parameter list and that change how you have to write the surrounding template.
 
-**Availability:** the command itself is v18.0. The `enablecontextisolation` parameter is v19.3, which is **not** available on our instance (last recorded version: v18.2.4, per the Room Management README in the `bema-room-management` skill). Everything below describes the default `enablecontextisolation:'false'` path unless stated otherwise.
+**Availability:** the command itself is v18.0. The `enablecontextisolation` parameter is v19.3, which is **not** available on the maintainer's instance (last recorded version: v18.2.4, per the Room Management README in the `bema-room-management` skill). Everything below describes the default `enablecontextisolation:'false'` path unless stated otherwise.
 
 > **Provenance:** the findings on this page are **source-derived, not empirically tested** — read from the Rock source at commit `ba526de456e010e9802853a111e07c79dbb73ecc` (`develop`, 2026-08-18) rather than observed in a running Rock instance. Where a claim is an inference rather than a direct reading of the code, it says so inline. Re-verify against Rock's rendering before relying on any of it. Relevant files:
 >

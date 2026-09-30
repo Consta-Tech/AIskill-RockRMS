@@ -1,6 +1,6 @@
 # Rock RMS SQL Table Schemas
 
-These are the `CREATE TABLE` scripts related to SQL Tables in our SQL Server. These will be useful references for the actual schema definitions. (I took the liberty of ordering them in a way that made logical sense to me).
+These are the `CREATE TABLE` scripts for Rock's SQL Server tables, generated from a live instance, as references for the actual schema definitions. The ordering within each file follows the order a query usually meets the tables in.
 
 Tables are grouped by **JOIN affinity** — tables that are commonly queried together live in the same file. This makes it easy to reference the relevant schemas side-by-side when writing a query that spans related entities.
 

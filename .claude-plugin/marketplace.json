@@ -1,6 +1,6 @@
 {
   "name": "consta-tech",
-  "description": "Consta Tech's AI skill packs. Currently: rockrms — a complete Rock RMS development environment for Claude Code.",
+  "description": "Consta Tech's AI skill packs. Currently: rockrms \u2014 a complete Rock RMS development environment for Claude Code, with a provenance-tiered knowledge catalog.",
   "owner": {
     "name": "Consta Tech",
     "email": "tim@consta.tips"
@@ -9,7 +9,7 @@
     {
       "name": "rockrms",
       "source": "./",
-      "description": "Rock RMS dev environment: injected house rules, Lava/SQL/HTMX references, Rock schema docs, and pre-push audit skills.",
+      "description": "Rock RMS dev environment: injected house rules, Lava/SQL/HTMX references, Rock schema docs, BEMA Room Management docs, workbench skills for each Rock surface, pre-push audits, and a provenance-tiered knowledge catalog (knowledge-current, changelog, add-knowledge).",
       "category": "productivity"
     }
   ]

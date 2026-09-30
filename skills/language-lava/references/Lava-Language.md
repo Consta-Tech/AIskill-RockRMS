@@ -5834,7 +5834,7 @@ Rock's own documentation says transactions are supported "exclusively for encaps
 #### Parameters
 
 - **forcerollback** (default false, v18.0) — always roll back, even on success. A dry-run harness for verifying that a set of writes would not error.
-- **enablecontextisolation** (default false, v19.3) — run the transaction in its own database context, so an error cannot leak into subsequent transaction statements. **Not available on v18.2**, our last recorded instance version.
+- **enablecontextisolation** (default false, v19.3) — run the transaction in its own database context, so an error cannot leak into subsequent transaction statements. **Not available on v18.2**, the maintainer's last recorded instance version.
 
 There is **no `return:` parameter.** The result is always published as `TransactionResult`, via a hardcoded merge-field key. Writing `return:'foo'` parses without error and is then read by nothing — it fails silently, and `TransactionResult` still holds the result. This is the one place where the named-return habit from Defensive Rule 3 does not apply.
 
