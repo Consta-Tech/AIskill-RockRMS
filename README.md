@@ -77,6 +77,7 @@ AIskill-RockRMS/
 ├── knowledge/          # manifest.yaml (source of truth), render.py, the rendered catalog views
 ├── evals/              # claude plugin eval suite
 ├── .githooks/          # pre-commit: render check (git config core.hooksPath .githooks)
+├── .github/workflows/  # knowledge-check: the same checks on every push and PR
 ├── CHANGELOG.md        # Date-stamped releases
 ├── CONTRIBUTING.md
 ├── INSTALL.md

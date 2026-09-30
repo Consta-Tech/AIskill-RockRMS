@@ -16,6 +16,8 @@ The first date-stamped release. At this release the plugin ships twelve skills (
 - `/rock-init` now asks for the instance's Rock version (skippable) and writes it as a row in `docs/instance-facts.md`; the `knowledge-current` skill reads that row.
 - `CONTRIBUTING.md`: fork-and-PR flow, the generic-versus-overlay sorting rule, the three tiers and the evidence each needs, the manifest-row requirement, the render check, the summarize-and-cite licensing stance, and how a church proposes a roadmap row.
 - `evals/`: a `claude plugin eval` suite covering the four skills and the ask-first fallback.
+- `knowledge-check` GitHub Action: runs the catalog and hook-slot checks on every push and pull request.
+- Workspace CLAUDE.md template: a sixth session-opener menu option that runs the three catalog skills.
 - `knowledge-manifest` skill in `examples/overlay-template/`, so an overlay's catalog is aggregated into `/rockrms:knowledge-current`.
 
 ### Changed

@@ -1,0 +1,22 @@
+# Fails a push or pull request when the knowledge catalog views are stale, a reference file
+# has no manifest row or provenance header, or a house rule outgrew its hook slots — the same
+# two checks .githooks/pre-commit runs locally, for contributors who never enabled that hook.
+# No model calls, no secrets; runs on GitHub's free tier for public repos.
+name: knowledge-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Knowledge catalog is current and complete
+        run: python3 knowledge/render.py --check
+      - name: House rules fit their hook slots
+        run: bash hooks/inject-rule.sh --check
+      - name: Overlay template manifest is valid
+        run: python3 knowledge/render.py --manifest examples/overlay-template/skills/knowledge-manifest/manifest.yaml --check

@@ -77,7 +77,7 @@ python3 knowledge/render.py            # rewrite knowledge/Knowledge-current.md 
 python3 knowledge/render.py --check    # exit 1 on a stale view, a missing row, or a header/row tier mismatch
 ```
 
-Commit the rendered views with your change; the PR diff to `Knowledge-current.md` is the reviewer's summary of what you added. There is no CI on this repo yet, so the pre-commit hook is the only automated gate — enable it.
+Commit the rendered views with your change; the PR diff to `Knowledge-current.md` is the reviewer's summary of what you added. The same checks run on every push and pull request as the `knowledge-check` GitHub Action (`.github/workflows/knowledge-check.yml`), so a PR that skips them shows red before review — but the pre-commit hook catches it before you push, so enable it.
 
 ## Proposing a roadmap row
 

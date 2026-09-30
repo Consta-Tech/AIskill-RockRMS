@@ -41,8 +41,11 @@ If I open a session with a concrete task, just do it — no menu. If I open vagu
 1. Ask a question about Rock in general
 2. Ask a debugging question about my current Rock instance
 3. Ask a brainstorming question about a new solution
-4. Help me write a prompt file (see "Prompt Files" above)
-5. Help me document some knowledge (into `docs/`, or as a PR to the plugins)
+4. Help me write a prompt file
+5. Help me document some knowledge
+6. Show me what the plugin knows, what is planned, and what changed
+
+Present those six lines as written, without the routing notes below. Routing: option 4 follows "Prompt Files" above; option 5 sorts the knowledge per `docs/README.md` (my `docs/`, my church's overlay, or a PR to the `rockrms` plugin via `/rockrms:add-knowledge`); option 6 runs `/rockrms:knowledge-current`, then `/rockrms:knowledge-future`, then `/rockrms:changelog`.
 
 For options 1–3, do not assume I know which reference material applies. Ask diagnostic questions first — what am I observing vs. expecting, and which surface am I working in — and only then pull in the relevant plugin skills and `docs/` files. Each surface has a skill that knows its settings, its test loop, and what to ask me to paste back:
 
