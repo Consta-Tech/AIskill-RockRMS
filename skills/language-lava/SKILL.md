@@ -19,7 +19,7 @@ This skill carries what is true of the language **anywhere**. What is true of a 
 |------|--------|
 | [Lava-Language.md](references/Lava-Language.md) | The primary language reference: syntax basics, filters, tags, commands (`sql`, `execute`, `modifyentity`, and more), merge fields, and tested behaviors. |
 | [Lava-ShortCodes.md](references/Lava-ShortCodes.md) | ShortCodes — Lava's reusable component system (`{[ ]}` syntax): types, parameters, authoring rules. |
-| [Lava-ModifyEntity/](references/Lava-ModifyEntity/README.md) | Tested esoteric `{% modifyentity %}` behaviors. The README carries cross-cutting findings (an empty `[[ property ]]` body writes a true SQL `NULL`; setting `Guid` explicitly fails with a cast error) plus per-entity notes for Schedule and AttendanceOccurrence. |
+| [Lava-ModifyEntity/](references/Lava-ModifyEntity/README.md) | Tested esoteric `{% modifyentity %}` behaviors. The README carries cross-cutting findings (an empty `[[ property ]]` body writes a true SQL `NULL`; setting `Guid` explicitly fails with a cast error; the two kinds of rollback), `DbTransaction.md` documents the `{% dbtransaction %}` mechanism, and per-entity notes cover Schedule and AttendanceOccurrence. |
 
 ## Boilerplates (assets/boilerplates/)
 

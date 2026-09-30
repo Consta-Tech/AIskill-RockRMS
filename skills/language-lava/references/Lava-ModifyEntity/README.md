@@ -1,8 +1,12 @@
 # Lava ModifyEntity
 
-This directory collects notes about esoteric knowledge regarding `{% modifyentity %}` Lava commands — behaviors that aren't obvious from the language reference and were learned through testing.
+This directory collects notes about esoteric knowledge regarding `{% modifyentity %}` Lava commands — behaviors that aren't obvious from the language reference. Most were learned through testing in Rock; a few are read from the Rock source, and those say so explicitly at the top of the page.
 
 For the language-level reference (parameters, property/attribute syntax, defensive rules, return-value shape), see [`../Lava-Language.md`](../Lava-Language.md) > "Modify Entity Command".
+
+## Command-level mechanism
+
+- [`DbTransaction.md`](DbTransaction.md) — `{% dbtransaction %}`: which commands participate, output suppression on rollback, short-circuit behavior, and the `{% sql %}` interaction
 
 ## Per-entity notes
 
@@ -10,6 +14,17 @@ For the language-level reference (parameters, property/attribute syntax, defensi
 - [`AttendanceOccurrence.md`](AttendanceOccurrence.md) — Creating an AttendanceOccurrence via `{% modifyattendanceoccurrence id:'0' %}`
 
 ## Cross-cutting findings
+
+### Two kinds of rollback (Source-derived, August 2026)
+
+Rollback shows up in two distinct scopes, and they are easy to conflate:
+
+1. **Implicit, per-block.** A single `{% modifyentity %}` block is already atomic on its own. When one declaration inside it fails, the whole block is abandoned — see the `ParentReservationId` case in [`../Lava-Language.md`](../Lava-Language.md) > "Setting Entity Attributes", where a rejected `[[ attribute ]]` rolled back the entire Reservation create. You get this for free; you do not opt into it.
+
+2. **Explicit, across blocks.** `{% dbtransaction %}` extends that atomicity across *several* commands, so a create-then-reference sequence cannot leave a half-built record behind. This is the one you have to ask for.
+
+The distinction matters because Defensive Rule 1 pushes you toward splitting work into multiple `{% modifyentity %}` blocks, which is precisely what removes the implicit guarantee. Mutually exclusive branches do not need a transaction — only one of them runs. Sequentially dependent writes do. See [`DbTransaction.md`](DbTransaction.md).
+
 
 ### Empty `[[ property ]]` body writes a true SQL `NULL` to a nullable column (Tested May 2026)
 
@@ -54,7 +69,9 @@ Because the `[[ property ]]` bracket parser scans the raw body *before* Lava sub
 
 - Nullable strings (e.g. `[Group].[Description]`) — likely same behavior, not yet verified personally.
 - Required (`NOT NULL`) columns — empty body presumably writes the empty string or fails the save; don't infer from this finding.
-- Custom Attributes via `[[ attribute name:'X' ]][[ endattribute ]]` — separate parser path that stores values as strings on `[AttributeValue]`; behavior may differ and has not been tested here.
+- Custom Attributes via `[[ attribute key:'X' ]][[ endattribute ]]` — separate parser path that stores values as strings on `[AttributeValue]`. **Partially settled (Tested September 2026):** a declaration whose body *renders* to an empty string — `[[ attribute key:'DietaryRestrictions' ]]{{ var_Empty }}[[ endattribute ]]` — writes the empty string through rather than being skipped. Verified by clearing a DefinedValue multi-select Person Attribute from a Lava Application Endpoint and reading `[AttributeValue].[Value]` back as `''` with a fresh `[ModifiedDateTime]`. This is what makes a self-service "untick everything to clear it" flow possible at all.
+
+  Still untested for attributes: a **literally** empty body (`[[ attribute key:'X' ]][[ endattribute ]]`, no Lava expression between the tags). Because the bracket parser scans the raw body before substitution, that is a different input to the parser than a body that renders empty — do not infer one from the other. Note also that for a qualifier-scoped attribute the literally-empty form fails outright for an unrelated reason; see [`../Lava-Language.md`](../Lava-Language.md) > "Setting Entity Attributes".
 
 ### Setting `Guid` via `[[ property name:'Guid' ]]` fails with a cast error (Tested April 2026)
 

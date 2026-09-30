@@ -37,7 +37,7 @@ Three things this rule depends on, all of which are easy to get wrong:
 
 Only `{% modifyentity %}` and `{% deleteentity %}` participate. A raw `{% sql %}` write inside the block shares the connection but cannot report failure, so it commits silently when it writes the wrong thing — never let a `{% sql %}` write carry a business rule inside a transaction.
 
-Use `forcerollback:'true'` to dry-run a sequence; note that it suppresses the block's output entirely, so inspect `TransactionResult` afterward. Parameter reference and mechanism in the `language-lava` skill's `Lava-Language.md` > "DB Transaction Command".
+Use `forcerollback:'true'` to dry-run a sequence; note that it suppresses the block's output entirely, so inspect `TransactionResult` afterward. Parameter reference in the `language-lava` skill's `Lava-Language.md` > "DB Transaction Command"; full mechanism and provenance in its `Lava-ModifyEntity/DbTransaction.md`.
 
 ## `{% sql %}` Inside a Lava Application Endpoint
 

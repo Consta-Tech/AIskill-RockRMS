@@ -69,6 +69,8 @@ Rock also auto-provides a `uniqueid` parameter (format: `id-{guid}`) on every Sh
 
 Each ShortCode can have Lava Commands (e.g., RockEntity, Sql) enabled in its own configuration. These commands run regardless of whether the calling Block also enables them. This means a ShortCode can use `{% sql %}` internally even if the Block it's called from doesn't have the Sql command enabled.
 
+> **`{% sql %}` named parameters (`pFoo:'...'` → `@pFoo`) work inside a ShortCode's template the same as inside a Lava Application Endpoint.** A ShortCode parameter (e.g. `firstname`) can be bound to a `{% sql %}` parameter and referenced in the query as `@pFirstName`, with no special handling needed for the fact that the SQL is executing from inside a ShortCode rather than an endpoint. Verified when hardening a ShortCode against SQL injection — parameterizing was the fix.
+
 
 ### Item Configuration (`[[ item ]]`)
 

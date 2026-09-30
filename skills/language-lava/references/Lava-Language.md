@@ -1873,7 +1873,13 @@ red, yellow, blue, orange, green, violet
 
 #### Contains
 
-Returns `true` if the array contains the specified value. Works only with string arrays.
+Returns `true` if the array contains the specified value.
+
+> [!NOTE]
+> "Works only with string arrays" was the original wording here and is **not accurate** — tested
+> August 2026, `contains` also works on integer arrays and on plain strings (substring test),
+> and it coerces between the two. It is **case-sensitive**. See § "`Split`, `contains`, `Size`,
+> and `Default` — measured edges" at the end of this file.
 Example Input:
 ```
 "Fruits": [
@@ -4476,7 +4482,7 @@ The Id is {{ id }}
 ```
 Example Output: `The Id is 12`
 
-**Caveat:** The Page filter requires `RockPage` context. Inside a Lava Application Endpoint invoked via HTTP (HTMX, direct URL), it returns null. When an endpoint is invoked via `{% renderlavaendpoint %}` from a Block, the filter inherits the Block's context — see `skills/language-lava/references/Lava-with-Helix.md` > "Merge Fields Inside Lava Application Endpoints" for the full inheritance rule.
+**Caveat:** The Page filter requires `RockPage` context. Inside a Lava Application Endpoint invoked via HTTP (HTMX, direct URL), it returns null. When an endpoint is invoked via `{% renderlavaendpoint %}` from a Block, the filter inherits the Block's context — see the `surface-helix` skill's `Lava-with-Helix.md` > "Merge Fields Inside Lava Application Endpoints" for the full inheritance rule.
 
 #### PageParameter
 
@@ -4494,7 +4500,7 @@ Example Output:
 The Group Id passed in from the URL is: 12
 ```
 
-**Caveat:** The PageParameter filter requires `RockPage` context. Inside a Lava Application Endpoint invoked via HTTP (HTMX, direct URL), both filter form (`'Global' | PageParameter:'X'`) and dot-notation form (`PageParameter.X`) return null. When an endpoint is invoked via `{% renderlavaendpoint %}` from a Block, it inherits the Block's context — see `skills/language-lava/references/Lava-with-Helix.md` > "Merge Fields Inside Lava Application Endpoints" for the full inheritance rule.
+**Caveat:** The PageParameter filter requires `RockPage` context. Inside a Lava Application Endpoint invoked via HTTP (HTMX, direct URL), both filter form (`'Global' | PageParameter:'X'`) and dot-notation form (`PageParameter.X`) return null. When an endpoint is invoked via `{% renderlavaendpoint %}` from a Block, it inherits the Block's context — see the `surface-helix` skill's `Lava-with-Helix.md` > "Merge Fields Inside Lava Application Endpoints" for the full inheritance rule.
 
 #### PageRedirect
 
@@ -4805,6 +4811,31 @@ https://rocksolidchurchdemo.com/reporting/reports/155
 Example 2:<br>
 https://rocksolidchurchdemo.com/reporting/reports?CategoryId=101
 ```
+
+##### Inside a Dynamic Data block, every "current URL" source is the API endpoint
+
+`SetUrlParameter` is fine. What is not fine is the thing you feed it. A Dynamic Data block renders its Lava inside an AJAX **BlockActions** call, so every filter that reports "the page the reader is on" reports the endpoint the block was fetched from instead.
+
+Measured on an Obsidian Dynamic Data block (11-SEP-2026):
+
+| Lava | Returns |
+|---|---|
+| `'Global' \| Page:'Url'` | `https://{your-rock-host}/api/v2/BlockActions/{blockGuid}/{actionGuid}/GetDynamicData` |
+| `'Current' \| SetUrlParameter:'CampusId','0'` | that same API URL, with `?CampusId=0` appended |
+| `'Global' \| Page:'Path'` | `/api/v2/BlockActions/{blockGuid}/{actionGuid}/GetDynamicData` |
+| `'Global' \| Page:'QueryString'` | empty string |
+
+Nothing errors and nothing comes back empty, which is what makes this expensive to find: `SetUrlParameter` does its job correctly on the wrong URL, and the link renders as a perfectly ordinary anchor that navigates into the API and returns JSON.
+
+The workaround is a **relative query string** — `<a href="?Month=2026-08&CampusId=6">` — which the browser resolves against the document URL rather than against anything Lava knows. The trade is that you give up what `SetUrlParameter` was doing for you: choosing `?` versus `&`, and replacing an existing parameter instead of appending a duplicate. So write the whole query string at every link, and only in a block whose parameter set is small enough to enumerate.
+
+`{% capture %}` is the right tool for building those, and each one belongs on a single line — whitespace inside a capture survives into the value, and a newline in the middle of an `href` is a broken link.
+
+```
+{% capture url_PrevMonth %}?Month={{ var_PrevMonthKey }}{% if var_IsCampusView %}&CampusId={{ input_CampusId }}{% endif %}{% endcapture %}
+```
+
+This applies to the Dynamic Data block specifically because of how it re-renders. A plain HTML Content block renders during the page request, where `Page:'Url'` is the page URL — an HTML Content block's links built with `SetUrlParameter` work fine (see the `surface-htmlcontent` skill). The relative form is worked through in the `surface-dynamicdata` skill's `Current-Url-Is-BlockActions.md`.
 
 #### Sha1
 
@@ -5554,6 +5585,8 @@ prefetchattributes:'Position,Employer'
 Updates or inserts entity data in the database.
 
 > See [`Lava-ModifyEntity/`](Lava-ModifyEntity/) for entity-specific notes (e.g., creating a Schedule with `id:'0'`).
+>
+> When two or more writes must succeed or fail together, wrap them in [`{% dbtransaction %}`](#db-transaction-command).
 
 #### Basic Usage
 ```
@@ -5743,8 +5776,111 @@ The bracket parser scans the raw modifyentity body for `[[ ]]` declarations BEFO
 
 For an attribute like ParentReservationId where the converse — emitting an empty `[[ attribute key:'X' ]][[ endattribute ]]` to clear the value — would also fail because of the same qualifier-scope rejection, there is no in-modifyentity workaround for cascade-clear; you'd need a direct SQL `DELETE` against `[AttributeValue]`.
 
+**The `key:` parameter itself is not Lava-rendered (Tested September 2026).** The rule above is about `{% if %}`
+inside the body; the same pre-substitution parse also means the bracket *parameters* are read from raw source.
+Writing `[[ attribute key:'{{ var_MyKey }}' ]]` looks up an Attribute whose key is literally the characters
+`{{ var_MyKey }}`.
+
+What makes this easy to walk into is that the two parameter positions differ:
+
+| Position | Lava-rendered? |
+|---|---|
+| The tag line — `{% modifyperson id:'{{ int_PersonId }}' %}` | **Yes** |
+| A bracket parameter — `[[ attribute key:'{{ var_MyKey }}' ]]` | **No** |
+
+Measured on a Lava Application Endpoint writing two RegistrationRegistrant Attributes. The failure was:
+
+> Failed to create RegistrationRegistrant: No attribute found with the key of: {{ var_BreakoutLabelAttributeKey }}
+
+— the expression printed verbatim in the error, which is what proves it never reached the Lava engine. The whole
+`{% dbtransaction %}` rolled back with it.
+
+**Write every Attribute Key as a literal at the point of use.** Hoisting a key into a variable buys nothing and
+costs this.
+
+Note that this produces the *same error message* as the qualifier-scope rejection documented above. `No attribute
+found with the key of: X` has (at least) two causes: X is not an Attribute on that entity, or X is scoped by an
+`[AttributeQualifier]` the entity does not satisfy. If X reads back as an unrendered Lava expression, it is this
+one; if it reads back as a plausible key, check the qualifier.
+
 #### CurrentPerson in Lava Application Endpoints (Tested March 2026)
 `CurrentPerson` and its properties (including `CurrentPerson.PrimaryAliasId`) are available inside Lava Application Endpoints.
+
+
+### DB Transaction Command
+
+Wraps a group of entity writes so that they all commit together or all roll back together. Available starting in **v18.0**.
+
+```
+{% dbtransaction %}
+    ...entity writes...
+{% enddbtransaction %}
+```
+
+> See [`Lava-ModifyEntity/DbTransaction.md`](Lava-ModifyEntity/DbTransaction.md) for the mechanism — output suppression on rollback, short-circuit behavior, and the `{% sql %}` interaction. Those behaviors change how the surrounding template has to be written, so read them before using this command.
+
+#### Which commands participate
+
+A command joins the transaction only if it was written to look for it. That is `{% modifyentity %}` and `{% deleteentity %}` — nothing else.
+
+Rock's own documentation says transactions are supported "exclusively for encapsulating Modify Entity commands," but that is inaccurate: `{% deleteentity %}` participates identically.
+
+`{% sql %}` is a partial case. A `{% sql %}` write shares the transaction's database connection and is expected to roll back with it, but it **cannot report failure** — it never sets `TransactionResult.Success = false`. A bad-but-succeeding SQL write therefore commits silently. Route writes through `{% modifyentity %}`.
+
+#### Parameters
+
+- **forcerollback** (default false, v18.0) — always roll back, even on success. A dry-run harness for verifying that a set of writes would not error.
+- **enablecontextisolation** (default false, v19.3) — run the transaction in its own database context, so an error cannot leak into subsequent transaction statements. **Not available on v18.2**, our last recorded instance version.
+
+There is **no `return:` parameter.** The result is always published as `TransactionResult`, via a hardcoded merge-field key. Writing `return:'foo'` parses without error and is then read by nothing — it fails silently, and `TransactionResult` still holds the result. This is the one place where the named-return habit from Defensive Rule 3 does not apply.
+
+#### Result Merge Fields
+
+`TransactionResult` is set on both the commit and the rollback path, and is readable after `{% enddbtransaction %}` (not inside the block):
+
+- **Success** — Boolean, defaults to `true`. Set to `false` by any participating command that fails.
+- **ErrorMessage** — accumulated with a leading space per failure; pipe through `| Trim` before display.
+- **ValidationErrors** — array with `ErrorMessage` and `SourceControl`.
+
+#### Basic Usage
+
+Create a Group and add a member to it, atomically. Note that the error markup sits **outside** the block — content rendered inside is discarded when the transaction rolls back:
+
+```
+{% dbtransaction %}
+
+    {% modifygroup id:'0' securityenabled:'false' return:'modify_NewGroup' %}
+        [[ property name:'Name' ]]{{ var_GroupName }}[[ endproperty ]]
+        [[ property name:'GroupTypeId' ]]{{ var_GroupTypeId }}[[ endproperty ]]
+    {% endmodifygroup %}
+
+    {% modifygroupmember id:'0' securityenabled:'false' return:'modify_NewMember' %}
+        [[ property name:'PersonId' ]]{{ CurrentPerson.Id }}[[ endproperty ]]
+        [[ property name:'GroupId' ]]{{ modify_NewGroup.Group.Id }}[[ endproperty ]]
+        [[ property name:'GroupRoleId' ]]{{ var_GroupRoleId }}[[ endproperty ]]
+    {% endmodifygroupmember %}
+
+{% enddbtransaction %}
+
+{% if TransactionResult.Success == false %}
+    <div class="alert alert-warning">
+        <strong>{{ TransactionResult.ErrorMessage | Trim }}</strong><br>
+        <ul>
+        {% for var_Message in TransactionResult.ValidationErrors %}
+            <li>{{ var_Message.ErrorMessage }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+```
+
+Keep the named `return:` on each inner block — those remain useful for reading back a created entity's `Id`, as `modify_NewGroup.Group.Id` does above. But diagnose failures from `TransactionResult`, not from the individual returns: once one write fails, later blocks are skipped and their named returns are never assigned at all.
+
+Omitting the required `GroupRoleId` above is the classic failure — the GroupMember save fails validation, and the already-saved Group is rolled back with it.
+
+#### Enabled Lava Commands
+
+`dbtransaction` has **no checkbox** under a Block's Enabled Lava Commands, the same as `renderlavaendpoint`. The block does not implement `ILavaSecured`, so it is ungated; authorization is enforced entirely by the commands inside it.
 
 
 ### Calendar Events Command
@@ -5809,6 +5945,48 @@ Build JSON bodies using `capture`, `Trim`, and `StripNewLines`:
 ```
 
 
+#### Collection filters on a Web Request result
+
+**Rock's collection filters do not recognise the List that `{% webrequest %}` returns.** `Reverse`,
+and by extension anything downstream of it, falls through to the filter's *string* branch and
+operates on the list object's `ToString()` instead of on its items. The failure is silent and
+returns a plausible-looking wrong answer rather than an error.
+
+Measured 2026-08-29 against Asana's `/tasks/{gid}/stories` (10 stories), in
+an endpoint that calls an external API:
+
+```
+{% assign array_Stories = response_Stories.data | Reverse | Slice:0,50 %}
+{{ array_Stories | Size }}          →  48        (not 10)
+{% for story in array_Stories %}    →  runs 48 times
+    {{ story.text }}                →  empty, for every iteration
+```
+
+48 is the character length of `System.Collections.Generic.List` + `` `1[System.Object] ``. `Reverse`
+stringified the list, reversed those 48 characters, `Slice:0,50` kept all of them, `Size` counted
+them, and the `{% for %}` tag iterated the string one character at a time. A character has no
+`.text`, so every field read blank and every `Where` match failed.
+
+Direct property access on a Web Request result is unaffected — `response_Task.data.name` and even
+`response_Task.data.assignee.name` resolve correctly. It is specifically **the collection filters
+between the response and the loop** that break, which is what makes this hard to spot: the summary
+card built from the single-object response renders perfectly while the table built from the array
+renders empty rows.
+
+Iterate the response array exactly as it arrives and do the shaping on the `{% for %}` tag instead:
+
+```
+{% for story in response_Stories.data reversed %}
+    {% if forloop.index > 50 %}{% break %}{% endif %}
+    ...
+{% endfor %}
+```
+
+`reversed` replaces `Reverse`, a `forloop.index` guard replaces `Slice`, and a tally loop replaces
+`Where`. If you need the items in a real collection, round-trip them through `ToJSON | FromJSON`
+first — `FromJSON` output behaves normally.
+
+
 ### Workflow Activate Command
 
 Launches a new workflow or activates an activity on an existing workflow.
@@ -5834,6 +6012,63 @@ Available variables inside the block:
 ```
 {% workflowactivate workflowtype:'21' color:'Red' requester:'{{ CurrentPerson.PrimaryAlias.Guid }}' %}
 ```
+
+#### CRITICAL: Parameters Must Be on a Single Line (Observed August 2026)
+
+Every parameter in the opening `{% workflowactivate %}` tag must sit on one line. Breaking them across lines for readability throws:
+
+```
+Lava Error: (Block: workflowactivate) Parameter name is invalid. Parameter name: name
+```
+
+**Broken** — one parameter per line:
+```
+{% workflowactivate
+    workflowtype:'618'
+    groupid:'{{ var_Row.GroupId }}'
+    group:'{{ var_Row.GroupName }}'
+    %}
+{% endworkflowactivate %}
+```
+
+**Working** — all parameters on one line:
+```
+{% workflowactivate workflowtype:'618' groupid:'{{ var_Row.GroupId }}' group:'{{ var_Row.GroupName }}' %}
+{% endworkflowactivate %}
+```
+
+**The `name` in that error message is not a Lava parameter.** It is the C# argument name of `LavaElementAttributes.SetValue( string name, string value )`, surfaced by `nameof( name )` — which is why searching the Workflow Activate documentation for a `name` parameter turns up nothing.
+
+**Mechanism.** Rock parses element parameters with a hand-rolled character scanner (`Rock/Lava/LavaElementAttributes.cs` > `GetElementAttributes`) that treats **only the literal space character** as a separator. Newlines and tabs fall through to the scanner's catch-all branch — *"For any other character, assume it is the start of a new parameter."* So each newline opens a parameter that the following indent space immediately closes. That fragment contains no `:`, so it is stored under an empty key.
+
+Parsing `workflowtype:'618'\n    groupid:'790032'` yields:
+
+| Key | Value |
+|------|-------|
+| `workflowtype` | `618` |
+| *(empty string)* | `\n ` |
+| `groupid` | `790032` |
+
+`{% workflowactivate %}` is then the only block in Rock that copies its parsed parameters through `LavaElementAttributes.Clone()`, which routes every key through `SetValue()`, which rejects a blank key. Every other block — `{% sql %}`, `{% cache %}`, `{% modifyentity %}`, `{% webrequest %}` — builds the same empty-key entry and simply ignores it. That is why multi-line parameters are harmless everywhere else in Lava and fatal here.
+
+Spaces *inside* `{{ }}` are safe. The scanner tracks Lava regions and skips over them, so filter pipes and the spaces around them never split a parameter.
+
+**Do not use the zero-indentation workaround.** Putting each parameter at column 0 does not throw, because `SetValue()` trims the key before storing it — but the result is worse than the crash. The parsed keys become `"\nworkflowname"`, `"\ngroupid"`, and so on, and only the *cloned* copy gets trimmed. The reserved parameters (`workflowtype`, `workflowname`, `workflowid`, `activitytype`) are read from the **un-cloned** settings, so any reserved parameter after the first line silently resolves to `null`. A `workflowname` on line 2 just vanishes, with no error and no indication anything was dropped.
+
+**Version boundary.** The `settings.Clone()` call was introduced by commit `71d58985` (2023-11-03, merged into `hotfix-1.16.1`), replacing a `GetUnmatchedAttributes()` loop that read the empty key harmlessly. Verified against release tags:
+
+| Rock version | Multi-line parameters |
+|--------------|-----------------------|
+| 1.16.0 and earlier | Tolerated |
+| 1.16.1 through 19.x and `develop` | **Throws** |
+
+Every test in `Rock.Tests.Integration/Core/Lava/Commands/WorkflowActivateTests.cs` uses single-line parameters, which is why this was never caught upstream.
+
+#### Two Silent Failures to Watch For (Observed August 2026)
+
+**Unmatched attribute names are discarded without error.** `SetWorkflowAttributeValues` matches your parameter names against `workflow.Attributes.Keys` — the Attribute **Key**, not the Attribute **Name** — case-insensitively, and skips anything that does not match. A typo in an attribute parameter produces no error message and no output; the value simply never reaches the workflow. Upstream this is deliberate; see the test `WorkflowActivateBlock_WithInvalidAttributeParameter_IgnoresInvalidAttribute`.
+
+**`Workflow.Id` is `0` unless the WorkflowType is persisted.** `WorkflowService.Process` only calls `Add( workflow )` and `SaveChanges()` when `workflow.IsPersisted || workflowType.IsPersisted`. If 'Persisted' is off on the WorkflowType, the workflow runs to completion but is never written to the database, and `{{ Workflow.Id }}` renders `0` for every instance. This matters whenever a template collects the Ids of the workflows it just launched.
 
 
 ---
@@ -5955,3 +6190,251 @@ Same behavior as "Property with null value" above.
 | `{% if var_array == Null %}` | `true` |
 | `{% if var_array == Empty %}` | `true` |
 | `{% if var_array == '' %}` | `false` |
+
+### Zero, `'0'`, and type coercion (Tested August 2026)
+
+Tested in a Rock Lava block against the live instance. These settle three things that are easy
+to assume wrongly when a Single-Select uses numeric value-halves (`1^Yes,0^No`) — a common
+pattern, since numeric halves let you reword the visible labels without rewriting stored
+`[AttributeValue]` rows.
+
+| Expression | Result | Reading |
+|---|---|---|
+| `{{ '0' \| Default:'FELLBACK' }}` | `0` | `Default` does **not** treat `'0'` as absent |
+| `{{ '' \| Default:'FELLBACK' }}` | `FELLBACK` | Empty string **does** substitute |
+| `{% if '0' %}` | `true` | |
+| `{% if '' %}` | `true` | An empty string is **truthy** — see the caveat below |
+| `{% if '0' == '0' %}` | `true` | |
+| `{% if '0' == 0 %}` | `true` | **`==` coerces across types** |
+| `{{ '0' \| AsBoolean }}` | `false` | `AsBoolean` **does** coerce |
+| SQL `'0'` (nvarchar) `== '0'` | `true` | |
+| SQL `0` (int) `== '0'` | `true` | Boxed SQL ints compare equal to their string form |
+| `'0' ==` SQL `0` (int) | `true` | **Symmetric** — coercion does not depend on operand order |
+| `{{ SQL 0 \| Default:'FELLBACK' }}` | `0` | Integer zero is not "empty" either |
+| `{{ SQL 0 \| Trim }}` | `0` | `Trim` copes with a boxed int; it does not require a string |
+
+**1. `Default` substitutes on null and empty-string only.** It is not a falsiness test. Neither
+the string `'0'` nor the integer `0` is replaced. `| Default:''` is therefore safe on a numeric
+value-half, and is the right idiom for normalizing a nullable column to `''`.
+
+**2. `==` coerces across types, in both directions.** An integer `1` from a SQL column compares
+equal to the string `'1'`, and the reverse holds too — coercion is not sensitive to operand
+order. No `| AsString` is needed to make such a comparison work.
+
+> [!NOTE]
+> **This resolves the "int-vs-string `==` trap".**
+> That trap does not reproduce in this Rock version: `==` coerces symmetrically, and `Trim`
+> accepts a boxed int. The `| AsString` there is therefore redundant — but it is being **kept**,
+> because it is free, it is correct-by-construction for a value that is only ever meaningful as a
+> string, and nobody now knows what the original bug actually was. Only the comment was corrected.
+> Do not read the presence of `AsString` elsewhere in the codebase as evidence that this trap is
+> real.
+
+**3. An empty string is truthy, but `null` is falsy.** This is the one that bites. `{% if var %}`
+is effectively "is this null-or-false", not "does this hold a meaningful value":
+
+- On a **nullable non-string column** (an `[Attribute].[Id]` that may be NULL), `{% if var %}`
+  says exactly what you want — null is falsy, any int is truthy.
+- On a **string column**, `{% if var %}` is true even when the value is `''`. Always write
+  `{% if var != '' %}` there.
+
+
+### `AsInteger` coercion and failure mode (Tested August 2026)
+
+`AsInteger` is the filter the repo's `input_` convention leans on as its only defense between a
+PageParameter and interpolated SQL (see the formatting-standards house rule § "Coerce every
+`input_` value before it can reach SQL"). These results confirm that convention is sound, and
+pin down exactly *how* it holds.
+
+| Input | Result | Note |
+|---|---|---|
+| `'-5'` | `-5` | Negatives parse — see the warning below |
+| `' 7 '` | `7` | Surrounding whitespace tolerated |
+| `'1.9'` | `1` | **Truncates, does not round** |
+| `'abc'` | `null` | |
+| `'12abc'` | `null` | **No partial parse** — the whole input is discarded, not truncated to `12` |
+| `'1 OR 1=1'` | `null` | |
+| `'1;DROP TABLE'` | `null` | |
+| `'0x10'` | `null` | Hex notation is not recognized |
+| `''` | `null` | |
+| `null` | `null` | |
+
+**It fails closed, to `null` specifically.** Verified directly: for input `'abc'`, `{% if t ==
+null %}` is `true`, `{% if t == '' %}` is `false`, `{% if t %}` is `false`, and `{% if t >= 1 %}`
+is `false`. The distinction matters — an empty **string** would have been *truthy* (see the
+previous section) and would have sailed through the first half of the standard guard. It is null,
+so it does not.
+
+**The security consequence.** A hostile `?c1=1;DROP TABLE Person--` yields `null`, not a partially
+parsed number and not the original string. The payload is destroyed rather than shortened, so the
+standard pattern is safe as written:
+
+```lava
+{% assign input_CampusId = 'Global' | PageParameter:'c1' | AsInteger %}
+...
+{% if input_CampusId and input_CampusId >= 1 %}AND att.[CampusId] = {{ input_CampusId }}{% endif %}
+```
+
+> [!WARNING]
+> **The `>= 1` half of that guard is load-bearing — do not "simplify" it away.** `AsInteger`
+> accepts negative integers, so `?c1=-5` produces `-5`, which is non-null and therefore passes
+> `{% if input_CampusId %}` on its own. Only the `>= 1` comparison rejects it. The two halves
+> guard different things: `and input_CampusId` rejects non-numeric garbage, `>= 1` rejects valid
+> integers that are not plausible Ids.
+
+**Corollary for other coercing filters.** `AsInteger`'s fail-to-null behavior is *not* evidence
+about `AsDecimal` or `AsBoolean`. `AsBoolean` is already known to coerce `'0'` to `false` rather
+than failing (previous section). Test before assuming a shared contract.
+
+### The coercion probe
+
+The three "Tested August 2026" sections below were produced by
+the `surface-lava-tester` skill's `assets/Lava-Coercion-Probe.lava` — a single-render block that exercises
+every behavior recorded here and annotates each line with its expected result. It is checked in
+so the findings can be **re-verified rather than re-derived**.
+
+**Re-run it when:**
+
+1. **Rock has been upgraded** — before trusting any of the three sections below. Every value in
+   them is version-specific and none of it is contractual.
+2. **You are about to rely on a filter edge the `#### FilterName` reference does not state.**
+   Read that reference first: two behaviors this probe originally "discovered" were already
+   documented in it (`Split`'s `RemoveEmpty` default, and lexical string comparison). The probe
+   covers what the reference omits; it is not a substitute for reading it.
+3. **You are adding a filter whose failure mode matters** — anything standing between a
+   PageParameter and interpolated SQL, in particular.
+
+Three lines in the probe are marked `UNVERIFIED` (the `RemoveEmpty=false` forms of `Split`). They
+state what the reference predicts but have never been run; confirm before citing them.
+
+### `Split`, `contains`, `Size`, and `Default` — measured edges (Tested August 2026)
+
+These tests were run before checking the filter reference above, and two of them merely
+rediscovered behavior already documented there. Recorded here is only what the canonical entries
+do **not** state, each cross-referenced to its entry. **Read the `#### Filter` entry first.**
+
+#### `Split` — already documented; the consequence is not
+
+The [`#### Split`](#split) entry states the signature: `{Pattern}`, `{RemoveEmpty}` **(default
+true)**, `{Maximum}`. Everything below follows from that default and is confirmation, not news.
+
+| Input | Size | JSON |
+|---|---|---|
+| `'a,,b' \| Split:','` | 2 | `["a","b"]` |
+| `',a' \| Split:','` | 1 | `["a"]` |
+| `'' \| Split:','` | 0 | `[]` — an empty array, **not** `[""]` |
+| `null \| Split:','` | 0 | `[]` — does not throw |
+
+> [!WARNING]
+> **The one-argument `Split` is unsafe where element POSITION carries meaning.** Since
+> `RemoveEmpty` defaults true, `',2026-08-20' | Split:','` yields a **one**-element array whose
+> `[0]` is the *end* date — the value silently shifts into the start slot. Pass `false` explicitly
+> for positional splits, which is exactly what the `input_` date-range convention in
+> the formatting-standards house rule does with `Split:',',false,2`. Membership tests and
+> `{% for %}` loops are unaffected.
+
+The two rows the reference entry does not cover: an empty or null input yields a **zero-length**
+array, so a `{% for %}` over it simply does not execute.
+
+#### `contains` — the reference entry is incomplete
+
+[`#### Contains`](#contains) says "Works only with string arrays." Measured, it does more:
+
+| Test | Result | Beyond the reference |
+|---|---|---|
+| `'\|1\|13\|' contains '\|3\|'` | `false` | Confirms the `\|id\|` delimiter idiom |
+| `'\|1\|13\|' contains '13'` | `true` | …and why the pipes are needed |
+| `'\|1\|13\|' contains 13` (int) | `true` | Coerces, like `==` |
+| SQL **int** array `contains '1'` | `true` | **Works on non-string arrays** |
+| SQL **int** array `contains 1` | `true` | Coerces either way |
+| `'ABC' contains 'abc'` | **`false`** | **Case-sensitive** |
+| `null contains 'x'` | `false` | Null-safe; does not throw |
+
+Case-sensitivity and int-array support are both absent from the reference entry.
+
+#### `Size` — reference covers strings only
+
+[`#### Size`](#size) documents the string behavior ("character count including spaces"). Not
+covered: `12345 | Size` is **`0`** (an integer has no length), and `null | Size` is `0` without
+throwing. So `Size` cannot distinguish empty collection from null from wrong-type — all three
+give `0`.
+
+#### `Default` — "null or empty" is imprecise
+
+[`#### Default`](#default) says "if the input is null or empty." More precisely:
+
+| Input | Result |
+|---|---|
+| `' ' \| Default:'X'` | `X` — **whitespace-only** counts as empty |
+| `false \| Default:'X'` | **`False`** — a boolean false passes straight through |
+| empty array `\| Default:'X'` | **unchanged** — renders `System.Collections.Generic.List'1[System.Object]` |
+| empty SQL row set `\| Default:'X'` | **unchanged** — same type-name output |
+
+Two traps: `false | Default:'Something'` renders the literal text `False`, and piping an empty
+**collection** through `Default` prints a raw .NET type name into the page. Never write
+`{{ array | Default:'none' }}` — pre-compute `| Size` and branch.
+
+#### Relational operators — already documented
+
+Line ~5086 of this file already states it: *"Without conversion, string "3" is considered greater
+than number 10 (lexicographic comparison)."* The measured detail is where the switch happens — if
+**either** operand is a number the comparison is numeric; only when **both** are strings is it
+lexical (`'10' > '9'` is `false`; `10 > '9'` and `'10' > 9` are both `true`). Note this differs
+from `==`, which coerces symmetrically.
+
+#### `Select` on a `{% sql %}` row set
+
+[`#### Select`](#select) is documented for object collections; confirmed to work on `{% sql %}`
+rows too, returning a plain array (`rows | Select:'V'` → `[0, 1]`).
+
+### `Map` over `FromJSON` objects — measured edges (Tested August 2026)
+
+`Map` is documented for object collections and had previously been used only against
+`{% sql %}` row sets. Probed directly
+against objects produced by `FromJSON`, using a fixture shaped like a real ShortCode contract — a
+top-level array of objects, each holding a nested array of objects.
+
+#### It works everywhere it was doubted
+
+| Case | Result |
+|---|---|
+| `{% sql %}` row set (control) | works |
+| Top-level `FromJSON` array | works |
+| **Nested** `FromJSON` array (`obj.required[0].reasons \| Map:'text'`) | works |
+| `Where` → `First` → `Map` on the match's nested array | works |
+| JSON **numbers** (`[{"v":1},{"v":2}]` → `1, 2`) | works |
+| JSON strings that look numeric (`"228"`) | works |
+
+**The Int64-vs-Int32 boxing trap does not apply to `Map`.** That trap is real for `contains` and
+`Where`, which compare a *needle* against boxed values by exact CLR type — `FromJSON` parses a JSON
+number as Int64 while a `{% sql %}` column is Int32, so a bare-number needle silently misses (hence
+the string-id convention in ShortCodes 150 and 156). `Map` performs no comparison; it projects a
+property. Emitting ids as strings is still correct for anything a caller will `Where` on, but it is
+not needed merely to survive a `Map`.
+
+#### `Map` does not throw on an empty array — unlike `Where`
+
+`Where` throws on an empty / typeless match set, which is why call sites guard with
+`{% if obj.required != empty %}` before filtering. `Map` over an empty array simply returns empty.
+The guard is a `Where` requirement, not a general array-filter requirement.
+
+#### A missing key becomes an empty slot, not a skipped element
+
+This is the one genuine gotcha, and it is invisible until it reaches a `Join`:
+
+```
+{"missingKey":[{"text":"has one"},{"other":"lacks text"},{"text":"has two"}]}
+
+{{ obj.missingKey | Map:'text' | Join:', ' }}
+→ has one, , has two          ← note the empty slot
+```
+
+Mapping a key that only *some* elements carry yields doubled separators. When the key is optional,
+filter first (`| Where:'text', ...`) or build the string with an explicit `{% for %}` rather than
+`Map | Join`. When every element is guaranteed to carry the key — as in 150's `reasons`, where
+`text` is always emitted — `Map:'text' | Join:', '` is safe and is the preferred spelling.
+
+#### `Select` is an alias
+
+`obj.required | Select:'resourceName'` returned the same result as `Map`. Either name works; prefer
+`Map` for consistency with existing usage.

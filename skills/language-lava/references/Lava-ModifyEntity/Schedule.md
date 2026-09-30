@@ -139,7 +139,7 @@ When `iCalendarContent` is null/blank, `GetICalEvent()` returns `null`, the meth
 Notes on this pattern:
 
 - `id:'0'` is the create-new idiom for `{% modifyentity %}`.
-- `return:'modify_NewSchedule'` follows the project rule from `.claude/rules/lava-conventions.md` — never rely on the default `ModifyResult`.
+- `return:'modify_NewSchedule'` follows the lava-conventions house rule — never rely on the default `ModifyResult`.
 - `[[ IsActive ]]true[[ endIsActive ]]` is technically redundant (the C# default is `true`), but stating it explicitly makes the intent obvious to a future reader.
 - For the full return shape and additional `{% modifyentity %}` semantics, see `skills/language-lava/references/Lava-Language.md` > "Modify Entity Command".
 

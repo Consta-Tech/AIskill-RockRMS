@@ -27,7 +27,7 @@ You can create an `AttendanceOccurrence` row by setting **only** these four prop
 
 ## Auto-populated columns (Tested May 2026)
 
-Verified during Phase A of the `Audit SignUp Attendance` Lava Application (`_code/LavaApplications/Audit SignUp Attendance/Endpoints/create-occurrence.lava`). All three of the schema's non-nullable "computed" columns populate automatically on create:
+Verified during Phase A of the `Audit SignUp Attendance` Lava Application. All three of the schema's non-nullable "computed" columns populate automatically on create:
 
 | Column | Type | NULL | Default | Populated by |
 |---|---|---|---|---|
@@ -85,6 +85,10 @@ This pattern is used by both `create-occurrence.lava` (interactive create) and t
 ## What you should NOT set
 
 - `[SundayDate]`, `[OccurrenceDateKey]`, `[RootGroupTypeId]` — auto-populated; explicit values risk drift from Rock's derivation logic.
+
+  **`[OccurrenceDateKey]` verified at scale, 27-AUG-2026:** across all 220,039 `[AttendanceOccurrence]` rows, not one key is left at the `0` default, disagrees with its own `[OccurrenceDate]`, or fails to resolve in `[AnalyticsSourceDate]`. The derivation documented above holds everywhere in this database (verified with a DateKey-integrity probe query).
+
+  That clean result is worth contrasting with the tables where the same check fails, because the difference is *how the rows were written*, not which column they hold: `[MetricValue].[MetricValueDateKey]` has 37 month/day transpositions in six single-day batches, and `[FinancialPledge]` has 2,769 pledges whose keys were never derived at all plus 410 off by a year. Every one of those looks like a bulk or raw-SQL write rather than an entity save — and `PreSaveChanges` does not fire on a `{% sql %}` INSERT. So the warning above is not theoretical: it is the exact failure mode observed on two sibling tables, and the reason this one is clean is that its rows go through the entity path.
 - `[Guid]` — auto-generated. Setting it explicitly fails with an `Invalid cast from System.String to System.Guid` error (see the cross-cutting note in [`README.md`](README.md)).
 - `[CreatedDateTime]`, `[ModifiedDateTime]`, `[CreatedByPersonAliasId]`, `[ModifiedByPersonAliasId]` — Rock's audit hooks populate these.
 - `[DidNotOccur]` on create — leave NULL (will appear as NULL in subsequent queries; treat as `0` for state derivation, as `list-opportunities` does via `ISNULL(ao.[DidNotOccur], 0)`).
