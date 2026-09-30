@@ -1,5 +1,9 @@
 # Workflow
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Workflow type definitions, activity and action blueprints, form configuration, runtime instances, and logging.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

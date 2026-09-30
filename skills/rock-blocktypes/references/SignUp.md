@@ -1,3 +1,5 @@
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
 GitHub:
 - SignUpOverview `.ascx`: https://github.com/SparkDevNetwork/Rock/blob/e1f77f73db63027091577d0a3e8d71dd73fa547a/RockWeb/Blocks/Engagement/SignUp/SignUpOverview.ascx
 - SignUpOverview `.ascx.cs`: https://github.com/SparkDevNetwork/Rock/blob/e1f77f73db63027091577d0a3e8d71dd73fa547a/RockWeb/Blocks/Engagement/SignUp/SignUpOverview.ascx.cs

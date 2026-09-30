@@ -1,5 +1,9 @@
 # Attendance
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Check-in configuration, occurrence events, individual attendance records, label data, and analytics.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

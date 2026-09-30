@@ -1,5 +1,9 @@
 # CalendarEvent
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Event calendars, event definitions, audience targeting, campus-specific occurrences, content channel links, and registration/group mappings.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

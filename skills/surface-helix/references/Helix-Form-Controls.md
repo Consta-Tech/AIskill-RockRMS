@@ -1,5 +1,9 @@
 # Helix Form Controls
 
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 These ShortCodes are form-control components developed by Triumph Tech as part of Helix (see `Lava-with-Helix.md`). They provide a declarative way to render standard HTML form controls inside **Lava Application Content** blocks without writing raw HTML.
 
 **Categories:** System, Helix

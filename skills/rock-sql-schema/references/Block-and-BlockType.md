@@ -1,5 +1,9 @@
 # Block and BlockType
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Block type definitions and block instances.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

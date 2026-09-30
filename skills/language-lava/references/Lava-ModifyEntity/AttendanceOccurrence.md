@@ -1,5 +1,9 @@
 # Creating an AttendanceOccurrence via `{% modifyattendanceoccurrence id:'0' %}`
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Notes on what is (and isn't) required when creating an `[AttendanceOccurrence]` row through the `{% modifyattendanceoccurrence %}` Lava command, with the `id` parameter set to `'0'` to signal "create new".
 
 ## Source references

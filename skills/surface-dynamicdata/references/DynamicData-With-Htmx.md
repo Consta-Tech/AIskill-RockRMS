@@ -1,5 +1,9 @@
 # HTMX attributes rendered by an Obsidian Dynamic Data block are never processed
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 HTMX registers its handlers by scanning the DOM and processing every element that carries an `hx-*` attribute. It performs that scan once, at initialization. **Markup that arrives after the scan is invisible to it.**
 
 Obsidian blocks are Vue components that mount client-side, so a Dynamic Data block's Lava output is injected into the page *after* load — after HTMX has already swept the document. The `hx-get` / `hx-post` attributes in that output are inert strings. Clicking does nothing: no HTTP request, no console error, no visual change.

@@ -1,4 +1,8 @@
 # About Documentation
+
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
 Documentation happens at three levels:
 1. Documenting with in-file comments
 2. Documenting with directory READMEs

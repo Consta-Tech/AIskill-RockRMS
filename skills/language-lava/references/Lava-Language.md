@@ -1,5 +1,9 @@
 # Lava Reference
 
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Rock RMS uses a custom templating language called **Lava**, forked from Shopify's Liquid. Lava is rendered server-side before the resulting HTML (or SQL, or other output) is processed by its respective engine.
 
 > **Lava is NOT identical to Liquid.** Do not assume Liquid syntax works in Lava. This document is the authoritative reference for Lava as it behaves in Rock RMS.

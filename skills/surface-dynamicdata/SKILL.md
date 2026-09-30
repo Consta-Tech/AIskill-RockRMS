@@ -5,6 +5,10 @@ description: Working in Rock's Dynamic Data block (Obsidian) — the SQL Query a
 
 # The Dynamic Data Block as a Workbench
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 A Dynamic Data block runs a SQL query and shows the result either as Rock's **grid** or through a **Lava template** you write. The T-SQL itself is governed by the injected house rules and the `format-tsql` skill; the tables by `rock-sql-schema`; the Lava by `language-lava`. This skill is about the block: its settings, its two-engine render, how it re-renders, and how to test it.
 
 ## Two files, two engines

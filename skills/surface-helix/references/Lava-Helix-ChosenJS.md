@@ -1,5 +1,9 @@
 # Chosen.js in Rock RMS + Helix (HTMX)
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 ## Availability
 Chosen.js and jQuery are loaded globally in Rock RMS pages. No additional script imports needed.
 

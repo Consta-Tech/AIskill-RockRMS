@@ -1,5 +1,9 @@
 # Lava ModifyEntity
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 This directory collects notes about esoteric knowledge regarding `{% modifyentity %}` Lava commands — behaviors that aren't obvious from the language reference. Most were learned through testing in Rock; a few are read from the Rock source, and those say so explicitly at the top of the page.
 
 For the language-level reference (parameters, property/attribute syntax, defensive rules, return-value shape), see [`../Lava-Language.md`](../Lava-Language.md) > "Modify Entity Command".

@@ -1,5 +1,9 @@
 # Group
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Core group entity, demographics, history, and sync.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

@@ -1,5 +1,9 @@
 # Creating a Schedule via `{% modifyschedule id:'0' %}`
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Notes on what is (and isn't) required when creating a `Schedule` entity through the `{% modifyschedule %}` Lava command, with the `id` parameter set to `'0'` to signal "create new".
 
 ## Source references

@@ -5,6 +5,10 @@ description: How to collaborate with Claude while running T-SQL against a Rock R
 
 # Rock's SQL Editor as a Workbench
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 This skill is about the **workbench**, not the language. How to write T-SQL to house style is the `format-tsql` skill and the injected house rules; what the tables mean is the `rock-sql-schema` skill. This skill covers where a query gets run, what that place does to it, and how the result comes back to Claude.
 
 ## Two workbenches

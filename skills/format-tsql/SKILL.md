@@ -3,6 +3,8 @@ name: format-tsql
 description: Format a T-SQL query according to house style. Use for formatting, cleaning up, or restyling any T-SQL or Rock RMS SQL query.
 allowed-tools: Read Write
 ---
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
 
 Format the following T-SQL query according to the style rules below. Preserve all logic exactly — only formatting changes, never rewrite or optimize the query. Do not add or remove any columns, conditions, or joins.
 

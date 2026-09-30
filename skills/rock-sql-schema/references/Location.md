@@ -1,5 +1,9 @@
 # Location
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Physical or virtual places in the campus/building hierarchy. Locations form a tree via `[ParentLocationId]`, support geocoded addresses + GeoPoint/GeoFence shapes, and carry room-specific metadata (capacity thresholds, printer device, beacon).
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

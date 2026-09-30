@@ -1,5 +1,9 @@
 # Reservation and Type
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 The core of the Room Management plugin. A **Reservation** represents one request for a room/resource booking. Its **ReservationType** controls how that reservation is classified, whose approval it requires, what's optional vs. required on the form, and how long it can run. Each Reservation has child rows for the locations it uses, the resources it needs, and (optionally) the door-lock schedule and a classification "ministry".
 
 > For plugin-level cross-links and enum values, see [the sql-tables README](README.md).

@@ -1,5 +1,9 @@
 # Resource and Layout
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Two independently-configurable master tables:
 
 - **Resource** — anything reservable that isn't a room (audio gear, chairs, projectors, vehicles, etc.). Reusable across many reservations.

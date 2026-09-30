@@ -1,5 +1,9 @@
 # Wiring a PageParameterFilter to a Dynamic Data block
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 The **PageParameterFilter** block renders form controls whose values become query-string parameters; the Dynamic Data block on the same page reads them with `'Global' | PageParameter:'key'`. Nothing links the two blocks directly — the URL is the contract.
 
 ## PageParameterFilter settings that affect the Dynamic Data block

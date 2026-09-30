@@ -1,5 +1,9 @@
 # Inside a Dynamic Data block, every "current URL" source is the API endpoint
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 `SetUrlParameter` is fine. What is not fine is the thing you feed it. A Dynamic Data block renders its Lava inside an AJAX **BlockActions** call, so every filter that reports "the page the reader is on" reports the endpoint the block was fetched from instead.
 
 Measured 11-SEP-2026 on an Obsidian Dynamic Data block:

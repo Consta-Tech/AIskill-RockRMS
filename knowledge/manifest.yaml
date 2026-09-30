@@ -1,0 +1,990 @@
+# knowledge/manifest.yaml — the single source of truth for what the rockrms plugin documents.
+#
+# One entry per reference file, or per coverage claim (file: null). Fields:
+#   id            lowercase-hyphen, unique
+#   category      one of the category ids listed in knowledge/render.py (CATEGORY_LABELS); unknown ids still render
+#   title         human title used in the rendered views
+#   skill         owning skill directory name, or null for a plugin-root file such as rules/*.md
+#   file          path relative to the skill (or to the plugin root when skill is null); null for a coverage claim
+#   source_url    where the knowledge came from, or null when none was recorded
+#   rock_version  the Rock version it was verified on: v18.2.4, v18.2, unknown, or n/a for house conventions
+#   tier          measured | traced | summarized   (CONTRIBUTING.md defines the evidence each needs)
+#   status        current | roadmap
+#   added         the CHANGELOG.md release date (YYYY-MM-DD) the entry shipped in
+#   notes         one sentence of provenance detail; say 'not recorded' rather than guess
+#
+# Format: a flat list of flat mappings — python3 knowledge/render.py parses it without PyYAML.
+# Quote a value in double quotes when it contains ': ' or starts with a special character.
+# After editing: python3 knowledge/render.py   (and --check before committing; the pre-commit hook runs it).
+
+- id: schema-attendance
+  category: rock-schema
+  title: Attendance tables
+  skill: rock-sql-schema
+  file: references/Attendance.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-attribute-and-value
+  category: rock-schema
+  title: Attribute and Value tables
+  skill: rock-sql-schema
+  file: references/Attribute-and-Value.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-block-and-block-type
+  category: rock-schema
+  title: Block and BlockType tables
+  skill: rock-sql-schema
+  file: references/Block-and-BlockType.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-calendar-event
+  category: rock-schema
+  title: CalendarEvent tables
+  skill: rock-sql-schema
+  file: references/CalendarEvent.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-campus
+  category: rock-schema
+  title: Campus tables
+  skill: rock-sql-schema
+  file: references/Campus.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-category
+  category: rock-schema
+  title: Category tables
+  skill: rock-sql-schema
+  file: references/Category.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-connection-opportunity
+  category: rock-schema
+  title: ConnectionOpportunity tables
+  skill: rock-sql-schema
+  file: references/ConnectionOpportunity.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-connection-request-and-activity
+  category: rock-schema
+  title: ConnectionRequest and Activity tables
+  skill: rock-sql-schema
+  file: references/ConnectionRequest-and-Activity.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-connection-type-and-status
+  category: rock-schema
+  title: ConnectionType and Status tables
+  skill: rock-sql-schema
+  file: references/ConnectionType-and-Status.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-data-view-and-report
+  category: rock-schema
+  title: DataView and Report tables
+  skill: rock-sql-schema
+  file: references/DataView-and-Report.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-finance
+  category: rock-schema
+  title: Finance tables
+  skill: rock-sql-schema
+  file: references/Finance.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-group
+  category: rock-schema
+  title: Group tables
+  skill: rock-sql-schema
+  file: references/Group.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-group-location-and-group-schedule
+  category: rock-schema
+  title: GroupLocation and Schedule tables
+  skill: rock-sql-schema
+  file: references/GroupLocation-and-GroupSchedule.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-group-member
+  category: rock-schema
+  title: GroupMember tables
+  skill: rock-sql-schema
+  file: references/GroupMember.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-group-requirement
+  category: rock-schema
+  title: GroupRequirement tables
+  skill: rock-sql-schema
+  file: references/GroupRequirement.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-group-type-and-roles-and-associations
+  category: rock-schema
+  title: GroupType, Roles, and Associations tables
+  skill: rock-sql-schema
+  file: references/GroupType-and-Roles-and-Associations.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-location
+  category: rock-schema
+  title: Location tables
+  skill: rock-sql-schema
+  file: references/Location.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE script from a live instance plus measured hierarchy gotchas. Capture date and Rock version are not recorded in the file.
+
+- id: schema-person-and-person-alias
+  category: rock-schema
+  title: Person and PersonAlias tables
+  skill: rock-sql-schema
+  file: references/Person-and-PersonAlias.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-registration
+  category: rock-schema
+  title: Registration tables
+  skill: rock-sql-schema
+  file: references/Registration.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-workflow
+  category: rock-schema
+  title: Workflow tables
+  skill: rock-sql-schema
+  file: references/Workflow.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: schema-database-structure-tables
+  category: rock-schema
+  title: Database Structure Tables tables
+  skill: rock-sql-schema
+  file: references/database-structure-tables.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live Rock SQL Server database, with JOIN notes. Capture date and Rock version are not recorded in the file.
+
+- id: blocktype-group-attendance
+  category: rock-source
+  title: Group Attendance List and Detail blocks
+  skill: rock-blocktypes
+  file: references/GroupAttendance.md
+  source_url: https://github.com/SparkDevNetwork/Rock/blob/a792f29bf6fc5941d7e7f1451f5c8b5880385451/Rock.Blocks/Group/GroupAttendanceList.cs
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Traced from the Obsidian and legacy WebForms block source at pinned commits (a792f29 Obsidian, 2e80372 WebForms). The Rock release those commits belong to is not recorded.
+
+- id: blocktype-sign-up
+  category: rock-source
+  title: Sign-Up Overview, Detail, and Opportunity Attendee List blocks
+  skill: rock-blocktypes
+  file: references/SignUp.md
+  source_url: https://github.com/SparkDevNetwork/Rock/blob/e1f77f73db63027091577d0a3e8d71dd73fa547a/RockWeb/Blocks/Engagement/SignUp/SignUpOverview.ascx.cs
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Traced from the WebForms block source at pinned commit e1f77f7. The Rock release that commit belongs to is not recorded.
+
+- id: blocktype-checkin-schedule-builder
+  category: rock-source
+  title: Check-in Schedule Builder block
+  skill: rock-blocktypes
+  file: references/checkinScheduleBuilder.md
+  source_url: https://github.com/SparkDevNetwork/Rock/blob/795e516ca60145a7670faa2b72d570743447c2fc/Rock.Blocks/CheckIn/CheckInScheduleBuilder.cs
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Traced from the Obsidian block source at pinned commit 795e516. The Rock release that commit belongs to is not recorded.
+
+- id: rock-cron-expressions
+  category: community-docs
+  title: Quartz cron expressions for Service Jobs
+  skill: rock-blocktypes
+  file: references/CronExpression.md
+  source_url: null
+  rock_version: unknown
+  tier: summarized
+  status: current
+  added: 2026-09-29
+  notes: Field-by-field reference for the 7-field Quartz format Rock's Service Job editor accepts. No source URL was recorded when written.
+
+- id: rock-property-vs-attribute
+  category: community-docs
+  title: Property versus Attribute on Rock entities
+  skill: rock-blocktypes
+  file: references/Rock-Attribute-Property.md
+  source_url: https://community.rockrms.com/lava/filters/attribute-filters
+  rock_version: unknown
+  tier: summarized
+  status: current
+  added: 2026-09-29
+  notes: Conceptual explainer of core-model columns versus EAV custom fields across SQL, Lava, and the UI; cites the community Attribute Filters page.
+
+- id: bema-rm-overview
+  category: rockshop-plugin
+  title: BEMA Room Management 2.0 — plugin overview
+  skill: bema-room-management
+  file: references/RoomManagement/README.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: "Plugin package v2.6.5.16 as observed on Rock v18.2.4: domain model, block inventory, and lifecycle overview."
+
+- id: bema-rm-approval-state-enums
+  category: rockshop-plugin
+  title: BEMA Room Management — the three ApprovalState enums
+  skill: bema-room-management
+  file: references/RoomManagement/ApprovalState-Enums.md
+  source_url: https://github.com/BEMADEV/Room-Management/blob/main/com.bemaservices.RoomManagement/Model/Reservation/Reservation.cs
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Integer values read from BEMADEV's public C# source; the parent and child enums differ.
+
+- id: bema-rm-block-availability-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Availability List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/AvailabilityList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (AvailabilityList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-conflicting-reservation-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Conflicting Reservation List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ConflictingReservationList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ConflictingReservationList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-location-layout-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Location Layout List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/LocationLayoutList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (LocationLayoutList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-my-reservations-lava
+  category: rockshop-plugin
+  title: BEMA Room Management block — My Reservations Lava
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/MyReservationsLava.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (MyReservationsLava.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-question-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Question List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/QuestionList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (QuestionList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-requestor-change
+  category: rockshop-plugin
+  title: BEMA Room Management block — Requestor Change
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/RequestorChange.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (RequestorChange.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-detail
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Detail
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationDetail.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationDetail.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-lava
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Lava
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationLava.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationLava.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-lava-kiosk
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Lava Kiosk
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationLavaKiosk.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationLavaKiosk.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-linkage-detail
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Linkage Detail
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationLinkageDetail.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationLinkageDetail.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-linkage-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Linkage List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationLinkageList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationLinkageList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation List & Conflicting Reservation List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-type-detail
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Type Detail
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationTypeDetail.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationTypeDetail.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-reservation-type-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Reservation Type List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ReservationTypeList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ReservationTypeList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-resource-detail
+  category: rockshop-plugin
+  title: BEMA Room Management block — Resource Detail
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ResourceDetail.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ResourceDetail.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-block-resource-list
+  category: rockshop-plugin
+  title: BEMA Room Management block — Resource List
+  skill: bema-room-management
+  file: references/RoomManagement/BlockTypes/ResourceList.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block attributes, purpose, and data flow traced from the plugin package source (ResourceList.ascx.cs), Room Management v2.6.5.16.
+
+- id: bema-rm-tables-reservation-linkage
+  category: rockshop-plugin
+  title: BEMA Room Management tables — Reservation Linkage
+  skill: bema-room-management
+  file: references/RoomManagement/sql-tables/Reservation-Linkage.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live instance running Room Management v2.6.5.16, annotated with FK and enum notes.
+
+- id: bema-rm-tables-reservation-questions
+  category: rockshop-plugin
+  title: BEMA Room Management tables — Reservation Questions
+  skill: bema-room-management
+  file: references/RoomManagement/sql-tables/Reservation-Questions.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live instance running Room Management v2.6.5.16, annotated with FK and enum notes.
+
+- id: bema-rm-tables-reservation-workflow
+  category: rockshop-plugin
+  title: BEMA Room Management tables — Reservation Workflow
+  skill: bema-room-management
+  file: references/RoomManagement/sql-tables/Reservation-Workflow.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live instance running Room Management v2.6.5.16, annotated with FK and enum notes.
+
+- id: bema-rm-tables-reservation-and-type
+  category: rockshop-plugin
+  title: BEMA Room Management tables — Reservation and Type
+  skill: bema-room-management
+  file: references/RoomManagement/sql-tables/Reservation-and-Type.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live instance running Room Management v2.6.5.16, annotated with FK and enum notes.
+
+- id: bema-rm-tables-resource-and-layout
+  category: rockshop-plugin
+  title: BEMA Room Management tables — Resource and Layout
+  skill: bema-room-management
+  file: references/RoomManagement/sql-tables/Resource-and-Layout.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: CREATE TABLE scripts generated from a live instance running Room Management v2.6.5.16, annotated with FK and enum notes.
+
+- id: bema-rm-workflow-approval-process
+  category: rockshop-plugin
+  title: BEMA Room Management — Approval Process WorkflowType
+  skill: bema-room-management
+  file: references/RoomManagement/WorkflowTypes/ApprovalProcess.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Vanilla WorkflowType intent as exported from BEMA's published definitions, Room Management v2.6.5.16.
+
+- id: bema-rm-workflow-modification-process
+  category: rockshop-plugin
+  title: BEMA Room Management — Modification Process WorkflowType
+  skill: bema-room-management
+  file: references/RoomManagement/WorkflowTypes/ModificationProcess.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Vanilla WorkflowType intent as exported from BEMA's published definitions, Room Management v2.6.5.16.
+
+- id: bema-rm-workflow-reminder-notification
+  category: rockshop-plugin
+  title: BEMA Room Management — Reminder Notification WorkflowType
+  skill: bema-room-management
+  file: references/RoomManagement/WorkflowTypes/ReminderNotification.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Vanilla WorkflowType intent as exported from BEMA's published definitions, Room Management v2.6.5.16.
+
+- id: bema-rm-workflow-special-approval-notification
+  category: rockshop-plugin
+  title: BEMA Room Management — Special Approval Notification WorkflowType
+  skill: bema-room-management
+  file: references/RoomManagement/WorkflowTypes/SpecialApprovalNotification.md
+  source_url: https://github.com/BEMADEV/Room-Management
+  rock_version: v18.2.4
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Vanilla WorkflowType intent as exported from BEMA's published definitions, Room Management v2.6.5.16.
+
+- id: lava-language-reference
+  category: lava
+  title: Lava language reference (filters, tags, commands, merge fields)
+  skill: language-lava
+  file: references/Lava-Language.md
+  source_url: https://community.rockrms.com/lava
+  rock_version: v18.2
+  tier: summarized
+  status: current
+  added: 2026-09-29
+  notes: Filter, tag, and command sections are condensed from the community Lava documentation; the dated 'Tested <month> 2026' sections inside it are measured on v18.2. Which Rock version the filter list was captured from is an open question.
+
+- id: lava-shortcodes
+  category: lava
+  title: Lava ShortCodes
+  skill: language-lava
+  file: references/Lava-ShortCodes.md
+  source_url: https://community.rockrms.com/developer/bookcontent/33
+  rock_version: unknown
+  tier: summarized
+  status: current
+  added: 2026-09-29
+  notes: ShortCode types, parameters, and authoring rules condensed from the community developer book.
+
+- id: lava-modifyentity-findings
+  category: lava
+  title: modifyentity cross-cutting findings
+  skill: language-lava
+  file: references/Lava-ModifyEntity/README.md
+  source_url: null
+  rock_version: v18.2
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Empty property body writes SQL NULL, explicit Guid fails, two kinds of rollback. Tested April–September 2026.
+
+- id: lava-dbtransaction-mechanism
+  category: lava
+  title: dbtransaction command mechanism
+  skill: language-lava
+  file: references/Lava-ModifyEntity/DbTransaction.md
+  source_url: https://github.com/SparkDevNetwork/Rock/blob/ba526de456e010e9802853a111e07c79dbb73ecc/Rock/Lava/Blocks/DbTransaction.cs
+  rock_version: v18.0
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Read from Rock source at commit ba526de (develop, 2026-08-18); one section measured September 2026. The enablecontextisolation parameter is v19.3.
+
+- id: lava-modifyschedule
+  category: lava
+  title: Creating a Schedule with modifyschedule
+  skill: language-lava
+  file: references/Lava-ModifyEntity/Schedule.md
+  source_url: https://github.com/SparkDevNetwork/Rock/blob/b9083f1282ff63537bd3e1219936892577bcc888/Rock/Model/Core/Schedule/Schedule.cs
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Required properties and save hooks verified against Rock source at pinned commit b9083f1; one behavior tested May 2026.
+
+- id: lava-modifyattendanceoccurrence
+  category: lava
+  title: Creating an AttendanceOccurrence with modifyattendanceoccurrence
+  skill: language-lava
+  file: references/Lava-ModifyEntity/AttendanceOccurrence.md
+  source_url: null
+  rock_version: v18.2
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Tested May 2026, verified at scale 27-AUG-2026.
+
+- id: frontend-sticky-positioning
+  category: front-end
+  title: "position: sticky under Bootstrap 3 floated columns"
+  skill: language-html-htmx
+  file: references/Sticky-Positioning.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Verified by testing inside Rock blocks on the maintainer's instance; the date and Rock version are not recorded in the file.
+
+- id: frontend-debounced-triggers-lose-event
+  category: front-end
+  title: Debounced hx-trigger loses the event object in hx-vals
+  skill: language-html-htmx
+  file: references/Debounced-Triggers-Lose-Event.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Verified by testing inside Rock blocks on the maintainer's instance; the date and Rock version are not recorded in the file.
+
+- id: frontend-smooth-scroll-after-cascade
+  category: front-end
+  title: Smooth scroll after a cascading HTMX swap
+  skill: language-html-htmx
+  file: references/SmoothScroll-After-Cascade.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Verified by testing inside Rock blocks on the maintainer's instance; the date and Rock version are not recorded in the file.
+
+- id: dynamicdata-htmx-process
+  category: rock-source
+  title: Dynamic Data block — HTMX attributes need htmx.process()
+  skill: surface-dynamicdata
+  file: references/DynamicData-With-Htmx.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Tested 2026-08-12 on an Obsidian Dynamic Data block; includes re-render paths and hx-params measurements.
+
+- id: dynamicdata-current-url
+  category: rock-source
+  title: Dynamic Data block — every current-URL source returns the BlockActions endpoint
+  skill: surface-dynamicdata
+  file: references/Current-Url-Is-BlockActions.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Measured 11-SEP-2026 on an Obsidian Dynamic Data block.
+
+- id: dynamicdata-pageparameterfilter
+  category: rock-source
+  title: Wiring a PageParameterFilter block to a Dynamic Data block
+  skill: surface-dynamicdata
+  file: references/PageParameterFilter-Wiring.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Value shapes per field type and re-render behavior measured 2026.
+
+- id: surface-dynamicdata-workbench
+  category: house
+  title: Dynamic Data block as a workbench (settings, test loop)
+  skill: surface-dynamicdata
+  file: SKILL.md
+  source_url: https://github.com/SparkDevNetwork/Rock/tree/develop/Rock.Blocks/Reporting
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block settings read from Rock.Blocks/Reporting/DynamicData on the develop branch, September 2026; not measured on a release.
+
+- id: htmlcontent-no-nested-forms
+  category: rock-source
+  title: A form inside a Rock block is dropped; its buttons post the page back
+  skill: surface-htmlcontent
+  file: references/No-Nested-Forms.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Measured 2026-09-21.
+
+- id: surface-htmlcontent-workbench
+  category: house
+  title: HTML Content block as a workbench (settings, caching, context)
+  skill: surface-htmlcontent
+  file: SKILL.md
+  source_url: https://github.com/SparkDevNetwork/Rock/tree/develop/Rock.Blocks/Cms
+  rock_version: unknown
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Block settings read from Rock.Blocks/Cms/HtmlContentDetail on the develop branch, September 2026.
+
+- id: helix-lava-applications
+  category: community-docs
+  title: Helix — Lava Applications, Endpoints, and tested behaviors
+  skill: surface-helix
+  file: references/Lava-with-Helix.md
+  source_url: https://community.rockrms.com/developer/helix
+  rock_version: v18.2
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Configuration from the community Helix docs plus behaviors tested March–August 2026 (form serialization, OOB swaps, headers, sql timeouts).
+
+- id: helix-form-controls
+  category: community-docs
+  title: Helix form-control ShortCodes
+  skill: surface-helix
+  file: references/Helix-Form-Controls.md
+  source_url: https://community.rockrms.com/developer/helix
+  rock_version: unknown
+  tier: summarized
+  status: current
+  added: 2026-09-29
+  notes: Triumph's rockcontrol-wrapped ShortCodes and their parameters; condensed, not individually verified.
+
+- id: helix-chosen-js
+  category: front-end
+  title: Chosen.js re-initialization after HTMX swaps
+  skill: surface-helix
+  file: references/Lava-Helix-ChosenJS.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Tested March 2026.
+
+- id: surface-helix-workbench
+  category: house
+  title: Helix workbench (admin configuration, devtools dev loop)
+  skill: surface-helix
+  file: SKILL.md
+  source_url: https://community.rockrms.com/developer/helix
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Dev loop and error surfaces from working sessions in 2026.
+
+- id: surface-lava-tester-workbench
+  category: house
+  title: Lava Tester block as a REPL and measurement host
+  skill: surface-lava-tester
+  file: SKILL.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Rock Shop Lava Tester block; how errors surface and what merge fields differ. From working sessions in 2026.
+
+- id: surface-sql-editor-workbench
+  category: house
+  title: Rock's SQL Command page versus a desktop client
+  skill: surface-sql-editor
+  file: SKILL.md
+  source_url: null
+  rock_version: unknown
+  tier: measured
+  status: current
+  added: 2026-09-29
+  notes: Timeouts, the SQL Error alert, and result hand-back. From working sessions in 2026.
+
+- id: house-format-tsql
+  category: house
+  title: format-tsql — house T-SQL style, applied mechanically
+  skill: format-tsql
+  file: SKILL.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: House convention; the style guide itself is the source.
+
+- id: house-audit-pre-push
+  category: house
+  title: Pre-push documentation audit (two parts)
+  skill: audit-pre-push-1
+  file: SKILL.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: House convention. Part 2 lives in the audit-pre-push-2 skill.
+
+- id: house-rule-formatting-standards
+  category: house
+  title: House rule — Formatting standards (SQL and Lava)
+  skill: null
+  file: rules/formatting-standards.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+
+- id: house-rule-lava-conventions
+  category: house
+  title: House rule — Lava coding conventions
+  skill: null
+  file: rules/lava-conventions.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+
+- id: house-rule-about-documentation
+  category: house
+  title: House rule — Documentation conventions
+  skill: null
+  file: rules/about-documentation.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+
+- id: house-rule-file-organization
+  category: house
+  title: House rule — File organization rules
+  skill: null
+  file: rules/file-organization.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+
+- id: house-rule-knowledge-boundaries
+  category: house
+  title: House rule — Knowledge boundaries — ask before answering outside the catalog
+  skill: null
+  file: rules/knowledge-boundaries.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-09-29
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.

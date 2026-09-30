@@ -1,5 +1,9 @@
 # Reservation Type Detail
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 **Plugin**: BEMA Services — Room Management 2.0 (v2.6.5.16)
 **Source file**: `RoomManagement (plugin package)/RoomManagement/ReservationTypeDetail.ascx.cs`
 **Rock Category**: BEMA Services > Room Management

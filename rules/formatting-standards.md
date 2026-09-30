@@ -1,4 +1,8 @@
 # Some Formatting Standards
+
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
 With any programming language that we use, indentation is 4-spaces.
 
 <details open><summary>The boilerplate is the first thing in the file. Nothing goes above it.</summary>

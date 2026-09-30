@@ -1,5 +1,9 @@
 # Registration
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Registration tables support Rock's event registration framework — reusable templates that define forms, fees, discounts, and placement rules; instances that represent specific offerings with dates and capacity; and runtime records that capture each registration submission, its registrants, and their fee charges.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

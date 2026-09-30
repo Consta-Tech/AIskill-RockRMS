@@ -1,5 +1,9 @@
 # Debounced HTMX triggers lose `event` inside `hx-vals`
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 HTMX's `hx-vals='js:{...}'` lets you compute the request payload from JavaScript at request time. Inside that JS expression, you usually have access to an `event` variable referring to the DOM event that triggered the request.
 
 That access **breaks silently** when the trigger includes a `delay:` modifier (debounce). The request stops firing, but nothing on the page tells you why.

@@ -5,6 +5,10 @@ description: Collaborating in Rock's Lava Tester block — a Rock Shop plugin bl
 
 # The Lava Tester as a Workbench
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 The `language-lava` skill says what Lava does. This skill says how to **find out** what Lava does on your instance, and how to use the same block as a safe console for writes.
 
 ## What it is

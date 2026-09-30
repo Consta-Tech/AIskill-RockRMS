@@ -1,5 +1,9 @@
 # Approval-State Enums
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 The Room Management plugin defines **three** distinct `ApprovalState` enums — one for the parent `Reservation` and two for the child junction tables (`ReservationLocation`, `ReservationResource`). The integer values are **not** the same across these enums, despite the values for `Approved` and `Denied` happening to coincide.
 
 Source of truth: BEMADEV's public source on GitHub.

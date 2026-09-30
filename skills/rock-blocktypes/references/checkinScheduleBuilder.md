@@ -1,3 +1,5 @@
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
 GitHub:
 - The frontend `.obs` file: https://github.com/SparkDevNetwork/Rock/blob/795e516ca60145a7670faa2b72d570743447c2fc/Rock.JavaScript.Obsidian.Blocks/src/CheckIn/checkInScheduleBuilder.obs
 - the C# backend: https://github.com/SparkDevNetwork/Rock/blob/795e516ca60145a7670faa2b72d570743447c2fc/Rock.Blocks/CheckIn/CheckInScheduleBuilder.cs

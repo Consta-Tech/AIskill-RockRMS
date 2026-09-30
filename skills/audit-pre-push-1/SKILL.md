@@ -5,6 +5,10 @@ description: Pre-push audit, part 1 of 2 — audits comments, boilerplate header
 
 # Pre-Push Audit — Part 1: Code Files
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Audit comments, boilerplate headers, and inline documentation across code files in preparation for pushing to the shared repository. This is a **documentation-only pass** — no behavioral code changes, no file renames, no file deletions, no auto-commits.
 
 Part 2 (the `audit-pre-push-2` skill) handles README files and should be run after this skill completes.

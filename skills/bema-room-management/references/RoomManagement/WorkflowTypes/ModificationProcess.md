@@ -1,5 +1,9 @@
 # Modification Process WorkflowType
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 | Field | Vanilla value |
 |---|---|
 | `WorkflowType.Name` | `Modification Process` |

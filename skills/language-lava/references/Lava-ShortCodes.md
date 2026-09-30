@@ -1,5 +1,9 @@
 # Lava ShortCodes
 
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 ShortCodes are Lava's reusable component system. They let a Lava specialist write a complex template once and expose it as a simple tag that anyone can invoke with named parameters — no knowledge of the underlying markup required.
 
 ```lava

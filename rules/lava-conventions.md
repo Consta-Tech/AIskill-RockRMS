@@ -1,5 +1,9 @@
 # Lava Coding Conventions
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 ## `{% modifyentity %}` Commands
 
 When writing `{% modifyentity %}` commands (E.g.: `modifygroup`, `modifygroupmember`, `modifyperson`, etc.), follow the four defensive rules below. Full documentation, tested behaviors, and examples are in the `language-lava` skill: `references/Lava-Language.md` > "Modify Entity Command", plus per-entity notes in `references/Lava-ModifyEntity/`.

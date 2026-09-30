@@ -1,5 +1,9 @@
 # Reservation Workflow
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Three tables that handle automation and approval routing:
 
 - **ReservationWorkflowTrigger** — *(configuration)* on a ReservationType, declares "when X happens, run Workflow Y". Lives on ReservationType.

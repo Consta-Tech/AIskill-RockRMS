@@ -5,6 +5,10 @@ description: Working in Rock's HTML Content block with Lava enabled — the bloc
 
 # The HTML Content Block as a Workbench
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Rock's most general block: HTML plus Lava, rendered when the page is requested. The `language-lava` skill covers the Lava and the `language-html-htmx` skill covers front-end behavior verified inside Rock; this skill covers what the **block** does to what you paste into it.
 
 ## Settings that change behavior

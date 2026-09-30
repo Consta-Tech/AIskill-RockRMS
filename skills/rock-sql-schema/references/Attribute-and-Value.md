@@ -1,5 +1,9 @@
 # Attribute and Value
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Attribute definitions, stored values, history, matrix (tabular) data, and entity reference tracking.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.

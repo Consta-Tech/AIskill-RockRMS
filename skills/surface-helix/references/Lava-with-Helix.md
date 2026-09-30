@@ -1,4 +1,8 @@
 # Basics
+
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
 RockRMS is a church management system created by Spark Dev and developed between Spark Dev and Triumph Tech. It's been built on Microsoft's .NET framework, and its unique value proposition is that it enables churches to create their own church management system by providing a framework, tools, protocols, and essentially a "blank canvas" where you can define anything that your church might need.
 
 In the context of talking about web development in the context of Rock RMS and Lava, you might hear the word, "Helix". This refers to Triumph's implementation of HTMX for the context of being used within Rock RMS.

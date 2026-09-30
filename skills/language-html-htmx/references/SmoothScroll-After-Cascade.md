@@ -1,5 +1,9 @@
 # Smooth-scrolling to a target after an HTMX cascade
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 When an HTMX response installs loader divs that subsequently fire their own GETs (a *cascade*), naïve calls to `scrollIntoView({behavior:'smooth'})` fail in three distinct ways. The working pattern is a **debounced latch** keyed off `htmx:afterSettle`.
 
 The root cause is that `scrollIntoView`'s smooth-scroll trajectory is computed exactly once, at call time, against:

@@ -1,5 +1,9 @@
 # Property vs Attribute in Rock RMS
 
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Every Rock entity — Person, Group, GroupMember, Campus, etc. — has two kinds of data fields: **Properties** and **Attributes**. They behave differently in SQL, Lava, and the Rock UI, so understanding the distinction is foundational to working with Rock's data model.
 
 

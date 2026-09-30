@@ -1,5 +1,9 @@
 # Cron Expressions in Rock RMS
 
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Rock uses **Quartz-style cron expressions** to define recurring schedules for Service Jobs. These follow a 7-field format that extends standard Unix cron with a Seconds field and a Year field.
 
 When entering a cron expression in Rock's Service Job editor, a human-readable preview updates as soon as you leave the input field, allowing you to verify the expression before saving.

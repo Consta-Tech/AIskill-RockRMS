@@ -1,5 +1,9 @@
 # File Organization Rules
 
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 ## Repository Layout
 
 ```

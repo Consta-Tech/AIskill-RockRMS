@@ -1,5 +1,9 @@
 # `position: sticky` in Rock's Internal Site
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 CSS `position: sticky` lets an element scroll normally with the page until it hits a configured offset from the viewport, then "pin" there until its containing block scrolls past. It's ideal for floating helper sidebars, on-page tables-of-contents, or persistent action bars.
 
 Two Rock-specific gotchas will silently break a naïve implementation. Both have to be addressed for the helper to actually pin where you expect.

@@ -1,5 +1,9 @@
 # Reservation Linkage
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 A tiny junction table that ties one Room Management `Reservation` to one Rock `EventItemOccurrence`. Typically created by the **Reservation Linkage Detail** BlockType wizard ([BlockTypes/ReservationLinkageDetail.md](../BlockTypes/ReservationLinkageDetail.md)) so that a reservation and a calendared event share a single source of truth about the date/time and the room.
 
 > Note: `Reservation.EventItemOccurrenceId` also exists as a column, but the plugin's preferred linkage path is through this table because it supports zero-or-many linkages per reservation.

@@ -5,6 +5,10 @@ description: The Helix workbench for Rock RMS — Lava Applications, their Endpo
 
 # Helix as a Workbench
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 **Helix** is Triumph Tech's HTMX integration for Rock RMS: a page-side runtime plus server-side **Lava Applications** whose **Endpoints** are Lava templates reachable over HTTP. The Lava language is the `language-lava` skill; front-end behaviors verified in Rock are `language-html-htmx`. This skill is the workbench — the pieces you configure in Rock, the loop you iterate in, and the measured Helix behaviors in `references/`.
 
 ## The pieces

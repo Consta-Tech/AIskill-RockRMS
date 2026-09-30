@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Pre-commit hook: refuse the commit when the knowledge catalog views are stale or a reference
+# file is missing its manifest row / provenance header.
+# Enable once per clone:  git config core.hooksPath .githooks
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "pre-commit: python3 not found; cannot run knowledge/render.py --check" >&2
+    exit 1
+fi
+python3 knowledge/render.py --check

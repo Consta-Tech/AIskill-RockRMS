@@ -1,5 +1,9 @@
 # Reservation Questions
 
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock v18.2.4). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+
+
+
 Ad-hoc questions that are appended to a reservation when a specific **Resource** or **Location** is chosen. Each "question" is backed by a Rock Attribute; this table is the mapping between that Attribute and a Resource/Location.
 
 > **Naming caveat.** The C# model class is `ReservationQuestion`, but the SQL table is just `_com_bemaservices_RoomManagement_Question`. Grep the plugin source for either name.
