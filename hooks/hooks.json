@@ -1,12 +1,77 @@
 {
-  "description": "Injects the Rock RMS house rules into context at the start of every session.",
+  "description": "Injects the Rock RMS house rules into context at the start of every session \u2014 one hook command per rule chunk, because a single hook command's output is capped (see hooks/inject-rule.sh). Slots past a rule's last chunk print nothing; hooks/inject-rule.sh --check verifies every rule fits its slots.",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/inject-rules.sh",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh knowledge-boundaries.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh knowledge-boundaries.md 2",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 2",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 3",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 4",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 5",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh lava-conventions.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh lava-conventions.md 2",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh about-documentation.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh about-documentation.md 2",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh about-documentation.md 3",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh file-organization.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh file-organization.md 2",
             "timeout": 30
           }
         ]

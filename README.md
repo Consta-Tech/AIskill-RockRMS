@@ -19,7 +19,7 @@ Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup and trou
 
 | Component | What it does |
 |---|---|
-| `rules/` + `hooks/` | Four house-rule documents (SQL/Lava formatting standards, Lava conventions, documentation conventions, file organization) **injected into every session automatically** via a SessionStart hook. |
+| `rules/` + `hooks/` | Five house-rule documents (SQL/Lava formatting standards, Lava conventions, documentation conventions, file organization, knowledge boundaries) **injected into every session automatically** via SessionStart hooks — one hook command per rule chunk, because a single command's output is capped. |
 | `skills/rock-sql-schema` | Annotated `CREATE TABLE` references for the Rock database, grouped by JOIN affinity. |
 | `skills/rock-blocktypes` | Tested behavior notes for Group Attendance, Sign-Up, and Check-in Schedule Builder blocks, plus cron expressions and Property-vs-Attribute. |
 | `skills/bema-room-management` | Full reference for the BEMA Room Management 2.0 plugin (schema, blocks, workflows) as BEMA ships it. |

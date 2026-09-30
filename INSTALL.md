@@ -37,7 +37,7 @@ No cloning needed — Claude Code fetches this repo from GitHub and keeps it upd
 claude plugin list
 ```
 
-You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `audit-pre-push-1`, `audit-pre-push-2`, `knowledge-current`, `changelog`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rules" appear in the session context. `/rockrms:changelog` prints the installed commit and the newest release notes; `/rockrms:knowledge-current` prints everything the plugin documents.
+You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `audit-pre-push-1`, `audit-pre-push-2`, `knowledge-current`, `changelog`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rule (injected by the rockrms plugin)" blocks appear in the session context — one per rule chunk, nine at the time of writing. `/rockrms:changelog` prints the installed commit and the newest release notes; `/rockrms:knowledge-current` prints everything the plugin documents.
 
 ### Update
 
@@ -100,7 +100,7 @@ Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the prove
 
 **`claude plugin marketplace add` fails.** Use the `Consta-Tech/AIskill-RockRMS` (owner/repo) form.
 
-**House rules not in context.** Run `claude plugin list` to confirm `rockrms` is enabled, then start a new session and check `/context`. The hook requires a bash-capable shell (on Windows, use WSL or Git Bash).
+**House rules not in context.** Run `claude plugin list` to confirm `rockrms` is enabled, then start a new session and check `/context`. The hook requires a bash-capable shell and `python3` (on Windows, use WSL or Git Bash). If a rule block shows only a short preview followed by a note that the rest was saved to a file, that rule outgrew the per-hook output cap — run `bash hooks/inject-rule.sh --check` in a clone and open an issue.
 
 **Permission prompts when editing files under `_code/`.** Confirm `.claude/settings.json` contains the `additionalDirectories` entry and that the church clone actually sits at the sibling path.
 

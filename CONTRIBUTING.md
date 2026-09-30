@@ -100,6 +100,12 @@ claude plugin eval . --case changelog-prints-newest --runs 1 --ablation none --a
 
 `--allow-tools Bash` is needed because the knowledge skills run the scripts under `knowledge/`; `--scaffold` lets the `add-knowledge` case copy this checkout into its sandbox workspace. Results land in `evals/results/` (gitignored). `claude plugin validate .` checks manifests and skills without any model call; its one warning — "No version specified" — is intentional.
 
+## Editing a house rule (`rules/*.md`)
+
+Rules are injected at session start by `hooks/inject-rule.sh`, **one hook command per rule chunk**, because Claude Code keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview). The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under an 8 KB budget; `hooks/hooks.json` lists a fixed number of slots per rule, with one spare.
+
+After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk sizes and `bash hooks/inject-rule.sh --check` to confirm the slots still suffice (the pre-commit hook runs the check). When a rule grows past its slots, add another `inject-rule.sh <file> <n>` command to `hooks.json`. Keep any single section under 8 KB by adding a heading or a `<details>` block — a section that cannot be split is the one thing the chunker cannot fix. A new rule file needs its slots added to `hooks.json` and a `house` row in the manifest.
+
 ## House style for the files themselves
 
 - Skill names are lowercase-hyphen and equal their directory name; `SKILL.md` stays under 500 lines with depth in `references/`.

@@ -22,4 +22,5 @@ The first date-stamped release. At this release the plugin ships twelve skills (
 - README: "What this plugin knows" section pointing at the rendered catalog, and a Contributing section pointing at CONTRIBUTING.md.
 
 ### Fixed
+- **House rules were mostly not reaching sessions.** The SessionStart hook emitted all rules as one 50 KB block, and Claude Code keeps only a short preview of a single hook command's output in context (measured: about 9.5 KB arrives intact, about 15 KB does not). Rules are now injected one hook command per rule, with the formatting standards split into chunks under an 8 KB budget; `hooks/inject-rule.sh --check` (run by the pre-commit hook) fails when a rule outgrows its slots.
 - `Lava-ModifyEntity/DbTransaction.md` linked to a `RockShop-Plugins/…` path that does not exist inside the plugin; it now names the `bema-room-management` skill.
