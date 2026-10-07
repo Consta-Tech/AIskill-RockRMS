@@ -4,7 +4,7 @@ Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin 
 
 Headings inside a release follow [Keep a Changelog](https://keepachangelog.com): Added, Changed, Fixed, Removed. Contributors add their bullet under `## Unreleased`; the maintainer renames that heading to the release date when cutting a release (see CONTRIBUTING.md).
 
-## Unreleased
+## 2026-10-06
 
 ### Added
 - **Table of contents** at the top of the Lava reference (`language-lava` > `Lava-Language.md`), listing every section and subsection.
