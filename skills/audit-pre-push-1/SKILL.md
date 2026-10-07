@@ -70,7 +70,7 @@ Scan the in-scope files for version stamps (patterns like `v0.X`, `v1.X`, `Tag: 
 
 If version stamps are found, show the user what the current version marker(s) look like and ask: **"What version number should I normalize to?"**
 
-Apply the user's answer per the version stamp rules in § Doctrine below.
+Apply the user's answer per § Version stamp rules in `references/doctrine.md`.
 
 If no version stamps are found, skip this step silently.
 
@@ -91,11 +91,11 @@ Two files will be written to this directory:
 
 ## Step 5 — Execute the audit
 
-Process each in-scope file. For every file, apply the rules in the Doctrine section below. The audit has two action categories:
+Process each in-scope file. For every file, apply the rules in `references/doctrine.md` — read it before the first file. The audit has two action categories:
 
 ### Auto-apply (low-risk, applied without asking)
 
-1. **Delete ephemeral references** — remove any line or citation matching the patterns in § Ephemeral Reference Patterns. If removing a reference collapses the surrounding sentence into something nonsensical, flag it for review instead.
+1. **Delete ephemeral references** — remove any line or citation matching the patterns in `references/doctrine.md` § Ephemeral reference patterns. If removing a reference collapses the surrounding sentence into something nonsensical, flag it for review instead.
 2. **Strip version stamp markers** — delete version-stamp prefixes from inline comments (e.g., `// v0.4.7 — added pre-fill` becomes `// added pre-fill`, or delete entirely if the comment is pure version narration with no surviving substance).
 3. **Delete "what changed" narrations** — remove comments that narrate *what changed* rather than explaining *why the code works this way*. Timelines and change history are inferrable from git. Examples of narration to delete: `"In v0.4.4 we added X"`, `"This was refactored from Y in sprint 3"`, `"Moved here from Z.lava"`.
 4. **Format SQL** — for `.sql` files, `.lava.sql` files, and any `.lava` file containing embedded SQL via `{% sql %}...{% endsql %}`, apply the `format-tsql` skill (bundled in this plugin). This is deterministic and safe to auto-apply.
@@ -114,55 +114,7 @@ Process each in-scope file. For every file, apply the rules in the Doctrine sect
 
 ## Doctrine
 
-### Ephemeral reference patterns (hardcoded — update this list as the repo evolves)
-
-These are references that are useful during active development but meaningless to teammates or future sessions. Auto-delete on sight:
-
-| Pattern | Example |
-|---|---|
-| Conversation/chat citations | `conv 12`, `chat 25`, `per conversation with…`, `discussed in chat` |
-| Prompt file references | `prompt0-3.md`, `prompt2-1.md`, `per prompt file`, any bare filename matching `prompt*.md` |
-| Reference material filenames in gitignored dirs | `notes-v0.4.md`, `answers-for-X.md`, `current-state-XX.md`, `brainstormX.md`, `future-features.md` |
-| `input_box/` paths | Any literal path containing `input_box/` |
-| `.trash/` paths | Any literal path containing `.trash/` |
-| `.DS_Store` references | Any mention of `.DS_Store` |
-| `idea/`, `inspiration/`, `diagnosis/` paths | Any literal path containing these directories |
-| "Note to self" markers | `// note to self`, `// NTS:`, `// reminder:`, `{% comment %} note to self` |
-
-### Stable references (DO NOT delete)
-
-| Pattern | Example |
-|---|---|
-| Skill reference paths | `references/Lava-Language.md`, the `rock-sql-schema` skill |
-| Memory file references | `feedback_*.md`, `reference_*.md`, `project_*.md`, `user_*.md` |
-| External URLs | BEMA GitHub URLs, Rock community URLs, any http/https link |
-| Internal cross-file references | `_render-summary-sidebar.lava Section 6` (verify accuracy; update if stale) |
-
-### Boilerplate rules
-
-- Every file keeps a header comment block. Empty boilerplates are not the goal — **concise** ones are.
-- The boilerplate should contain structural metadata (path, slug, method, parameters) and a single-paragraph present-tense description of what the file does.
-- **No version history** in boilerplates. Rely on git.
-- **No cross-file convention prose** in boilerplates. That belongs in the directory README.
-- **No citation footnotes** in boilerplates.
-- If a boilerplate contains multi-paragraph explanations of behavior, evaluate: is it single-file detail or cross-file convention?
-  - **Single-file detail** → move to an inline `{% comment %}` block near the relevant code site. Strip version stamps. Keep the *why*, drop the *history*.
-  - **Cross-file convention** → write to `_audit-extractions.md` for `audit-pre-push-2` to absorb into the README. Leave a one-line pointer in the boilerplate (e.g., `See Endpoints/README.md § "OOB contract".`).
-
-### Inline comment rules
-
-- Format inline relocated content as `{% comment %} … {% endcomment %}` blocks, not HTML comments or Lava line comments.
-- Place comments immediately above the code they explain.
-- Present tense. No version stamps.
-- Preserve existing section markers (e.g., `{% comment %} === Section 1 — Read + auth === {% endcomment %}`). If a section marker's name has drifted from what the section actually does, update the name.
-
-### Version stamp rules
-
-- Version-stamped prose in boilerplates: delete the version prefix, rewrite in present tense if the substance survives. If the entire comment is version narration with no surviving substance, delete entirely.
-- `Tag: vX.Y` headers: replace with the version number from Step 3.
-- `## v0.X additions` / `## v0.X conventions` section headings in READMEs: this is `audit-pre-push-2`'s concern, but if encountered in a code file's comment, flatten by removing the version prefix.
-- `(vX.Y.Z introduced…)` parenthetical asides: delete the parenthetical.
-- `// vX.Y.Z` inline markers: delete the marker; keep the comment body if it has substance.
+The rules Step 5 applies — ephemeral reference patterns to delete, stable references to keep, and the boilerplate, inline-comment, and version-stamp rules — live in [references/doctrine.md](references/doctrine.md). The ephemeral-patterns table is meant to grow as the repo evolves; add new patterns there, not here.
 
 ---
 
