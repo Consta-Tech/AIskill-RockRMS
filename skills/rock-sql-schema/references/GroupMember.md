@@ -8,6 +8,16 @@ Group membership, assignments, history, and automation.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| GroupMember | A person's membership in a group, with role and member status | Group (CASCADE), GroupMemberScheduleTemplate, GroupType, GroupTypeRole, Person (CASCADE), PersonAlias |
+| GroupMemberAssignment | A scheduling assignment — the location and schedule a group member serves at | Group (CASCADE), GroupMember, Location, Schedule |
+| GroupMemberHistorical | Point-in-time snapshots of group membership for history reporting | Group, GroupMember, GroupTypeRole, PersonAlias |
+| GroupMemberScheduleTemplate | Named scheduling-frequency templates (e.g., every other week) members pick from | GroupType, Schedule |
+| GroupMemberWorkflowTrigger | Workflows launched on membership changes for a group or group type | Group (CASCADE), GroupType (CASCADE), WorkflowType (CASCADE) |
+
 ---
 
 ## GroupMember

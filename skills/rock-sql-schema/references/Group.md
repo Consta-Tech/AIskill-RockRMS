@@ -8,6 +8,16 @@ Core group entity, demographics, history, and sync.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| Group | The core group entity — every family, small group, team, and check-in area group | Campus, DefinedValue (many), Group (self-referencing), GroupType, PersonAlias (many), Schedule, SignatureDocumentTemplate |
+| GroupDemographicType | Computed demographic definitions for a group type, run by a component | EntityType, GroupType (CASCADE) |
+| GroupDemographicValue | Computed demographic values per group | EntityType, Group (CASCADE), GroupDemographicType (CASCADE) |
+| GroupHistorical | Point-in-time snapshots of group properties for history reporting | Campus, Group (many), GroupType, PersonAlias, Schedule |
+| GroupSync | Syncs a DataView into a group role, with optional welcome and exit communications | DataView, Group (CASCADE), GroupTypeRole, SystemCommunication (many), SystemEmail (many) |
+
 ---
 
 ## Group

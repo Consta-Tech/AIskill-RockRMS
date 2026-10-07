@@ -53,7 +53,7 @@ WebFetch the URL (or read the excerpt) for understanding. For Rock source, note 
 | A Rock Shop plugin | its own `<vendor>-<plugin>` skill — `bema-room-management` is the model; create a new skill directory with a `SKILL.md` (frontmatter `name` = directory name, a description that says *when* to load it) and `references/` when none fits |
 | Front-end behavior inside Rock blocks | `language-html-htmx` |
 
-Add the new file to the skill's **File Index** table in `SKILL.md`.
+Add the new file to the skill's **File Index** table in `SKILL.md`, and to `references/README.md` as well when the skill keeps an index there too (`rock-sql-schema` does).
 
 ## Step 6 — Draft the reference, in our own words
 
@@ -76,6 +76,8 @@ Summarize and cite; never copy a page or a source file wholesale. Quotes are sho
 ```
 
 Keep church names, hostnames, and Ids out of it. Spell out BlockType and entity names.
+
+**Table of contents past 100 lines.** When the new file — or the file you extended in Step 1 — runs over 100 lines, it carries a `## Table of Contents` directly under the provenance header and intro, linking every `##` and `###` heading by its GitHub anchor. Update it whenever you add a section. A schema file's `## Summary` table (one row per table: description and key foreign keys) serves the same purpose and needs no separate list; add a row for every table you add.
 
 ## Step 7 — Manifest row, views, changelog
 

@@ -10,6 +10,60 @@ Rock RMS uses a custom templating language called **Lava**, forked from Shopify'
 
 Detailed documentation lives at https://community.rockrms.com/lava and its subpages.
 
+## Table of Contents
+
+Sections and subsections only. Individual filters, tags, and commands are `####` headings beneath these — grep for the name rather than scanning.
+
+- [Syntax Basics](#syntax-basics)
+    - [Rendering Order](#rendering-order)
+- [Lava Filters](#lava-filters)
+    - [Text Filters](#text-filters)
+    - [Date Filters](#date-filters)
+    - [Numeric Filters](#numeric-filters)
+    - [Array Filters](#array-filters)
+    - [Person Filters](#person-filters)
+    - [Attribute Filters](#attribute-filters)
+    - [Other Filters](#other-filters)
+- [Lava Tags](#lava-tags)
+    - [Assign / Capture](#assign--capture)
+    - [If / Else](#if--else)
+    - [Unless](#unless)
+    - [Return](#return)
+    - [Case](#case)
+    - [Cycle](#cycle)
+    - [For](#for)
+    - [Include](#include)
+    - [Raw](#raw)
+    - [Lava Tag](#lava-tag)
+- [Lava Commands](#lava-commands)
+    - [SQL Command](#sql-command)
+    - [Entity Command](#entity-command)
+    - [Modify Entity Command](#modify-entity-command)
+    - [DB Transaction Command](#db-transaction-command)
+    - [Calendar Events Command](#calendar-events-command)
+    - [Web Request Command](#web-request-command)
+    - [Workflow Activate Command](#workflow-activate-command)
+- [Commenting](#commenting)
+    - [Comment Tag](#comment-tag)
+    - [Single-line and Multi-line Comments](#single-line-and-multi-line-comments)
+- [Null, Empty, and Blank Value Behavior](#null-empty-and-blank-value-behavior)
+    - [Variable is `null` (`{% assign var = null %}`)](#variable-is-null--assign-var--null-)
+    - [Variable does not exist](#variable-does-not-exist)
+    - [Variable is empty string (`{% assign var = '' %}`)](#variable-is-empty-string--assign-var---)
+    - [Variable has a value (`{% assign var = 'Hello' %}`)](#variable-has-a-value--assign-var--hello-)
+    - [Attribute that does not exist](#attribute-that-does-not-exist)
+    - [Attribute that exists but is blank](#attribute-that-exists-but-is-blank)
+    - [Property with `null` value (e.g., `RecordStatusReasonValueId`)](#property-with-null-value-eg-recordstatusreasonvalueid)
+    - [Property with empty value (e.g., `MiddleName` = "")](#property-with-empty-value-eg-middlename--)
+    - [Property that does not exist](#property-that-does-not-exist)
+    - [Array with items (size > 0)](#array-with-items-size--0)
+    - [Array with 0 items](#array-with-0-items)
+    - [Zero, `'0'`, and type coercion (Tested August 2026)](#zero-0-and-type-coercion-tested-august-2026)
+    - [`AsInteger` coercion and failure mode (Tested August 2026)](#asinteger-coercion-and-failure-mode-tested-august-2026)
+    - [The coercion probe](#the-coercion-probe)
+    - [`Split`, `contains`, `Size`, and `Default` — measured edges (Tested August 2026)](#split-contains-size-and-default--measured-edges-tested-august-2026)
+    - [`Map` over `FromJSON` objects — measured edges (Tested August 2026)](#map-over-fromjson-objects--measured-edges-tested-august-2026)
+
 
 ---
 

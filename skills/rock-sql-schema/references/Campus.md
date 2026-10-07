@@ -8,6 +8,14 @@ Campus definitions, schedules, and topics.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| Campus | A church campus, with its location, leader, and status | DefinedValue (many), Group, Location, PersonAlias |
+| CampusSchedule | A campus's service times, typed by schedule type | Campus (CASCADE), DefinedValue, Schedule (CASCADE) |
+| CampusTopic | Per-campus contact topics, each with an email address | Campus (CASCADE), DefinedValue |
+
 ---
 
 ## Campus

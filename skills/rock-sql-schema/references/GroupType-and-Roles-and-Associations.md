@@ -8,6 +8,15 @@ Group taxonomy configuration — types, roles, associations, and location types.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| GroupType | Group taxonomy — behavior and settings shared by every group of the type | DefinedType, DefinedValue, GroupType (self-referencing), GroupTypeRole, SystemCommunication (many), SystemEmail (many), WorkflowType |
+| GroupTypeAssociation | Which group types are allowed as children of a group type (can contain cycles) | GroupType (many) |
+| GroupTypeRole | Roles available to members of groups of this type (e.g., Leader, Member) | GroupType (CASCADE) |
+| GroupTypeLocationType | Location types allowed for groups of this type | DefinedValue (CASCADE), GroupType (CASCADE) |
+
 ---
 
 ## GroupType

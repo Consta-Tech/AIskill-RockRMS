@@ -8,6 +8,15 @@ Connection request processing and activity tracking.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| ConnectionRequest | A person's request for an opportunity, with its state, status, connector, and placement group | Campus, ConnectionOpportunity (CASCADE), ConnectionStatus, ConnectionType, Group, PersonAlias (many) |
+| ConnectionRequestWorkflow | Workflow instances launched for a connection request | ConnectionRequest (CASCADE), ConnectionWorkflow, Workflow |
+| ConnectionActivityType | Activity types available for logging against requests of a ConnectionType | ConnectionType (CASCADE) |
+| ConnectionRequestActivity | Logged activity (notes, contacts, assignments) on a connection request | ConnectionActivityType, ConnectionOpportunity, ConnectionRequest, PersonAlias |
+
 ---
 
 ## ConnectionRequest

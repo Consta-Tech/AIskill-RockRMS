@@ -8,6 +8,14 @@ Person records, alias lookups, and duplicate detection.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| Person | A person record — demographics, contact info, record and connection status | BinaryFile, Campus, DefinedValue (many), FinancialAccount, Group (many) |
+| PersonAlias | Merge-safe alias for a person; join through this when duplicates may have been merged | Person |
+| PersonDuplicate | Candidate duplicate pairs found by duplicate detection, with match scores | PersonAlias (many) |
+
 ---
 
 ## Person

@@ -4,6 +4,16 @@ Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin 
 
 Headings inside a release follow [Keep a Changelog](https://keepachangelog.com): Added, Changed, Fixed, Removed. Contributors add their bullet under `## Unreleased`; the maintainer renames that heading to the release date when cutting a release (see CONTRIBUTING.md).
 
+## Unreleased
+
+### Added
+- **Table of contents** at the top of the Lava reference (`language-lava` > `Lava-Language.md`), listing every section and subsection.
+- **`## Summary` table** in 13 `rock-sql-schema` references that lacked one: one row per table, with a description and its key foreign keys. All 21 schema references now open with one.
+
+### Changed
+- **`audit-pre-push-1` and `audit-pre-push-2`:** their Doctrine sections moved into each skill's `references/doctrine.md`, bringing both SKILL.md files under 200 lines.
+- **`/rockrms:add-knowledge`:** a reference over 100 lines now gets a table of contents (or, for a schema file, a Summary row per table), and a new file is indexed in `references/README.md` too when the skill keeps one.
+
 ## 2026-09-29
 
 The first date-stamped release. At this release the plugin ships twelve skills (`rock-sql-schema`, `rock-blocktypes`, `bema-room-management`, `language-lava`, `language-html-htmx`, five `surface-*` workbench skills, `format-tsql`, and the two `audit-pre-push` skills), five injected house rules, the `/rock-init` workspace initializer with its templates, and the overlay template under `examples/`.
