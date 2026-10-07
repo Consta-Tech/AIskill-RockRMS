@@ -8,6 +8,12 @@ Physical or virtual places in the campus/building hierarchy. Locations form a tr
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| Location | A place in the location tree — campus, building, room, or a geocoded address | BinaryFile, DefinedValue, Device, Location (self-referencing) |
+
 ---
 
 ## Location

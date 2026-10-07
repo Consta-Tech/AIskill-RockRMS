@@ -8,6 +8,12 @@ Hierarchical categorization for multiple entity types.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| Category | Hierarchical categories, scoped to an entity type | Category (self-referencing), EntityType |
+
 ---
 
 ## Category

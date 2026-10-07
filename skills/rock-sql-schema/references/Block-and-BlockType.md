@@ -8,6 +8,13 @@ Block type definitions and block instances.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| BlockType | Block type definitions — the code-backed component a Block instance runs | EntityType |
+| Block | A block instance placed on a Page, Layout, or Site zone | BlockType (CASCADE), Layout (CASCADE), Page (CASCADE), Site |
+
 ---
 
 ## BlockType

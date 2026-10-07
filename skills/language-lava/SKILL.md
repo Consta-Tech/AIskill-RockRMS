@@ -9,7 +9,7 @@ Lava is Rock RMS's templating language — a fork of Shopify's Liquid that has g
 
 ## How to use this skill
 
-`references/Lava-Language.md` is the primary reference and it is large (~6,400 lines). Do not read it end-to-end: **Grep it for the filter, tag, or command name first**, then Read the surrounding section.
+`references/Lava-Language.md` is the primary reference and it is large (~6,500 lines). Do not read it end-to-end: **Grep it for the filter, tag, or command name first**, then Read the surrounding section. When you don't have a name to grep for, read its Table of Contents (the first ~65 lines) to find the section.
 
 This skill carries what is true of the language **anywhere**. What is true of a particular workbench — the Dynamic Data block, the HTML Content block, Helix endpoints, the Lava Tester, Rock's SQL editor — lives in the matching `surface-*` skill.
 

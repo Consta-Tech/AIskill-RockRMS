@@ -8,6 +8,16 @@ Connection opportunities and placement configuration.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| ConnectionOpportunity | A specific opportunity people can be connected to, within a ConnectionType | BinaryFile, ConnectionType |
+| ConnectionOpportunityCampus | Campuses an opportunity is offered at, with each campus's default connector | Campus (CASCADE), ConnectionOpportunity (CASCADE), PersonAlias |
+| ConnectionOpportunityConnectorGroup | Groups whose members act as connectors for an opportunity, per campus | Campus (CASCADE), ConnectionOpportunity (CASCADE), Group (CASCADE) |
+| ConnectionOpportunityGroupConfig | Per-GroupType placement settings — the role and member status a placed person receives | ConnectionOpportunity (CASCADE), GroupType, GroupTypeRole |
+| ConnectionOpportunityGroup | Specific groups a request for this opportunity can be placed into | ConnectionOpportunity (CASCADE), Group (CASCADE) |
+
 ---
 
 ## ConnectionOpportunity

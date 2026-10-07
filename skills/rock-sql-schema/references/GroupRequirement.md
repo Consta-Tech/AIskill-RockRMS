@@ -8,6 +8,14 @@ Requirement type definitions, group-level application, and per-member completion
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| GroupRequirementType | Requirement definitions — SQL, DataView, or manual check, with due-date and workflow settings | Category, DataView (many), WorkflowType (many) |
+| GroupRequirement | A requirement type applied to a specific group or group type, optionally for one role | Attribute, DataView, Group, GroupRequirementType (CASCADE), GroupType, GroupTypeRole (CASCADE) |
+| GroupMemberRequirement | A group member's status on one requirement — met, warning, due date, manual completion | GroupMember (CASCADE), GroupRequirement (CASCADE), PersonAlias (many), Workflow (many) |
+
 ---
 
 ## GroupRequirementType

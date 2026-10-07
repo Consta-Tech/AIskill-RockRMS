@@ -8,6 +8,15 @@ Connection framework type-level configuration — types, statuses, automations, 
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| ConnectionType | Top-level connection framework configuration (e.g., Involvement, Serving) | Page, PageRoute, PersonAlias |
+| ConnectionStatus | Statuses a request can hold within a ConnectionType | ConnectionType (CASCADE) |
+| ConnectionStatusAutomation | Rules that move requests from one status to another when a DataView or group-requirement filter matches | ConnectionStatus (CASCADE, many), DataView |
+| ConnectionWorkflow | Workflow triggers configured on a connection type or opportunity | ConnectionOpportunity (CASCADE), ConnectionStatus, ConnectionType (CASCADE), WorkflowType (CASCADE) |
+
 ---
 
 ## ConnectionType

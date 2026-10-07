@@ -8,6 +8,17 @@ Where and when groups meet — locations, schedules, and exclusions.
 
 > For a full index of all Rock RMS SQL table schemas and additional context, see `README.md`.
 
+## Summary
+
+| Table | Description | Key Foreign Keys |
+|-------|-------------|------------------|
+| GroupScheduleExclusion | Date ranges excluded from scheduling for a group type (blackout dates) | GroupType (CASCADE) |
+| GroupLocation | A location a group meets at, with its location type (e.g., Home, Meeting Location) | DefinedValue, Group (CASCADE), Location (CASCADE), PersonAlias (CASCADE) |
+| GroupLocationHistorical | Point-in-time snapshots of a group location for history reporting | Group, GroupLocation (CASCADE), Location |
+| GroupLocationHistoricalSchedule | The schedules attached to a historical group-location snapshot | GroupLocationHistorical (CASCADE), Schedule |
+| GroupLocationSchedule | Junction pairing a GroupLocation with a Schedule (when the group meets there) | GroupLocation (CASCADE), Schedule (CASCADE) |
+| GroupLocationScheduleConfig | Capacity (minimum, desired, maximum) and messaging per GroupLocation + Schedule pair | GroupLocation (CASCADE), Schedule (CASCADE) |
+
 ---
 
 ## GroupScheduleExclusion
