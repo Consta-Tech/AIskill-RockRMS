@@ -1,5 +1,5 @@
 ---
 type: regex
-pattern: 'add-knowledge'
+pattern: 'rockrms-add-knowledge'
 target: trace
 ---

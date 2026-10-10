@@ -5,7 +5,7 @@ description: Working in Rock's HTML Content block with Lava enabled — the bloc
 
 # The HTML Content Block as a Workbench
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
@@ -55,7 +55,7 @@ The block renders **during the page request**, so it sees the real page:
 2. In Rock, block **Edit HTML** → code editor → paste → **Save**. Acknowledge a markup warning only after reading it.
 3. Load the page with the parameters the block reads, and as the kind of person the block is for — an admin sees every branch.
 4. A Lava error renders as red `Lava Error:` text in the block's place. Copy it verbatim.
-5. Hand back to Claude: the **page URL** including its query string, **observed versus expected**, and the error text if any. If Claude has browser tools, give it the URL and let it read the tab.
+5. Hand back to the agent: the **page URL** including its query string, **observed versus expected**, and the error text if any. If the agent has browser tools, give it the URL and let it read the tab.
 
 A block on an admin-only page with Lava enabled also serves as a **probe host** when no Lava Tester is installed — see the `surface-lava-tester` skill for the probe pattern.
 

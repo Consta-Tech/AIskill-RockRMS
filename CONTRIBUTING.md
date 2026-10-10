@@ -12,7 +12,7 @@ Thank you for helping keep this plugin honest. The plugin's value is that every 
    git config core.hooksPath .githooks
    ```
 
-Inside a Claude Code session, `/rockrms:add-knowledge` performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
+Inside a Claude Code session, `rockrms-add-knowledge` performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
 
 ## Where does it belong? The sorting rule
 
@@ -67,7 +67,7 @@ Categories at launch: `community-docs`, `lava`, `rock-source`, `rock-schema`, `r
 The first thing after a reference file's title is one blockquote line stating the tier. `python3 knowledge/render.py --stamp` writes it for any listed file that lacks one, in this shape:
 
 ```markdown
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (v18.2). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 ```
 
 ## Render and check
@@ -81,11 +81,11 @@ Commit the rendered views with your change; the PR diff to `Knowledge-current.md
 
 ## Proposing a roadmap row
 
-A church that wants a topic documented — a BlockType, a Rock Shop plugin, a community documentation book — opens a PR that adds a `status: roadmap` row with the title, category, the source URL you would start from, and in `notes` one sentence on why it matters. `file` is `null` and `tier` is the tier you expect to reach (`summarized` is fine). It appears, numbered, in `/rockrms:knowledge-future`. When the reference lands, the same row flips to `status: current` and gains its `file`.
+A church that wants a topic documented — a BlockType, a Rock Shop plugin, a community documentation book — opens a PR that adds a `status: roadmap` row with the title, category, the source URL you would start from, and in `notes` one sentence on why it matters. `file` is `null` and `tier` is the tier you expect to reach (`summarized` is fine). It appears, numbered, in `rockrms-knowledge-future`. When the reference lands, the same row flips to `status: current` and gains its `file`.
 
 ## Changelog and releases
 
-Add a bullet under `## Unreleased` at the top of `CHANGELOG.md` (Added / Changed / Fixed / Removed). When the maintainer cuts a release, that heading becomes `## YYYY-MM-DD`, and any manifest rows added since the previous release have their `added` date aligned to it. `/rockrms:changelog` shows users the sections they have not seen yet, keyed on the installed commit.
+Add a bullet under `## Unreleased` at the top of `CHANGELOG.md` (Added / Changed / Fixed / Removed). When the maintainer cuts a release, that heading becomes `## YYYY-MM-DD`, and any manifest rows added since the previous release have their `added` date aligned to it. `rockrms-changelog` shows users the sections they have not seen yet, keyed on the installed commit.
 
 ## Running the eval suite
 
@@ -98,7 +98,7 @@ claude plugin eval . --allow-tools Bash Write Edit --scaffold --no-publish
 claude plugin eval . --case changelog-prints-newest --runs 1 --ablation none --allow-tools Bash --no-publish
 ```
 
-`--allow-tools Bash` is needed because the knowledge skills run the scripts under `knowledge/`; `--scaffold` lets the `add-knowledge` case copy this checkout into its sandbox workspace. Results land in `evals/results/` (gitignored). `claude plugin validate .` checks manifests and skills without any model call; its one warning — "No version specified" — is intentional.
+`--allow-tools Bash` is needed because the knowledge skills run the scripts under `knowledge/`; `--scaffold` lets the `rockrms-add-knowledge` case copy this checkout into its sandbox workspace. Results land in `evals/results/` (gitignored). `claude plugin validate .` checks manifests and skills without any model call; its one warning — "No version specified" — is intentional.
 
 ## Editing a house rule (`rules/*.md`)
 
@@ -110,5 +110,5 @@ After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk si
 
 - Skill names are lowercase-hyphen and equal their directory name; `SKILL.md` stays under 500 lines with depth in `references/`.
 - Cross-skill and cross-plugin references are **by skill name**, never by relative path — installed plugins live in separate directories.
-- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". Write skill invocations with the namespace: `/rockrms:format-tsql`.
+- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". Write skill names bare (`format-tsql`, `rockrms-knowledge-current`) — each host adds its own prefix (`/rockrms:` in Claude Code, `$` in Codex).
 - Nothing from a personal `input_box/` or other ephemeral location is cited in a shipped file.

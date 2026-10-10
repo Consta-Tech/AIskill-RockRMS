@@ -29,7 +29,7 @@ When creating a new Lava file, start from the matching boilerplate template — 
 - `boilerplate-block-LavaApplicationContent.md` — for Lava Application Content block files (`surface-helix`)
 - `boilerplate-LavaShortcode.md` — for ShortCode implementation files
 
-The Dynamic Data query and Formatted Output boilerplates live in the `surface-dynamicdata` skill. All of these templates are what the `audit-pre-push-1` skill enforces during pre-push audits.
+The Dynamic Data query and Formatted Output boilerplates live in the `surface-dynamicdata` skill. All of these templates are what the `rockrms-audit-pre-push-1` skill enforces during pre-push audits.
 
 ## House rules reminder
 

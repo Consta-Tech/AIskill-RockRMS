@@ -355,7 +355,7 @@ def stamp_text(e):
         "traced": f"read from source or official documentation and cited ({ver_phrase}).",
         "summarized": f"condensed from the cited source, **not yet verified** in Rock ({ver_phrase}).",
     }[e["tier"]]
-    return f"> **Provenance tier:** `{e['tier']}` — {tail} Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry."
+    return f"> **Provenance tier:** `{e['tier']}` — {tail} Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry."
 
 
 def stamp_file(path, e):

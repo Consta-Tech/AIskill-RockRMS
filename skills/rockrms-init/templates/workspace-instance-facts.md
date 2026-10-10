@@ -19,7 +19,7 @@ Lava Application endpoint URLs begin with `/api/v2/lava-app/{SiteId}/` — the S
 |---|---|
 | {{ROCK_VERSION}} | {{ROCK_VERSION_VERIFIED}} |
 
-Find it under Admin Tools > System Information. The `rockrms` plugin's `knowledge-current` skill reads this row to flag references that were verified on a **newer** Rock version than this instance runs; keep it current after every upgrade.
+Find it under Admin Tools > System Information. The `rockrms` plugin's `rockrms-knowledge-current` skill reads this row to flag references that were verified on a **newer** Rock version than this instance runs; keep it current after every upgrade.
 
 ## Key Ids
 

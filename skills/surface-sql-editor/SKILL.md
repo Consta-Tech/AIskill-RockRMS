@@ -1,15 +1,15 @@
 ---
 name: surface-sql-editor
-description: How to collaborate with Claude while running T-SQL against a Rock RMS database — Rock's built-in SQL Command page (Admin Tools > Power Tools) versus a desktop client such as the VS Code mssql extension, when to graduate from one to the other, how the result grid and the red "SQL Error!" alert behave, and what to hand back to Claude after a run (a browser tab to read, a saved JSON result set, or the error text). Use when the user is about to run, is running, or has just run a query against Rock, or asks where a query should be run.
+description: How to collaborate with your coding agent while running T-SQL against a Rock RMS database — Rock's built-in SQL Command page (Admin Tools > Power Tools) versus a desktop client such as the VS Code mssql extension, when to graduate from one to the other, how the result grid and the red "SQL Error!" alert behave, and what to hand back to the agent after a run (a browser tab to read, a saved JSON result set, or the error text). Use when the user is about to run, is running, or has just run a query against Rock, or asks where a query should be run.
 ---
 
 # Rock's SQL Editor as a Workbench
 
-> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
-This skill is about the **workbench**, not the language. How to write T-SQL to house style is the `format-tsql` skill and the injected house rules; what the tables mean is the `rock-sql-schema` skill. This skill covers where a query gets run, what that place does to it, and how the result comes back to Claude.
+This skill is about the **workbench**, not the language. How to write T-SQL to house style is the `format-tsql` skill and the injected house rules; what the tables mean is the `rock-sql-schema` skill. This skill covers where a query gets run, what that place does to it, and how the result comes back to the agent.
 
 ## Two workbenches
 
@@ -18,7 +18,7 @@ This skill is about the **workbench**, not the language. How to write T-SQL to h
 | Reach for it when | A quick, read-only question — one statement, one result set | Anything heavier: several result sets, table-type variables, saving results |
 | Result set | One grid, in the browser | As many as the batch returns, with export |
 | Where results go | The browser tab | A `.json` (or `.csv`) file beside the `.sql` file |
-| Best hand-back to Claude | Let Claude read the tab, or paste the error text | "I saved the results of `thisQuery.sql` in `thisQuery.json`" |
+| Best hand-back to the agent | Let the agent read the tab, or paste the error text | "I saved the results of `thisQuery.sql` in `thisQuery.json`" |
 
 Rock's page is a light, convenient tool, not a power tool. The moment a query wants more than one result set, declares table-type variables, or produces results worth keeping, move to the desktop client. (Azure Data Studio is retired; the VS Code `mssql` extension is its replacement.)
 
@@ -52,15 +52,15 @@ The `surface-dynamicdata` skill carries the rest of that block's behavior.
 
 ## The collaboration loop
 
-1. **Claude drafts** the query to house style, states what it expects the result to look like (row count, grain, which columns may be NULL), and says which workbench fits.
+1. **The agent drafts** the query to house style, states what it expects the result to look like (row count, grain, which columns may be NULL), and says which workbench fits.
 2. **You run it.**
 3. **You hand the result back.** Pick the cheapest faithful channel:
-    - **Rock's page, Claude has browser tools:** give Claude the page URL and ask it to read the tab. It sees the grid, the notification, and the elapsed time exactly as you do.
+    - **Rock's page, the agent has browser tools:** give it the page URL and ask it to read the tab. It sees the grid, the notification, and the elapsed time exactly as you do.
     - **Rock's page, no browser tools:** paste the red alert's text verbatim, or the first rows of the grid, or a screenshot.
-    - **Desktop client:** save the result set as JSON beside the query and say so — *"I saved the results of `thisQuery.sql` in `thisQuery.json`"*. Claude reads the file directly and can compute over it.
+    - **Desktop client:** save the result set as JSON beside the query and say so — *"I saved the results of `thisQuery.sql` in `thisQuery.json`"*. The agent reads the file directly and can compute over it.
 4. **Always include**, whatever the channel: the URL of the page you were on, what you observed versus what you expected, and the error text verbatim if there was one.
 
-What Claude does with a result set: reconcile the row count against the stated grain, look for NULL patterns that indicate a missed JOIN through `PersonAlias`, and check that a half-open date range caught the boundary rows — before touching the query again.
+What the agent does with a result set: reconcile the row count against the stated grain, look for NULL patterns that indicate a missed JOIN through `PersonAlias`, and check that a half-open date range caught the boundary rows — before touching the query again.
 
 ## Related skills
 

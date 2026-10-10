@@ -1,8 +1,15 @@
 # Changelog
 
-Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin has no version number on purpose: every commit pushed to `main` reaches installed machines automatically, so a dated section here marks the set of commits worth announcing. `/rockrms:changelog` prints the newest section — and, when the installed commit has moved since you last ran it, every section released in between.
+Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin has no version number on purpose: every commit pushed to `main` reaches installed machines automatically, so a dated section here marks the set of commits worth announcing. The `rockrms-changelog` skill prints the newest section — and, when the installed commit has moved since you last ran it, every section released in between.
 
 Headings inside a release follow [Keep a Changelog](https://keepachangelog.com): Added, Changed, Fixed, Removed. Contributors add their bullet under `## Unreleased`; the maintainer renames that heading to the release date when cutting a release (see CONTRIBUTING.md).
+
+## Unreleased
+
+### Changed
+- **Skill names:** `changelog`, `knowledge-current`, `knowledge-future`, `add-knowledge`, `audit-pre-push-1`, and `audit-pre-push-2` are now `rockrms-changelog`, `rockrms-knowledge-current`, `rockrms-knowledge-future`, `rockrms-add-knowledge`, `rockrms-audit-pre-push-1`, and `rockrms-audit-pre-push-2`. Agent Skills hosts other than Claude Code invoke skills without a plugin prefix, so the generic names needed one of their own. In Claude Code they appear as `/rockrms:rockrms-…`.
+- **`/rock-init` is now the `rockrms-init` skill** (`/rockrms:rockrms-init` in Claude Code), with its templates under `skills/rockrms-init/templates/`. It writes an `AGENTS.md` — the instruction file Claude Code, Codex, OpenCode, and Antigravity all read — plus a one-line `CLAUDE.md` that imports it; `.claude/settings.json` is written only when the running agent is Claude Code.
+- **Host-neutral wording:** skills locate the plugin root from their own path (`${CLAUDE_PLUGIN_ROOT}` is used when a host sets it, no longer required); `knowledge/changelog.sh` and `knowledge/plugin-identity.sh` default to the directory above themselves and store the "since you last checked" marker under `~/.local/share/rockrms/` when no host data directory exists; the surface skills say "the agent" rather than "Claude"; the knowledge-boundaries rule names skills bare and lists how each host types them.
 
 ## 2026-10-06
 

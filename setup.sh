@@ -3,7 +3,7 @@
 #
 # Adds the consta-tech marketplace and installs the rockrms plugin (Part 1 of
 # INSTALL.md). Workspace scaffolding happens inside Claude Code afterwards,
-# via the /rock-init command — this script tells you how at the end.
+# via the rockrms-init skill — this script tells you how at the end.
 #
 # Idempotent: safe to re-run.
 #
@@ -42,6 +42,6 @@ note "    mkdir -p ~/GitHub/claude-rockrms-<yourname>"
 note "    cd ~/GitHub/claude-rockrms-<yourname>"
 note "    claude"
 note ""
-note "Then run /rock-init (fully qualified: /rockrms:rock-init). It interviews"
+note "Then run /rockrms:rockrms-init. It interviews"
 note "you and scaffolds everything: _code, docs/, input_box/, .gitignore,"
-note ".claude/settings.json, and a CLAUDE.md built from your answers."
+note "an AGENTS.md built from your answers, and a CLAUDE.md that imports it."

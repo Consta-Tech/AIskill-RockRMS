@@ -1,6 +1,6 @@
 # `{% dbtransaction %}` — Mechanism
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock v18.0). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock v18.0). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 

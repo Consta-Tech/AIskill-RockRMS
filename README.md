@@ -11,7 +11,7 @@ claude plugin marketplace add Consta-Tech/AIskill-RockRMS
 claude plugin install rockrms@consta-tech
 ```
 
-Then initialize your workspace: `cd` into (or create) your workspace directory, start `claude`, and run **`/rock-init`** — it interviews you and scaffolds the whole workspace (`CLAUDE.md`, `_code`, a local `docs/` knowledgebase, settings).
+Then initialize your workspace: `cd` into (or create) your workspace directory, start `claude`, and run **`rockrms-init`** — it interviews you and scaffolds the whole workspace (`AGENTS.md`, `_code`, a local `docs/` knowledgebase, settings).
 
 Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup and troubleshooting are in **[INSTALL.md](INSTALL.md)**.
 
@@ -30,13 +30,13 @@ Or scripted: clone this repo and run [`setup.sh`](setup.sh). Full setup and trou
 | `skills/surface-helix` | The Helix workbench: Lava Applications, Endpoints, and the Lava Application Content block — configuration, the devtools dev loop, tested Helix behaviors, Triumph's form controls, Chosen.js re-init. |
 | `skills/surface-lava-tester` | The Lava Tester block as a REPL, a console for `{% modifyentity %}` corrections, and a host for measurement probes. |
 | `skills/surface-sql-editor` | Rock's SQL Command page versus a desktop client, when to graduate, and how results get back to Claude. |
-| `skills/format-tsql` | `/rockrms:format-tsql` — restyles any T-SQL query to house style. |
-| `skills/audit-pre-push-1` `-2` | The two-part pre-push documentation audit (code files, then READMEs). |
-| `skills/knowledge-current` `-future` | `/rockrms:knowledge-current` — everything the plugin documents, by category and provenance tier, flagged against your instance's Rock version, plus your church overlay's catalog. `/rockrms:knowledge-future` — the roadmap. |
-| `skills/changelog` | `/rockrms:changelog` — the newest release notes and the installed commit, plus everything released since you last looked. |
-| `skills/add-knowledge` | `/rockrms:add-knowledge` — turns a URL or excerpt into a cited, `summarized`-tier reference with its catalog row, ready for a PR; it never commits. |
+| `skills/format-tsql` | `format-tsql` — restyles any T-SQL query to house style. |
+| `skills/rockrms-audit-pre-push-1` `-2` | The two-part pre-push documentation audit (code files, then READMEs). |
+| `skills/rockrms-knowledge-current` `-future` | `rockrms-knowledge-current` — everything the plugin documents, by category and provenance tier, flagged against your instance's Rock version, plus your church overlay's catalog. `rockrms-knowledge-future` — the roadmap. |
+| `skills/rockrms-changelog` | `rockrms-changelog` — the newest release notes and the installed commit, plus everything released since you last looked. |
+| `skills/rockrms-add-knowledge` | `rockrms-add-knowledge` — turns a URL or excerpt into a cited, `summarized`-tier reference with its catalog row, ready for a PR; it never commits. |
 | `knowledge/` | The catalog: `manifest.yaml` (source of truth), the renderer, and the rendered `Knowledge-current.md` / `Knowledge-future.md`. |
-| `commands/rock-init` + `templates/` | `/rock-init` — interviews you and scaffolds a complete workspace repo from the templates; reads an installed church overlay's `workspace-defaults` skill instead of interviewing when one is present. |
+| `skills/rockrms-init` | `rockrms-init` — interviews you and scaffolds a complete workspace repo from the templates; reads an installed church overlay's `workspace-defaults` skill instead of interviewing when one is present. |
 
 Reference-pack skills load on demand: Claude sees each skill's one-line description in every session and reads the underlying reference files only when the task calls for them.
 
@@ -46,9 +46,9 @@ The skills split along one seam: `language-*` skills carry what is true of a lan
 
 The plugin answers only from **documented, cited** references — it is not "trained" on Rock. Every reference file is a row in [`knowledge/manifest.yaml`](knowledge/manifest.yaml) with a source, the Rock version it was verified on, and a provenance tier: `measured` (tested in a live Rock instance), `traced` (read from Rock source or official docs), or `summarized` (condensed from a URL, not yet verified). The rendered catalog is **[knowledge/Knowledge-current.md](knowledge/Knowledge-current.md)**; the roadmap is [knowledge/Knowledge-future.md](knowledge/Knowledge-future.md).
 
-When a question falls outside the catalog, a session says so in one sentence and asks whether to answer from general knowledge (clearly marked unverified) or to start documenting the topic with `/rockrms:add-knowledge`.
+When a question falls outside the catalog, a session says so in one sentence and asks whether to answer from general knowledge (clearly marked unverified) or to start documenting the topic with `rockrms-add-knowledge`.
 
-Releases are date-stamped in [CHANGELOG.md](CHANGELOG.md); `/rockrms:changelog` prints the newest one together with the installed commit.
+Releases are date-stamped in [CHANGELOG.md](CHANGELOG.md); `rockrms-changelog` prints the newest one together with the installed commit.
 
 ## Church overlays
 
@@ -67,8 +67,6 @@ AIskill-RockRMS/
 ├── .claude-plugin/     # plugin.json + marketplace.json (this repo is its own marketplace)
 ├── rules/              # Always-on house rules (Claude Code-specific, hook-injected)
 ├── hooks/              # SessionStart hook that injects rules/
-├── commands/           # /rock-init — the workspace initializer
-├── templates/          # Workspace files /rock-init scaffolds from
 ├── skills/             # The skill packs (agentskills.io format, harness-neutral)
 │   └── <skill>/
 │       ├── SKILL.md    # Index + when-to-use routing
@@ -90,6 +88,6 @@ Claude Code is the only supported harness today. The `skills/` tree follows the 
 
 ## Contributing
 
-Spot an error, learn a new tested behavior, or want to extend a reference? **[CONTRIBUTING.md](CONTRIBUTING.md)** has the fork-and-PR flow, the generic-versus-overlay sorting rule, the three provenance tiers and the evidence each needs, and the manifest-row and render-check steps. Inside a session, `/rockrms:add-knowledge` drafts the reference and its catalog row for you and stops before the commit. Once merged, every developer receives the change automatically on their next session.
+Spot an error, learn a new tested behavior, or want to extend a reference? **[CONTRIBUTING.md](CONTRIBUTING.md)** has the fork-and-PR flow, the generic-versus-overlay sorting rule, the three provenance tiers and the evidence each needs, and the manifest-row and render-check steps. Inside a session, `rockrms-add-knowledge` drafts the reference and its catalog row for you and stops before the commit. Once merged, every developer receives the change automatically on their next session.
 
 Maintained by Consta Tech.

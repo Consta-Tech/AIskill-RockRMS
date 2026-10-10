@@ -1,9 +1,9 @@
 # Pre-Push Audit Doctrine — Part 2: README Files
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
-The rules Step 5 of the `audit-pre-push-2` skill applies to every in-scope README.
+The rules Step 5 of the `rockrms-audit-pre-push-2` skill applies to every in-scope README.
 
 ## Version-stamped section flattening
 

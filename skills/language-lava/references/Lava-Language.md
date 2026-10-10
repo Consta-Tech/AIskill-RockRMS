@@ -1,6 +1,6 @@
 # Lava Reference
 
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock v18.2). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 

@@ -1,6 +1,6 @@
 schema_version: "1.1"
 name: add-knowledge-drafts-without-commit
-description: add-knowledge drafts a summarized-tier reference plus a manifest row in a scaffolded clone and stops before committing
-tags: [knowledge, add-knowledge]
+description: rockrms-add-knowledge drafts a summarized-tier reference plus a manifest row in a scaffolded clone and stops before committing
+tags: [knowledge, rockrms-add-knowledge]
 context:
   scaffold_script: scaffold.sh

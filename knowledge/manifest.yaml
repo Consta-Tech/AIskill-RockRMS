@@ -920,38 +920,38 @@
 - id: house-audit-pre-push
   category: house
   title: Pre-push documentation audit (two parts)
-  skill: audit-pre-push-1
+  skill: rockrms-audit-pre-push-1
   file: SKILL.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-09-29
-  notes: House convention. Part 2 lives in the audit-pre-push-2 skill.
+  notes: House convention. Part 2 lives in the rockrms-audit-pre-push-2 skill.
 
 - id: house-audit-pre-push-1-doctrine
   category: house
   title: Pre-push audit doctrine — code files
-  skill: audit-pre-push-1
+  skill: rockrms-audit-pre-push-1
   file: references/doctrine.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-10-06
-  notes: House convention. The rules Step 5 of audit-pre-push-1 applies, moved out of its SKILL.md.
+  notes: House convention. The rules Step 5 of rockrms-audit-pre-push-1 applies, moved out of its SKILL.md.
 
 - id: house-audit-pre-push-2-doctrine
   category: house
   title: Pre-push audit doctrine — README files
-  skill: audit-pre-push-2
+  skill: rockrms-audit-pre-push-2
   file: references/doctrine.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-10-06
-  notes: House convention. The rules Step 5 of audit-pre-push-2 applies, moved out of its SKILL.md.
+  notes: House convention. The rules Step 5 of rockrms-audit-pre-push-2 applies, moved out of its SKILL.md.
 
 - id: house-rule-formatting-standards
   category: house

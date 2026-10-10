@@ -5,7 +5,7 @@ description: Working in Rock's Dynamic Data block (Obsidian) — the SQL Query a
 
 # The Dynamic Data Block as a Workbench
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
@@ -88,7 +88,7 @@ The Obsidian block mounts client-side, after HTMX has scanned the page, so `hx-g
     - A **Lava error** renders as `Lava Error:` text.
     - A **timeout** is a SQL error; before raising Timeout Length, stage the query (filter → group → format) per the house rules.
     - An **empty grid** with no error is usually a parameter that failed coercion and fell into the "no rows" branch — check the URL first.
-5. Hand back to Claude: the **page URL including its query string**, **observed versus expected**, and the alert text verbatim. If Claude has browser tools, give it the URL and let it read the tab; a screenshot of the grid is the fallback.
+5. Hand back to the agent: the **page URL including its query string**, **observed versus expected**, and the alert text verbatim. If the agent has browser tools, give it the URL and let it read the tab; a screenshot of the grid is the fallback.
 
 ## File index
 
@@ -97,7 +97,7 @@ The Obsidian block mounts client-side, after HTMX has scanned the page, so `hx-g
 | [DynamicData-With-Htmx.md](references/DynamicData-With-Htmx.md) | Why `hx-*` attributes are inert in this block, the one-line `htmx.process()` fix and the placements that fail, re-render paths (HTMX swaps, PageParameterFilter with and without Legacy Reload, publishing `QueryStringChanged` from your own block), `hx-params` measurements, and the devtools triage order. |
 | [Current-Url-Is-BlockActions.md](references/Current-Url-Is-BlockActions.md) | The measured return values of every "current URL" Lava source inside this block, and the relative-query-string link pattern. |
 | [PageParameterFilter-Wiring.md](references/PageParameterFilter-Wiring.md) | The PageParameterFilter block's settings that affect this block, the value shape each field type produces and how to parse it, and how to drive a re-render from a block of your own. |
-| `assets/boilerplates/` | `boilerplate-block-DynamicData-Query.md` and `boilerplate-block-DynamicData-FormattedOutput.md` — the header templates the `audit-pre-push-1` skill enforces. |
+| `assets/boilerplates/` | `boilerplate-block-DynamicData-Query.md` and `boilerplate-block-DynamicData-FormattedOutput.md` — the header templates the `rockrms-audit-pre-push-1` skill enforces. |
 
 ## Related skills
 

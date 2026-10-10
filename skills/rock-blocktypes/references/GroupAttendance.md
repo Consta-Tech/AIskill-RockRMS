@@ -1,4 +1,4 @@
-> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 GitHub (Obsidian):
 - groupAttendanceList `.obs`: https://github.com/SparkDevNetwork/Rock/blob/a792f29bf6fc5941d7e7f1451f5c8b5880385451/Rock.JavaScript.Obsidian.Blocks/src/Group/groupAttendanceList.obs

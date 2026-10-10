@@ -16,7 +16,7 @@
 #   inject-rule.sh --plan                 # print every rule's chunk count and sizes
 #   inject-rule.sh --check                # exit 1 when hooks.json lacks a slot for some chunk (run by .githooks/pre-commit)
 #
-# Rule text may reference ${CLAUDE_PLUGIN_ROOT}; hook output gets no variable substitution
+# Rule text may reference <plugin-root> (or ${CLAUDE_PLUGIN_ROOT}); hook output gets no variable substitution
 # after this script, so the path is substituted here.
 set -euo pipefail
 
@@ -28,7 +28,7 @@ emit() {   # emit <file> <chunk-or-0>
     python3 - "$RULES_DIR/$1" "$2" "$BUDGET" "$ROOT" <<'PY'
 import re, sys
 path, chunk, budget, root = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
-text = open(path, encoding="utf-8").read().replace("${CLAUDE_PLUGIN_ROOT}", root)
+text = open(path, encoding="utf-8").read().replace("${CLAUDE_PLUGIN_ROOT}", root).replace("<plugin-root>", root)
 lines = text.split("\n")
 title = next((l[2:].strip() for l in lines if l.startswith("# ")), path.rsplit("/", 1)[-1])
 # Split into units at H2/H3 headings and top-level <details> blocks, then pack greedily.

@@ -1,11 +1,11 @@
 ---
-name: audit-pre-push-2
-description: Pre-push audit, part 2 of 2 — audits README.md files for structural consistency, stale content, version-stamped sections, and file-index accuracy; optionally absorbs extraction notes produced by audit-pre-push-1. Documentation-only pass, no behavioral code changes. Use after audit-pre-push-1 when preparing to push to the shared repository.
+name: rockrms-audit-pre-push-2
+description: Pre-push audit, part 2 of 2 — audits README.md files for structural consistency, stale content, version-stamped sections, and file-index accuracy; optionally absorbs extraction notes produced by rockrms-audit-pre-push-1. Documentation-only pass, no behavioral code changes. Use after rockrms-audit-pre-push-1 when preparing to push to the shared repository.
 ---
 
 # Pre-Push Audit — Part 2: README Files
 
-Audit README.md files across the scoped directories for structural consistency, stale content, version-stamped sections, and file index accuracy. Optionally absorb extraction notes produced by the `audit-pre-push-1` skill.
+Audit README.md files across the scoped directories for structural consistency, stale content, version-stamped sections, and file index accuracy. Optionally absorb extraction notes produced by the `rockrms-audit-pre-push-1` skill.
 
 This is a **documentation-only pass** — no behavioral code changes, no file renames, no file deletions, no auto-commits.
 
@@ -28,7 +28,7 @@ Once scope is established, discover all `README.md` files within it and proceed.
 
 ## Step 1 — Check for extraction notes
 
-Ask the user: **"Did you run `audit-pre-push-1` before this? If so, where is the `_audit-extractions.md` file?"**
+Ask the user: **"Did you run `rockrms-audit-pre-push-1` before this? If so, where is the `_audit-extractions.md` file?"**
 
 - If the user provides a path, read the file and keep its contents available for Step 5 (absorption).
 - If the user says no or the file doesn't exist, proceed without it. Skip extraction absorption in Step 5.
@@ -92,7 +92,7 @@ Process each in-scope README. For every file, apply the rules in `references/doc
    - Update paths that have moved or been renamed (if the correct new path can be determined unambiguously from the working tree).
    - Delete references to paths that no longer exist and have no obvious replacement. If deleting a reference collapses the surrounding sentence, flag it for review instead.
 
-3. **Delete ephemeral references** — apply the same ephemeral reference patterns from `audit-pre-push-1`:
+3. **Delete ephemeral references** — apply the same ephemeral reference patterns from `rockrms-audit-pre-push-1`:
    - Conversation/chat citations (`conv 12`, `chat 25`, `per conversation with…`)
    - Prompt file references (`prompt0-3.md`, `prompt2-1.md`, any `prompt*.md`)
    - `input_box/` paths, `.trash/` paths, `.DS_Store` references
@@ -139,7 +139,7 @@ The rules Step 5 applies — version-stamped section flattening, stable referenc
 - ❌ Do NOT rename or delete files.
 - ❌ Do NOT auto-commit. Present the summary report and stop.
 - ❌ Do NOT create files outside the user-specified output directory (Step 4), except for modifications to existing in-scope README files.
-- ❌ Do NOT touch non-README files — those are `audit-pre-push-1`'s scope. Exception: reading the first comment block of a `.lava` / `.html` file to verify a file index description is permitted (read-only).
+- ❌ Do NOT touch non-README files — those are `rockrms-audit-pre-push-1`'s scope. Exception: reading the first comment block of a `.lava` / `.html` file to verify a file index description is permitted (read-only).
 - ❌ Do NOT propose follow-up work or next steps. The user drives what happens after the audit.
 
 ---

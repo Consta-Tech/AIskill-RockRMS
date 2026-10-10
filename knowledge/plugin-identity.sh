@@ -6,14 +6,20 @@
 # the installed git commit. Lookup order:
 #   1. ~/.claude/plugins/installed_plugins.json  → plugins["rockrms@consta-tech"][0].gitCommitSha
 #   2. claude plugin list --json                  → the same record
-#   3. git rev-parse in the plugin root           → a development checkout or an eval run
+#   3. git rev-parse in the plugin root           → a git clone (OpenCode vendor install, dev checkout, eval run)
 #   4. "unknown"
 #
-# Usage: plugin-identity.sh <plugin-root> [--sha-only | --date-only]
+# Usage: plugin-identity.sh [plugin-root] [--sha-only | --date-only]
+#   plugin-root defaults to the directory above this script.
 set -uo pipefail
 
-ROOT="${1:?usage: plugin-identity.sh <plugin-root> [--sha-only|--date-only]}"
-MODE="${2:-}"
+if [[ "${1:-}" == --* || -z "${1:-}" ]]; then
+    ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    MODE="${1:-}"
+else
+    ROOT="$1"
+    MODE="${2:-}"
+fi
 PLUGIN="rockrms"
 MARKET="consta-tech"
 KEY="${PLUGIN}@${MARKET}"
@@ -46,7 +52,7 @@ except Exception:
 fi
 if [ -z "$sha" ] && git -C "$ROOT" rev-parse --short=7 HEAD >/dev/null 2>&1; then
     sha="$(git -C "$ROOT" rev-parse --short=7 HEAD)"
-    suffix=" (development checkout)"
+    suffix=" (git checkout)"
 fi
 [ -z "$sha" ] && sha="unknown"
 short="${sha:0:7}"

@@ -1,6 +1,6 @@
 # Install AIskill-RockRMS
 
-Two parts: **(1)** install the `rockrms` plugin into Claude Code, **(2)** initialize your personal Rock workspace repo. Part 1 takes two terminal commands; Part 2 happens inside Claude Code via the `/rock-init` command.
+Two parts: **(1)** install the `rockrms` plugin into Claude Code, **(2)** initialize your personal Rock workspace repo. Part 1 takes two terminal commands; Part 2 happens inside Claude Code via the `rockrms-init` skill.
 
 ## Prerequisites
 
@@ -37,7 +37,7 @@ No cloning needed — Claude Code fetches this repo from GitHub and keeps it upd
 claude plugin list
 ```
 
-You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `audit-pre-push-1`, `audit-pre-push-2`, `knowledge-current`, `changelog`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rule (injected by the rockrms plugin)" blocks appear in the session context — one per rule chunk, nine at the time of writing. `/rockrms:changelog` prints the installed commit and the newest release notes; `/rockrms:knowledge-current` prints everything the plugin documents.
+You should see `rockrms` enabled. Then start a session anywhere and type `/rockrms:` — autocomplete should offer `format-tsql`, `rockrms-audit-pre-push-1`, `rockrms-audit-pre-push-2`, `rockrms-knowledge-current`, `rockrms-changelog`, and the reference skills. Run `/context` and confirm the "Rock RMS House Rule (injected by the rockrms plugin)" blocks appear in the session context — one per rule chunk, nine at the time of writing. `rockrms-changelog` prints the installed commit and the newest release notes; `rockrms-knowledge-current` prints everything the plugin documents.
 
 ### Update
 
@@ -71,14 +71,14 @@ cd ~/GitHub/claude-rockrms-<yourname>
 claude
 ```
 
-Then run **`/rock-init`** (fully qualified: `/rockrms:rock-init`). It:
+Then run **`/rockrms:rockrms-init`**. It:
 
 - confirms before touching a non-empty directory, and **never overwrites an existing file** — safe to re-run to repair a partial scaffold;
 - interviews you: your git preference, where your church's Rock code lives, and your instance's basic constants;
 - scaffolds the workspace: `_code` (a plain directory, or a symlink into a sibling clone of your church's shared code repo), `docs/` (your local knowledgebase), `input_box/`, `.gitignore`, `.claude/settings.json`, and a `CLAUDE.md` built from your answers;
 - if your church's **overlay plugin** is installed, reads its `workspace-defaults` skill instead of interviewing — see [`examples/overlay-template/`](examples/overlay-template/).
 
-Prefer to scaffold by hand? Every file `/rock-init` writes comes from [`templates/`](templates/) — copy them yourself and fill the `{{…}}` placeholders.
+Prefer to scaffold by hand? Every file `rockrms-init` writes comes from [`templates/`](skills/rockrms-init/templates/) — copy them yourself and fill the `{{…}}` placeholders.
 
 > **Where do code commits go?** With the shared-repo layout, files under `_code/` belong to your church-code-repo clone — `git status` in your workspace repo will not show changes to them. Branch, commit, and open PRs for Rock code in that repo. Your workspace repo only versions your personal scaffold and `docs/`.
 
@@ -92,11 +92,11 @@ The plugin content (rules, references, skills) is maintained in this repo. To pr
 git clone https://github.com/Consta-Tech/AIskill-RockRMS.git
 ```
 
-Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the provenance tiers, the manifest-row requirement, and the render check (enable it with `git config core.hooksPath .githooks`). Inside a session, `/rockrms:add-knowledge` drafts a reference from a URL and stops before the commit. Once merged, every installed developer receives the change automatically. Don't clone this repo into `~/.claude/skills/` — combined with the marketplace install, the skills would load twice.
+Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the provenance tiers, the manifest-row requirement, and the render check (enable it with `git config core.hooksPath .githooks`). Inside a session, `rockrms-add-knowledge` drafts a reference from a URL and stops before the commit. Once merged, every installed developer receives the change automatically. Don't clone this repo into `~/.claude/skills/` — combined with the marketplace install, the skills would load twice.
 
 ## Troubleshooting
 
-**`/rockrms:` skills missing from autocomplete, or `/rock-init` not offered.** Restart Claude Code — the plugin index is read at startup.
+**`/rockrms:` skills missing from autocomplete, or `rockrms-init` not offered.** Restart Claude Code — the plugin index is read at startup.
 
 **`claude plugin marketplace add` fails.** Use the `Consta-Tech/AIskill-RockRMS` (owner/repo) form.
 
