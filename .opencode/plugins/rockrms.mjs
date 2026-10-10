@@ -65,6 +65,7 @@ function loadSkills() {
 let houseRulesText = null;
 function houseRules() {
   if (houseRulesText !== null) return houseRulesText;
+  if (!fs.existsSync(rulesDir)) return (houseRulesText = '');   // an overlay copy may ship skills only
   const files = fs.readdirSync(rulesDir).filter((f) => f.endsWith('.md')).sort();
   const parts = files.map((f) =>
     stripFrontmatter(fs.readFileSync(path.join(rulesDir, f), 'utf8'))
@@ -121,7 +122,8 @@ export default {
 
     try {
       await ctx.session.hook('context', (event) => {
-        event.system.push({ type: 'text', text: houseRules() });
+        const text = houseRules();
+        if (text) event.system.push({ type: 'text', text });
       });
     } catch {
       // Optional hook failures must not block plugin loading.
@@ -145,6 +147,7 @@ export default {
 
       'experimental.chat.system.transform': async (_input, output) => {
         const text = houseRules();
+        if (!text) return;
         if (output.system.length > 0) {
           output.system[output.system.length - 1] += '\n\n' + text;
         } else {

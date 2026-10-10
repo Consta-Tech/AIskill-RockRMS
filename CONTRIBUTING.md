@@ -12,7 +12,7 @@ Thank you for helping keep this plugin honest. The plugin's value is that every 
    git config core.hooksPath .githooks
    ```
 
-Inside a Claude Code session, `rockrms-add-knowledge` performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
+Inside a session on any host, the `rockrms-add-knowledge` skill performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
 
 ## Where does it belong? The sorting rule
 
@@ -102,9 +102,15 @@ claude plugin eval . --case changelog-prints-newest --runs 1 --ablation none --a
 
 ## Editing a house rule (`rules/*.md`)
 
-Rules are injected at session start by `hooks/inject-rule.sh`, **one hook command per rule chunk**, because Claude Code keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview). The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under an 8 KB budget; `hooks/hooks.json` lists a fixed number of slots per rule, with one spare. Hook commands run in parallel, so the blocks arrive in no particular order — each chunk is labelled `(part n of N)` and should read sensibly on its own, which is another reason to split only at headings.
+A rule file is read by four hosts, and each imposes a size limit the file must respect:
 
-After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk sizes and `bash hooks/inject-rule.sh --check` to confirm the slots still suffice (the pre-commit hook runs the check). When a rule grows past its slots, add another `inject-rule.sh <file> <n>` command to `hooks.json`. Keep any single section under 8 KB by adding a heading or a `<details>` block — a section that cannot be split is the one thing the chunker cannot fix. A new rule file needs its slots added to `hooks.json` and a `house` row in the manifest.
+- **Claude Code and Codex** inject the rules at session start through `hooks/inject-rule.sh`, **one hook command per rule chunk**. Claude Code keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview); Codex caps a hook's model-visible output at about 2,500 tokens. The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under a 6 KB budget; `hooks/hooks.json` lists a fixed number of slots per rule. Hook commands run in parallel, so the blocks arrive in no particular order — each chunk is labelled `(part n of N)` and should read sensibly on its own, which is another reason to split only at headings.
+- **Antigravity** loads `rules/*.md` directly as always-on rules and **silently drops a file without frontmatter**, so every rule file opens with `---\ntrigger: always_on\n---`; the hook and the OpenCode plugin strip those lines before injecting. Antigravity also truncates any rule file over **24,000 bytes** — the reason `formatting-standards.md` is four files — and shares a 20,000-token budget across all always-on rules.
+- **OpenCode** gets the rules from `.opencode/plugins/rockrms.mjs`, which concatenates `rules/*.md` into the system prompt once per process. No per-file limit, but every byte is in every turn.
+
+After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk sizes and `bash hooks/inject-rule.sh --check` to confirm the slots still suffice (the pre-commit hook runs the check). When a rule grows past its slots, add another `inject-rule.sh <file> <n>` command to `hooks.json`. Keep any single section under 6 KB by adding a heading or a `<details>` block — a section that cannot be split is the one thing the chunker cannot fix — and the whole file under 24,000 bytes. A new rule file needs the frontmatter, its slots in `hooks.json`, and a `house` row in the manifest.
+
+Rule text that must name the plugin's install directory writes `<plugin-root>`; the hook and the OpenCode plugin substitute the real path, and on Antigravity the knowledge-boundaries rule explains how to find it.
 
 ## House style for the files themselves
 

@@ -140,7 +140,7 @@ If the [`ReservationApprovalGroup`](../sql-tables/Reservation-Workflow.md#reserv
 ## Conventions across all four workflows
 
 1. Each WorkflowType has a `Set Attributes` activity at `Order=0` with `IsActivatedWithWorkflow=True`. All other activities have `IsActivatedWithWorkflow=False` and are reached only via `ActivateActivity`.
-2. There is no separate "FINISH" activity. `CompleteWorkflow` is invoked inline at the end of each branch. (Differs from the house WorkflowType naming convention — the injected formatting-standards rule, section 3 "Workflow Types".)
+2. There is no separate "FINISH" activity. `CompleteWorkflow` is invoked inline at the end of each branch. (Differs from the house WorkflowType naming convention — the injected formatting-standards-workflowtypes rule, section 3 "Workflow Types".)
 3. They lean on a custom BEMA action library — `com.bemaservices.RoomManagement.Workflow.Actions.Reservations.*` — for `GetApprovalGroup`, `SetReservationApprovalState`, `SetReservationLocationsApprovalStates`, and `SetReservationResourcesApprovalStates`. Without the BEMA DLL, none of the workflows function.
 4. All four use `ProcessingIntervalSeconds: 28800` (8 hours) — the cadence at which delayed/parked workflows resume processing.
 5. Several `Send Email` actions ship as `Active=False` template scaffolding — BEMA expects each org to fill in senders / customize before enabling.

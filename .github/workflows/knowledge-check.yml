@@ -26,3 +26,5 @@ jobs:
             python3 -c "import json; json.load(open('$f'))" && echo "ok $f"
           done
           node --check .opencode/plugins/rockrms.mjs
+      - name: INSTALL.md keeps one block per host
+        run: python3 tests/check-install-docs.py
