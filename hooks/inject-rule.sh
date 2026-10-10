@@ -4,22 +4,19 @@
 # replicates that auto-load behavior. (Antigravity reads rules/*.md directly; the OpenCode
 # plugin injects them into the system prompt.)
 #
-# Two hook files call this script:
-#   hooks/hooks.json        Claude Code — one command per rule CHUNK, because Claude Code keeps
-#                           only a short preview of any single hook output above ~10 KB
-#                           (measured 2026-09-29 on Claude Code 2.1.285: a 9.5 KB block arrived
-#                           intact, a 14.7 KB block was cut to a 2 KB preview). Each rule larger
-#                           than BUDGET bytes is split at heading / <details> boundaries into
-#                           numbered chunks, each its own command.
-#   hooks/codex-hooks.json  Codex — ONE command (`--all`) with additionalContextLimit 0, so there
-#                           is a single hook to trust in /hooks. Codex's default cap is ~2,500
-#                           tokens per hook, which the chunk size also respects should Codex ever
-#                           fall back to hooks.json.
+# hooks/hooks.json calls this script — on Claude Code and on Codex, which reads the same path from
+# any plugin (codex-cli 0.162.1 hardcodes hooks/hooks.json; it has no manifest key to pick another
+# file). One command per rule CHUNK, because each host caps a single hook command's output: Claude
+# Code keeps only a short preview above ~10 KB (measured 2026-09-29 on Claude Code 2.1.285: a
+# 9.5 KB block arrived intact, a 14.7 KB block was cut to a 2 KB preview); Codex defaults to
+# ~2,500 tokens per hook. Each rule larger than BUDGET bytes is split at heading / <details>
+# boundaries into numbered chunks, each its own command. Codex authorizes the whole file in one
+# prompt at first start, so thirteen commands cost the user no more than one would.
 #
 # Usage:
 #   inject-rule.sh <rule-file>            # the whole file (must fit the budget)
 #   inject-rule.sh <rule-file> <n>        # chunk n (1-based) of that file; prints nothing past the last chunk
-#   inject-rule.sh --all                  # every rule, in hooks.json order, as one block
+#   inject-rule.sh --all                  # every rule, in hooks.json order, as one block (for review)
 #   inject-rule.sh --plan                 # print every rule's chunk count and sizes
 #   inject-rule.sh --check                # exit 1 when a rule lacks a hooks.json slot, its Antigravity
 #                                         #   frontmatter, or exceeds a size cap (run by .githooks/pre-commit)
@@ -137,8 +134,6 @@ for path in sorted(glob.glob(os.path.join(root, "rules", "*.md"))):
         problems.append(f"{name}: not listed in hooks/hooks.json")
     elif slots[name] < n:
         problems.append(f"{name}: needs {n} chunk slot(s) in hooks/hooks.json, has {slots[name]}")
-if not os.path.isfile(os.path.join(root, "hooks", "codex-hooks.json")):
-    problems.append("hooks/codex-hooks.json is missing")
 for p in problems:
     print("ERROR " + p, file=sys.stderr)
 print("house-rule hooks OK" if not problems else f"{len(problems)} problem(s)")
