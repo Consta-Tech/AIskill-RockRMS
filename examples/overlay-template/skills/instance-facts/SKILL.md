@@ -5,7 +5,7 @@ description: Your Church's Rock RMS instance constants — site URLs, the Site I
 
 # Your Church's Rock Instance Facts
 
-> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 Concrete values for Your Church's Rock RMS instance. Generic Rock and Lava guidance lives in the `rockrms` plugin; this skill holds only what is true for this church specifically.

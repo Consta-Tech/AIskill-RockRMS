@@ -12,7 +12,7 @@ Thank you for helping keep this plugin honest. The plugin's value is that every 
    git config core.hooksPath .githooks
    ```
 
-Inside a Claude Code session, `/rockrms:add-knowledge` performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
+Inside a session on any host, the `rockrms-add-knowledge` skill performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
 
 ## Where does it belong? The sorting rule
 
@@ -67,7 +67,7 @@ Categories at launch: `community-docs`, `lava`, `rock-source`, `rock-schema`, `r
 The first thing after a reference file's title is one blockquote line stating the tier. `python3 knowledge/render.py --stamp` writes it for any listed file that lacks one, in this shape:
 
 ```markdown
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (v18.2). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 ```
 
 ## Render and check
@@ -81,11 +81,11 @@ Commit the rendered views with your change; the PR diff to `Knowledge-current.md
 
 ## Proposing a roadmap row
 
-A church that wants a topic documented — a BlockType, a Rock Shop plugin, a community documentation book — opens a PR that adds a `status: roadmap` row with the title, category, the source URL you would start from, and in `notes` one sentence on why it matters. `file` is `null` and `tier` is the tier you expect to reach (`summarized` is fine). It appears, numbered, in `/rockrms:knowledge-future`. When the reference lands, the same row flips to `status: current` and gains its `file`.
+A church that wants a topic documented — a BlockType, a Rock Shop plugin, a community documentation book — opens a PR that adds a `status: roadmap` row with the title, category, the source URL you would start from, and in `notes` one sentence on why it matters. `file` is `null` and `tier` is the tier you expect to reach (`summarized` is fine). It appears, numbered, in `rockrms-knowledge-future`. When the reference lands, the same row flips to `status: current` and gains its `file`.
 
 ## Changelog and releases
 
-Add a bullet under `## Unreleased` at the top of `CHANGELOG.md` (Added / Changed / Fixed / Removed). When the maintainer cuts a release, that heading becomes `## YYYY-MM-DD`, and any manifest rows added since the previous release have their `added` date aligned to it. `/rockrms:changelog` shows users the sections they have not seen yet, keyed on the installed commit.
+Add a bullet under `## Unreleased` at the top of `CHANGELOG.md` (Added / Changed / Fixed / Removed). When the maintainer cuts a release, that heading becomes `## YYYY-MM-DD`, and any manifest rows added since the previous release have their `added` date aligned to it. `rockrms-changelog` shows users the sections they have not seen yet, keyed on the installed commit.
 
 ## Running the eval suite
 
@@ -98,17 +98,25 @@ claude plugin eval . --allow-tools Bash Write Edit --scaffold --no-publish
 claude plugin eval . --case changelog-prints-newest --runs 1 --ablation none --allow-tools Bash --no-publish
 ```
 
-`--allow-tools Bash` is needed because the knowledge skills run the scripts under `knowledge/`; `--scaffold` lets the `add-knowledge` case copy this checkout into its sandbox workspace. Results land in `evals/results/` (gitignored). `claude plugin validate .` checks manifests and skills without any model call; its one warning — "No version specified" — is intentional.
+`--allow-tools Bash` is needed because the knowledge skills run the scripts under `knowledge/`; `--scaffold` lets the `rockrms-add-knowledge` case copy this checkout into its sandbox workspace. Results land in `evals/results/` (gitignored). `claude plugin validate .` checks manifests and skills without any model call; its one warning — "No version specified" — is intentional.
 
 ## Editing a house rule (`rules/*.md`)
 
-Rules are injected at session start by `hooks/inject-rule.sh`, **one hook command per rule chunk**, because Claude Code keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview). The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under an 8 KB budget; `hooks/hooks.json` lists a fixed number of slots per rule, with one spare. Hook commands run in parallel, so the blocks arrive in no particular order — each chunk is labelled `(part n of N)` and should read sensibly on its own, which is another reason to split only at headings.
+A rule file is read by four hosts, and each imposes a size limit the file must respect:
 
-After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk sizes and `bash hooks/inject-rule.sh --check` to confirm the slots still suffice (the pre-commit hook runs the check). When a rule grows past its slots, add another `inject-rule.sh <file> <n>` command to `hooks.json`. Keep any single section under 8 KB by adding a heading or a `<details>` block — a section that cannot be split is the one thing the chunker cannot fix. A new rule file needs its slots added to `hooks.json` and a `house` row in the manifest.
+- **Claude Code** injects the rules at session start through `hooks/hooks.json` → `hooks/inject-rule.sh`, **one hook command per rule chunk**, because it keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview). The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under a 6 KB budget; `hooks.json` lists a fixed number of slots per rule. Hook commands run in parallel, so the blocks arrive in no particular order — each chunk is labelled `(part n of N)` and should read sensibly on its own, which is another reason to split only at headings.
+- **Codex** runs the same `hooks/hooks.json` — codex-cli 0.162.1 hardcodes that path for every plugin and offers no manifest key to choose another file (verified 2026-10-10 against the binary's strings and the `hooks.state` entries it writes to `config.toml`). Its default cap is ~2,500 tokens per hook command, which the 6 KB chunks respect. Codex authorizes all of a plugin's hooks in one prompt at first start, so the chunk count costs the user nothing.
+- **Scripts the hosts run never use heredocs** — Codex's read-only sandbox refuses the temp file a heredoc needs. Python goes through `python3 -c "$VAR"`, so those strings contain no single quotes.
+- **Antigravity** loads `rules/*.md` directly as always-on rules and **silently drops a file without frontmatter**, so every rule file opens with `---\ntrigger: always_on\n---`; the hook and the OpenCode plugin strip those lines before injecting. Antigravity also truncates any rule file over **24,000 bytes** — the reason `formatting-standards.md` is four files — and shares a 20,000-token budget across all always-on rules.
+- **OpenCode** gets the rules from `.opencode/plugins/rockrms.mjs`, which concatenates `rules/*.md` into the system prompt once per process. No per-file limit, but every byte is in every turn.
+
+After editing a rule, run `bash hooks/inject-rule.sh --plan` to see the chunk sizes and `bash hooks/inject-rule.sh --check` to confirm the slots still suffice (the pre-commit hook runs the check). When a rule grows past its slots, add another `inject-rule.sh <file> <n>` command to `hooks.json`. Keep any single section under 6 KB by adding a heading or a `<details>` block — a section that cannot be split is the one thing the chunker cannot fix — and the whole file under 24,000 bytes. A new rule file needs the frontmatter, its slots in `hooks.json`, and a `house` row in the manifest.
+
+Rule text that must name the plugin's install directory writes `<plugin-root>`; the hook and the OpenCode plugin substitute the real path, and on Antigravity the knowledge-boundaries rule explains how to find it.
 
 ## House style for the files themselves
 
 - Skill names are lowercase-hyphen and equal their directory name; `SKILL.md` stays under 500 lines with depth in `references/`.
 - Cross-skill and cross-plugin references are **by skill name**, never by relative path — installed plugins live in separate directories.
-- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". Write skill invocations with the namespace: `/rockrms:format-tsql`.
+- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". Write skill names bare (`format-tsql`, `rockrms-knowledge-current`) — each host adds its own prefix (`/rockrms:` in Claude Code, `$rockrms:` in Codex).
 - Nothing from a personal `input_box/` or other ephemeral location is cited in a shipped file.

@@ -16,7 +16,7 @@
 
 - id: yourchurch-workspace-defaults
   category: house
-  title: Your Church — workspace defaults consumed by /rock-init
+  title: Your Church — workspace defaults consumed by rockrms-init
   skill: workspace-defaults
   file: SKILL.md
   source_url: null
@@ -24,4 +24,4 @@
   tier: traced
   status: current
   added: 2026-01-01
-  notes: "House convention: repo names, symlink layout, settings, CLAUDE.md values."
+  notes: "House convention: repo names, symlink layout, settings, AGENTS.md values."

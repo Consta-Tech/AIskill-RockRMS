@@ -1,10 +1,10 @@
 ---
-name: add-knowledge
-description: Add a Rock RMS topic to the rockrms plugin's documented knowledge from a URL or a pasted excerpt — drafts a cited reference file in its own words at the summarized tier, files it under the right skill (or a new one), adds its knowledge-manifest row, re-renders the catalog views, and stops before any commit with the exact PR steps. Use when the user offers a source for something the plugin does not cover, accepts the "start documenting it" option from the knowledge-boundaries rule, or runs /rockrms:add-knowledge.
+name: rockrms-add-knowledge
+description: Add a Rock RMS topic to the rockrms plugin's documented knowledge from a URL or a pasted excerpt — drafts a cited reference file in its own words at the summarized tier, files it under the right skill (or a new one), adds its knowledge-manifest row, re-renders the catalog views, and stops before any commit with the exact PR steps. Use when the user offers a source for something the plugin does not cover, accepts the "start documenting it" option from the knowledge-boundaries rule, or invokes the rockrms-add-knowledge skill by name.
 allowed-tools: Bash Read Write Edit Grep Glob WebFetch AskUserQuestion
 ---
 
-# /rockrms:add-knowledge
+# rockrms-add-knowledge
 
 Turn a source into a catalogued reference. The output is a **branch in a clone of the plugin repo** with a new reference file, a manifest row, updated views, and a CHANGELOG bullet — never a commit. The user opens the PR.
 
@@ -13,24 +13,32 @@ Turn a source into a catalogued reference. The output is a **branch in a clone o
 - A **URL** (community.rockrms.com, the SparkDevNetwork/Rock source on GitHub, a vendor's documentation, a Rock Shop plugin page) **or a pasted excerpt**. Ask for one if neither was given.
 - Optionally the **topic name**. Otherwise derive it from the source and confirm it in one line.
 
+## Locate the plugin first
+
+Step 1 reads the installed plugin. Its root is the directory that holds `knowledge/` and `skills/`: Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other host it is two directories above this `SKILL.md`. Set it once:
+
+```bash
+ROOT="${CLAUDE_PLUGIN_ROOT:-${PLUGIN_ROOT:-<absolute path two directories above this SKILL.md>}}"
+```
+
 ## Step 1 — Is it already documented?
 
 Grep the catalog and the skills tree for the topic's distinctive terms (BlockType name, table, filter, plugin):
 
 ```bash
-grep -il "<term>" "${CLAUDE_PLUGIN_ROOT}/knowledge/manifest.yaml"
-grep -ril "<term>" "${CLAUDE_PLUGIN_ROOT}/skills" --include='*.md' | head
+grep -il "<term>" "$ROOT/knowledge/manifest.yaml"
+grep -ril "<term>" "$ROOT/skills" --include='*.md' | head
 ```
 
 If a manifest entry already covers it, **say so** (title, skill, tier, Rock version) and offer to **extend that reference** instead — appending a dated section that carries its own source and tier wording — rather than creating a parallel file. Continue only with the user's choice.
 
 ## Step 2 — Generic or church-specific?
 
-Apply the sorting rule: true of Rock anywhere → this plugin; true only at one church (instance Ids, hostnames, page structure, a local decision) → that church's overlay repo. When the source mixes both, split: the generic part goes here, the local part is offered to the overlay. If it is genuinely ambiguous, ask one question with AskUserQuestion before writing anything. For an overlay destination, the same steps below apply inside the overlay clone, using its `skills/knowledge-manifest/manifest.yaml`.
+Apply the sorting rule: true of Rock anywhere → this plugin; true only at one church (instance Ids, hostnames, page structure, a local decision) → that church's overlay repo. When the source mixes both, split: the generic part goes here, the local part is offered to the overlay. If it is genuinely ambiguous, ask the user one question before writing anything. For an overlay destination, the same steps below apply inside the overlay clone, using its `skills/knowledge-manifest/manifest.yaml`.
 
 ## Step 3 — Work in a clone, never in the installed copy
 
-`${CLAUDE_PLUGIN_ROOT}` is the installed cache, replaced on every update — never write there. Find a working clone, in this order:
+`$ROOT` is the installed copy, replaced on every update — never write there. Find a working clone, in this order:
 
 1. The current directory, if it is the plugin repo (`.claude-plugin/plugin.json` with `"name": "rockrms"`).
 2. `../AIskill-RockRMS` or `~/GitHub/AIskill-RockRMS`.
@@ -40,7 +48,7 @@ In the clone: `git fetch origin && git switch -c knowledge/<topic-slug> origin/m
 
 ## Step 4 — Read the source
 
-WebFetch the URL (or read the excerpt) for understanding. For Rock source, note the **commit SHA** in the URL you cite; for documentation, note today's date as the access date. Identify: what the thing is, what settings or parameters it has, what behavior the source actually states, and what it leaves unsaid.
+Fetch the URL (or read the excerpt) for understanding. For Rock source, note the **commit SHA** in the URL you cite; for documentation, note today's date as the access date. Identify: what the thing is, what settings or parameters it has, what behavior the source actually states, and what it leaves unsaid.
 
 ## Step 5 — Choose the owning skill
 
@@ -62,7 +70,7 @@ Summarize and cite; never copy a page or a source file wholesale. Quotes are sho
 ```markdown
 # <Title>
 
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (<rock_version or unknown>). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (<rock_version or unknown>). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 **Source:** <URL> (accessed <YYYY-MM-DD>; Rock source pinned at <sha> when applicable)
 **Rock version described:** <what the source says, or unknown>

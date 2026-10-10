@@ -1,6 +1,6 @@
 # Lava Reference
 
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock v18.2). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock v18.2). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
@@ -6300,7 +6300,7 @@ is effectively "is this null-or-false", not "does this hold a meaningful value":
 ### `AsInteger` coercion and failure mode (Tested August 2026)
 
 `AsInteger` is the filter the repo's `input_` convention leans on as its only defense between a
-PageParameter and interpolated SQL (see the formatting-standards house rule § "Coerce every
+PageParameter and interpolated SQL (see the formatting-standards-lava house rule § "Coerce every
 `input_` value before it can reach SQL"). These results confirm that convention is sound, and
 pin down exactly *how* it holds.
 
@@ -6388,7 +6388,7 @@ true)**, `{Maximum}`. Everything below follows from that default and is confirma
 > `RemoveEmpty` defaults true, `',2026-08-20' | Split:','` yields a **one**-element array whose
 > `[0]` is the *end* date — the value silently shifts into the start slot. Pass `false` explicitly
 > for positional splits, which is exactly what the `input_` date-range convention in
-> the formatting-standards house rule does with `Split:',',false,2`. Membership tests and
+> the formatting-standards-lava house rule does with `Split:',',false,2`. Membership tests and
 > `{% for %}` loops are unaffected.
 
 The two rows the reference entry does not cover: an empty or null input yields a **zero-length**

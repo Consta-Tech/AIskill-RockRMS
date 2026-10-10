@@ -10,3 +10,4 @@ if ! command -v python3 >/dev/null 2>&1; then
 fi
 python3 knowledge/render.py --check
 bash hooks/inject-rule.sh --check
+python3 tests/check-install-docs.py

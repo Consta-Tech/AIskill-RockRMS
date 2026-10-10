@@ -9,7 +9,7 @@
     {
       "name": "rockrms",
       "source": "./",
-      "description": "Rock RMS dev environment: injected house rules, Lava/SQL/HTMX references, Rock schema docs, BEMA Room Management docs, workbench skills for each Rock surface, pre-push audits, and a provenance-tiered knowledge catalog (knowledge-current, changelog, add-knowledge).",
+      "description": "Rock RMS dev environment: injected house rules, Lava/SQL/HTMX references, Rock schema docs, BEMA Room Management docs, workbench skills for each Rock surface, pre-push audits, and a provenance-tiered knowledge catalog (rockrms-knowledge-current, changelog, rockrms-add-knowledge).",
       "category": "productivity"
     }
   ]

@@ -1,17 +1,17 @@
 ---
-name: audit-pre-push-1
-description: Pre-push audit, part 1 of 2 — audits comments, boilerplate headers, and inline documentation across .lava, .html, .sql, and .lava.sql code files before pushing to the shared repository. Documentation-only pass, no behavioral code changes. Use when the user wants to run the pre-push audit or clean up comments and boilerplates before a push; run before audit-pre-push-2.
+name: rockrms-audit-pre-push-1
+description: Pre-push audit, part 1 of 2 — audits comments, boilerplate headers, and inline documentation across .lava, .html, .sql, and .lava.sql code files before pushing to the shared repository. Documentation-only pass, no behavioral code changes. Use when the user wants to run the pre-push audit or clean up comments and boilerplates before a push; run before rockrms-audit-pre-push-2.
 ---
 
 # Pre-Push Audit — Part 1: Code Files
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
 Audit comments, boilerplate headers, and inline documentation across code files in preparation for pushing to the shared repository. This is a **documentation-only pass** — no behavioral code changes, no file renames, no file deletions, no auto-commits.
 
-Part 2 (the `audit-pre-push-2` skill) handles README files and should be run after this skill completes.
+Part 2 (the `rockrms-audit-pre-push-2` skill) handles README files and should be run after this skill completes.
 
 ---
 
@@ -39,7 +39,7 @@ Scan the resolved scope for files matching these **hardcoded audit types**:
 - `.sql`
 - `.lava.sql`
 
-Exclude `README.md` files — those are handled by `audit-pre-push-2`.
+Exclude `README.md` files — those are handled by `rockrms-audit-pre-push-2`.
 
 If the scan reveals file types outside the hardcoded list (e.g., `.js`, `.css`, `.json`), present them to the user in a numbered list and ask which to include or exclude before proceeding.
 
@@ -84,7 +84,7 @@ Suggest `input_box/` as the default (since it is gitignored and won't be committ
 
 Two files will be written to this directory:
 
-- `_audit-extractions.md` — content flagged for relocation to READMEs (consumed by `audit-pre-push-2`)
+- `_audit-extractions.md` — content flagged for relocation to READMEs (consumed by `rockrms-audit-pre-push-2`)
 - `_audit-report.md` — full summary of changes made and items flagged for review
 
 ---
@@ -125,7 +125,7 @@ The rules Step 5 applies — ephemeral reference patterns to delete, stable refe
 - ❌ Do NOT rename or delete files.
 - ❌ Do NOT auto-commit. Present the summary report and stop.
 - ❌ Do NOT create files outside the user-specified output directory (Step 4).
-- ❌ Do NOT touch README.md files — those are `audit-pre-push-2`'s scope.
+- ❌ Do NOT touch README.md files — those are `rockrms-audit-pre-push-2`'s scope.
 - ❌ Do NOT propose follow-up work or next steps. The user drives what happens after the audit.
 
 ---
@@ -155,7 +155,7 @@ Group by flag type:
 
 ### 3. Extraction notes summary
 
-List each entry written to `_audit-extractions.md` with its intended destination, for easy reference when running `audit-pre-push-2`.
+List each entry written to `_audit-extractions.md` with its intended destination, for easy reference when running `rockrms-audit-pre-push-2`.
 
 ### 4. Unexpected file types
 

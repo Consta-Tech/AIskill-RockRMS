@@ -1,8 +1,24 @@
 # Changelog
 
-Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin has no version number on purpose: every commit pushed to `main` reaches installed machines automatically, so a dated section here marks the set of commits worth announcing. `/rockrms:changelog` prints the newest section — and, when the installed commit has moved since you last ran it, every section released in between.
+Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin has no version number on purpose: every commit pushed to `main` reaches installed machines automatically, so a dated section here marks the set of commits worth announcing. The `rockrms-changelog` skill prints the newest section — and, when the installed commit has moved since you last ran it, every section released in between.
 
 Headings inside a release follow [Keep a Changelog](https://keepachangelog.com): Added, Changed, Fixed, Removed. Contributors add their bullet under `## Unreleased`; the maintainer renames that heading to the release date when cutting a release (see CONTRIBUTING.md).
+
+## Unreleased
+
+### Changed
+- **`rules/formatting-standards.md` is split by language:** `formatting-standards.md` (every language: indentation, boilerplate placement, dates), `formatting-standards-sql.md`, `formatting-standards-lava.md`, `formatting-standards-workflowtypes.md`. Antigravity truncates any rule file over 24,000 bytes and the single file had reached 25,335. The plugin copy also gains the "Dates go big-to-small" rule the upstream repo added, and every rule file now opens with the `trigger: always_on` frontmatter Antigravity requires (stripped before injection everywhere else).
+- **Hook chunks shrink to 6,000 bytes** (`hooks/inject-rule.sh`), under Codex's ~2,500-token per-hook default as well as Claude Code's cap; `hooks/hooks.json` now lists 13 chunk commands, and Codex runs that same file (it hardcodes the path). `inject-rule.sh --all` prints every rule as one block for review. `inject-rule.sh --check` now also enforces the Antigravity frontmatter and the 24,000-byte cap.
+- **No heredocs in the shipped scripts** (`inject-rule.sh`, `plugin-identity.sh`): Codex's read-only sandbox cannot create the temp file a heredoc needs, which made `plugin-identity.sh` print three errors before its header. The identity header now names the host it found the install under (Claude Code, Codex, Antigravity, OpenCode, or git checkout).
+- **`surface-dynamicdata`'s description is quoted** — it contains a `: ` that strict YAML parsers (Antigravity) reject in a plain scalar, which made the skill invisible there.
+
+### Added
+- **OpenCode plugin** (`.opencode/plugins/rockrms.mjs`): registers every skill, injects the house rules into the system prompt on every turn, and adds a `/rockrms-init` command. Supports OpenCode V2 (`setup`) and V1 1.18.29+ (`server`).
+- **Codex and Antigravity manifests:** `.codex-plugin/plugin.json` + `.agents/plugins/marketplace.json` (Codex reads this repo as a marketplace named `consta-tech`, same as Claude Code), and a root `plugin.json` (Antigravity). `setup.sh --host claude|codex|opencode|antigravity` runs the install for one host; `.github/workflows/knowledge-check.yml` validates every manifest and the OpenCode plugin on each push.
+- **INSTALL.md rewritten per host** — one block each for Claude Code, Codex, OpenCode, and Antigravity (Install / Verify / Update / Uninstall / House rules), plus a generic agent-skills route, a per-host workspace-init table, and a "How the house rules load" table. `tests/check-install-docs.py` keeps that structure (pre-commit and the workflow run it). README and CONTRIBUTING describe the four hosts; the overlay template says what an overlay needs per host.
+- **Skill names:** `changelog`, `knowledge-current`, `knowledge-future`, `add-knowledge`, `audit-pre-push-1`, and `audit-pre-push-2` are now `rockrms-changelog`, `rockrms-knowledge-current`, `rockrms-knowledge-future`, `rockrms-add-knowledge`, `rockrms-audit-pre-push-1`, and `rockrms-audit-pre-push-2`. Agent Skills hosts other than Claude Code invoke skills without a plugin prefix, so the generic names needed one of their own. In Claude Code they appear as `/rockrms:rockrms-…`.
+- **`/rock-init` is now the `rockrms-init` skill** (`/rockrms:rockrms-init` in Claude Code), with its templates under `skills/rockrms-init/templates/`. It writes an `AGENTS.md` — the instruction file Claude Code, Codex, OpenCode, and Antigravity all read — plus a one-line `CLAUDE.md` that imports it; `.claude/settings.json` is written only when the running agent is Claude Code.
+- **Host-neutral wording:** skills locate the plugin root from their own path (`${CLAUDE_PLUGIN_ROOT}` is used when a host sets it, no longer required); `knowledge/changelog.sh` and `knowledge/plugin-identity.sh` default to the directory above themselves and store the "since you last checked" marker under `~/.local/share/rockrms/` when no host data directory exists; the surface skills say "the agent" rather than "Claude"; the knowledge-boundaries rule names skills bare and lists how each host types them.
 
 ## 2026-10-06
 

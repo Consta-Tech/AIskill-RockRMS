@@ -1,6 +1,9 @@
+---
+trigger: always_on
+---
 # About Documentation
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 Documentation happens at three levels:
@@ -64,7 +67,7 @@ If the Lava file was created by copy+pasting an existing Lava Template (maybe it
     PageId=1128, BlockId=6222, [Block.Name] > [Block.ConfigurationSection] > Block.ConfigurationField
     
     i am copy+pasting this here from the VRL Rock Site.
-    i copy+pasted this on 09-APR-2024
+    i copy+pasted this on 2024-APR-09
     
 ---------------------------------------------------------------------------------------------------------/
 ```

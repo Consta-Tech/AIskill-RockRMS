@@ -1,9 +1,9 @@
 # Pre-Push Audit Doctrine — Part 1: Code Files
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
-The rules Step 5 of the `audit-pre-push-1` skill applies to every in-scope code file.
+The rules Step 5 of the `rockrms-audit-pre-push-1` skill applies to every in-scope code file.
 
 ## Ephemeral reference patterns (hardcoded — update this list as the repo evolves)
 
@@ -38,7 +38,7 @@ These are references that are useful during active development but meaningless t
 - **No citation footnotes** in boilerplates.
 - If a boilerplate contains multi-paragraph explanations of behavior, evaluate: is it single-file detail or cross-file convention?
   - **Single-file detail** → move to an inline `{% comment %}` block near the relevant code site. Strip version stamps. Keep the *why*, drop the *history*.
-  - **Cross-file convention** → write to `_audit-extractions.md` for `audit-pre-push-2` to absorb into the README. Leave a one-line pointer in the boilerplate (e.g., `See Endpoints/README.md § "OOB contract".`).
+  - **Cross-file convention** → write to `_audit-extractions.md` for `rockrms-audit-pre-push-2` to absorb into the README. Leave a one-line pointer in the boilerplate (e.g., `See Endpoints/README.md § "OOB contract".`).
 
 ## Inline comment rules
 
@@ -51,6 +51,6 @@ These are references that are useful during active development but meaningless t
 
 - Version-stamped prose in boilerplates: delete the version prefix, rewrite in present tense if the substance survives. If the entire comment is version narration with no surviving substance, delete entirely.
 - `Tag: vX.Y` headers: replace with the version number from Step 3.
-- `## v0.X additions` / `## v0.X conventions` section headings in READMEs: this is `audit-pre-push-2`'s concern, but if encountered in a code file's comment, flatten by removing the version prefix.
+- `## v0.X additions` / `## v0.X conventions` section headings in READMEs: this is `rockrms-audit-pre-push-2`'s concern, but if encountered in a code file's comment, flatten by removing the version prefix.
 - `(vX.Y.Z introduced…)` parenthetical asides: delete the parenthetical.
 - `// vX.Y.Z` inline markers: delete the marker; keep the comment body if it has substance.

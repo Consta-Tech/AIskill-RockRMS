@@ -1,14 +1,14 @@
 ---
 name: workspace-defaults
-description: Your Church's workspace scaffold defaults, consumed by the rockrms plugin's /rock-init command — church code repo, _code layout, .claude/settings.json content, and CLAUDE.md placeholder values. Use when initializing, repairing, or auditing a developer workspace at Your Church.
+description: Your Church's workspace scaffold defaults, consumed by the rockrms plugin's rockrms-init skill — church code repo, _code layout, .claude/settings.json content, and AGENTS.md placeholder values. Use when initializing, repairing, or auditing a developer workspace at Your Church.
 ---
 
 # Your Church Workspace Defaults
 
-> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `traced` — read from source or official documentation and cited (house convention, no Rock version). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
-The values `/rock-init` uses instead of interviewing a developer at your church. With this skill installed, the only interview question left is the git preference. (Delete this skill from your overlay if you'd rather developers answer the interview themselves.)
+The values `rockrms-init` uses instead of interviewing a developer at your church. With this skill installed, the only interview question left is the git preference. (Delete this skill from your overlay if you'd rather developers answer the interview themselves.)
 
 ## Code layout
 
@@ -48,7 +48,7 @@ Skip the instance-basics interview question — shared constants live in this pl
 }
 ```
 
-## CLAUDE.md placeholder values
+## AGENTS.md placeholder values
 
 | Placeholder | Value |
 |---|---|

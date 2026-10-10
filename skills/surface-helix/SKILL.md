@@ -1,11 +1,11 @@
 ---
 name: surface-helix
-description: The Helix workbench for Rock RMS — Lava Applications, their Endpoints, and the Lava Application Content block. Covers what to configure in Rock admin (slugs, HTTP method, Enabled Lava Commands, Security Mode), the edit-save-trigger-inspect dev loop, how to read a failing round-trip in devtools (no request, %5E in the URL, 401, 404, or a 200 carrying "Lava Error"), what to hand back to Claude, and the tested Helix behaviors — form serialization and hx-params, OOB swaps, response headers, {% sql %} timeouts, renderlavaendpoint — plus Triumph's form-control ShortCodes and Chosen.js re-initialization. Use when building or debugging a Lava Application endpoint, a Lava Application Content block, or any HTMX round-trip inside Rock.
+description: The Helix workbench for Rock RMS — Lava Applications, their Endpoints, and the Lava Application Content block. Covers what to configure in Rock admin (slugs, HTTP method, Enabled Lava Commands, Security Mode), the edit-save-trigger-inspect dev loop, how to read a failing round-trip in devtools (no request, %5E in the URL, 401, 404, or a 200 carrying "Lava Error"), what to hand back to the agent, and the tested Helix behaviors — form serialization and hx-params, OOB swaps, response headers, {% sql %} timeouts, renderlavaendpoint — plus Triumph's form-control ShortCodes and Chosen.js re-initialization. Use when building or debugging a Lava Application endpoint, a Lava Application Content block, or any HTMX round-trip inside Rock.
 ---
 
 # Helix as a Workbench
 
-> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
@@ -23,7 +23,7 @@ Route: `/api/v2/lava-app/{SiteId}/{application-slug}/{endpoint-slug}`. Applicati
 
 ## File conventions
 
-Per the file-organization house rules: `_code/LavaApplications/{ApplicationName}/Endpoints/{verb}-{noun}.lava`, kebab-case, with a leading underscore for endpoints only other endpoints or blocks call (`_render-section-admin.lava`). The block file lives under `_code/Block-LavaApplicationContent/PageId_{id}/`. Both boilerplate headers are in the `language-lava` skill's `assets/boilerplates/` and are what `audit-pre-push-1` enforces. The endpoint header records the slug, method, enabled commands, and accepted `Form` / `QueryString` keys — the configuration that lives in Rock admin and is otherwise invisible in the repo.
+Per the file-organization house rules: `_code/LavaApplications/{ApplicationName}/Endpoints/{verb}-{noun}.lava`, kebab-case, with a leading underscore for endpoints only other endpoints or blocks call (`_render-section-admin.lava`). The block file lives under `_code/Block-LavaApplicationContent/PageId_{id}/`. Both boilerplate headers are in the `language-lava` skill's `assets/boilerplates/` and are what `rockrms-audit-pre-push-1` enforces. The endpoint header records the slug, method, enabled commands, and accepted `Form` / `QueryString` keys — the configuration that lives in Rock admin and is otherwise invisible in the repo.
 
 ## The dev loop
 
@@ -43,12 +43,12 @@ Per the file-organization house rules: `_code/LavaApplications/{ApplicationName}
 
 5. **Iterate**, then commit the file — the repo, not Rock, is the source of truth.
 
-## Handing a failure back to Claude
+## Handing a failure back to the agent
 
 - The **page URL**, and the **request URL, status, and response body** from the Network panel (Copy → Copy response).
 - Any **console error** verbatim — Helix swallows some `hx-vals` syntax errors into `helix-script.js`, so also say whether the request fired at all.
 - **Observed versus expected**, including what the target element contained afterwards.
-- If Claude has browser tools, give it the page URL and let it read the tab and the console itself.
+- If the agent has browser tools, give it the page URL and let it read the tab and the console itself.
 
 ## Conventions worth adopting in any Helix project
 

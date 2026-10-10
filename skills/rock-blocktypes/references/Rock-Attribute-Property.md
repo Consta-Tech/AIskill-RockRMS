@@ -1,6 +1,6 @@
 # Property vs Attribute in Rock RMS
 
-> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `summarized` — condensed from the cited source, **not yet verified** in Rock (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 

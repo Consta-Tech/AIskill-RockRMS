@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# knowledge/changelog.sh — what /rockrms:changelog prints.
+# knowledge/changelog.sh — what rockrms-changelog prints.
 #
 # Prints the identity header, then the newest dated section of CHANGELOG.md. Remembers the
 # installed commit it showed in the plugin's data directory; when that commit has changed
@@ -7,12 +7,14 @@
 # under "Since you last checked" before the store is updated. Without a usable data
 # directory it degrades to "latest section only" and says so — never an error.
 #
-# Usage: changelog.sh <plugin-root> [data-dir]
-#   data-dir is normally ${CLAUDE_PLUGIN_DATA}; an empty or unexpanded value disables the store.
+# Usage: changelog.sh [plugin-root] [data-dir]
+#   plugin-root defaults to the directory above this script. data-dir defaults to
+#   $CLAUDE_PLUGIN_DATA (Claude Code), then $PLUGIN_DATA (Codex), then ~/.local/share/rockrms;
+#   an unexpanded value such as a literal ${...} disables the store.
 set -uo pipefail
 
-ROOT="${1:?usage: changelog.sh <plugin-root> [data-dir]}"
-DATA="${2:-}"
+ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+DATA="${2:-${CLAUDE_PLUGIN_DATA:-${PLUGIN_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/rockrms}}}"
 CHANGELOG="$ROOT/CHANGELOG.md"
 IDENTITY="$ROOT/knowledge/plugin-identity.sh"
 

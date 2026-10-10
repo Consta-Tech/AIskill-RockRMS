@@ -920,42 +920,42 @@
 - id: house-audit-pre-push
   category: house
   title: Pre-push documentation audit (two parts)
-  skill: audit-pre-push-1
+  skill: rockrms-audit-pre-push-1
   file: SKILL.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-09-29
-  notes: House convention. Part 2 lives in the audit-pre-push-2 skill.
+  notes: House convention. Part 2 lives in the rockrms-audit-pre-push-2 skill.
 
 - id: house-audit-pre-push-1-doctrine
   category: house
   title: Pre-push audit doctrine — code files
-  skill: audit-pre-push-1
+  skill: rockrms-audit-pre-push-1
   file: references/doctrine.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-10-06
-  notes: House convention. The rules Step 5 of audit-pre-push-1 applies, moved out of its SKILL.md.
+  notes: House convention. The rules Step 5 of rockrms-audit-pre-push-1 applies, moved out of its SKILL.md.
 
 - id: house-audit-pre-push-2-doctrine
   category: house
   title: Pre-push audit doctrine — README files
-  skill: audit-pre-push-2
+  skill: rockrms-audit-pre-push-2
   file: references/doctrine.md
   source_url: null
   rock_version: n/a
   tier: traced
   status: current
   added: 2026-10-06
-  notes: House convention. The rules Step 5 of audit-pre-push-2 applies, moved out of its SKILL.md.
+  notes: House convention. The rules Step 5 of rockrms-audit-pre-push-2 applies, moved out of its SKILL.md.
 
 - id: house-rule-formatting-standards
   category: house
-  title: House rule — Formatting standards (SQL and Lava)
+  title: House rule — Formatting standards (every language)
   skill: null
   file: rules/formatting-standards.md
   source_url: null
@@ -963,7 +963,40 @@
   tier: traced
   status: current
   added: 2026-09-29
-  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Indentation, boilerplate placement, date formats; the language files follow.
+- id: house-rule-formatting-standards-sql
+  category: house
+  title: House rule — Formatting standards (SQL)
+  skill: null
+  file: rules/formatting-standards-sql.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
+- id: house-rule-formatting-standards-lava
+  category: house
+  title: House rule — Formatting standards (Lava)
+  skill: null
+  file: rules/formatting-standards-lava.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
+- id: house-rule-formatting-standards-workflowtypes
+  category: house
+  title: House rule — Formatting standards (Workflow Types)
+  skill: null
+  file: rules/formatting-standards-workflowtypes.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
 
 - id: house-rule-lava-conventions
   category: house

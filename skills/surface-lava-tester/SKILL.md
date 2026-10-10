@@ -1,11 +1,11 @@
 ---
 name: surface-lava-tester
-description: Collaborating in Rock's Lava Tester block — a Rock Shop plugin block, usually on an admin-only page with every Lava command enabled, that renders any Lava you paste into it. Covers its three jobs (render a template or fragment, act as a console for {% modifyentity %} writes instead of SQL UPDATE or GUI bulk updates, and run measurement probes against undocumented Lava behavior), what differs from the block you are really targeting (CurrentPerson, PageParameter, the rows / Form / QueryString merge fields), how errors surface, and what to hand back to Claude. Use when testing a piece of Lava outside its block, probing a filter's behavior, or applying a data correction through Lava.
+description: Collaborating in Rock's Lava Tester block — a Rock Shop plugin block, usually on an admin-only page with every Lava command enabled, that renders any Lava you paste into it. Covers its three jobs (render a template or fragment, act as a console for {% modifyentity %} writes instead of SQL UPDATE or GUI bulk updates, and run measurement probes against undocumented Lava behavior), what differs from the block you are really targeting (CurrentPerson, PageParameter, the rows / Form / QueryString merge fields), how errors surface, and what to hand back to the agent. Use when testing a piece of Lava outside its block, probing a filter's behavior, or applying a data correction through Lava.
 ---
 
 # The Lava Tester as a Workbench
 
-> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `/rockrms:knowledge-current` lists every entry.
+> **Provenance tier:** `measured` — tested in a live Rock instance (Rock version not recorded). Catalogued in the plugin's knowledge manifest; `rockrms-knowledge-current` lists every entry.
 
 
 
@@ -63,9 +63,9 @@ Re-run a probe after a Rock upgrade before trusting the recorded behavior, and b
 
 A Lava error renders as a **red Rock alert** carrying the `Lava Error:` message, in place of the output. Nothing partially renders below it. Read the message before the code — it usually names the tag or filter.
 
-## Handing the result back to Claude
+## Handing the result back to the agent
 
-- **Claude has browser tools:** give it the tester page's URL and ask it to read the tab. It sees the input, the output, and any alert.
+- **The agent has browser tools:** give it the tester page's URL and ask it to read the tab. It sees the input, the output, and any alert.
 - **Otherwise:** paste the exact Lava you ran *and* the rendered output (or the alert text), together. Output without its input is not reproducible.
 - **Always:** the page URL, and what you expected the output to be.
 

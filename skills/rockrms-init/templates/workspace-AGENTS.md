@@ -1,12 +1,12 @@
-# CLAUDE.md
+# AGENTS.md
 
 ## Context
 
 This is my Rock RMS development workspace{{CHURCH_SUFFIX}}. Rock RMS is an open-source church management system built on ASP.NET.
 
 {{PLUGINS_PARAGRAPH}}
-<!-- Generic (no overlay): "House rules, language references (Lava, T-SQL, HTMX), Rock schema docs, and audit skills come from the `rockrms` Claude Code plugin (`Consta-Tech/AIskill-RockRMS`). The house rules are injected automatically at session start — follow them."
-     Overlay installed: same sentence, but name both plugins, e.g. "... come from the `rockrms` and `rockrms-<church>` Claude Code plugins. The house rules ..." -->
+<!-- Generic (no overlay): "House rules, language references (Lava, T-SQL, HTMX), Rock schema docs, and audit skills come from the `rockrms` plugin (`Consta-Tech/AIskill-RockRMS`) installed in my coding agent. The house rules load automatically at session start — follow them."
+     Overlay installed: same sentence, but name both plugins, e.g. "... come from the `rockrms` and `rockrms-<church>` plugins installed in my coding agent. The house rules ..." -->
 
 ## Layout
 
@@ -18,7 +18,7 @@ This is my Rock RMS development workspace{{CHURCH_SUFFIX}}. Rock RMS is an open-
 
 ## Prompt Files
 
-A **prompt file** is a structured requirements/plan document that a future Claude session can execute without me present. It lives at `input_box/project-<NN>/prompt.md` (numbered sequentially), and I kick it off in a fresh session with: "Please read and execute the prompt in `input_box/project-01/`."
+A **prompt file** is a structured requirements/plan document that a future agent session can execute without me present. It lives at `input_box/project-<NN>/prompt.md` (numbered sequentially), and I kick it off in a fresh session with: "Please read and execute the prompt in `input_box/project-01/`."
 
 When helping me write one, capture at minimum: the goal, current vs. expected behavior, the pages/blocks/entities involved, constraints, and acceptance criteria. Refine it with me until it could be executed by a session that has no memory of this conversation. Like everything in `input_box/`, prompt files are gitignored working material.
 
@@ -45,7 +45,7 @@ If I open a session with a concrete task, just do it — no menu. If I open vagu
 5. Help me document some knowledge
 6. Show me what the plugin knows, what is planned, and what changed
 
-Present those six lines as written, without the routing notes below. Routing: option 4 follows "Prompt Files" above; option 5 sorts the knowledge per `docs/README.md` (my `docs/`, my church's overlay, or a PR to the `rockrms` plugin via `/rockrms:add-knowledge`); option 6 runs `/rockrms:knowledge-current`, then `/rockrms:knowledge-future`, then `/rockrms:changelog`.
+Present those six lines as written, without the routing notes below. Routing: option 4 follows "Prompt Files" above; option 5 sorts the knowledge per `docs/README.md` (my `docs/`, my church's overlay, or a PR to the `rockrms` plugin via the `rockrms-add-knowledge` skill); option 6 runs the `rockrms-knowledge-current` skill, then `rockrms-knowledge-future`, then `rockrms-changelog`.
 
 For options 1–3, do not assume I know which reference material applies. Ask diagnostic questions first — what am I observing vs. expecting, and which surface am I working in — and only then pull in the relevant plugin skills and `docs/` files. Each surface has a skill that knows its settings, its test loop, and what to ask me to paste back:
 
@@ -59,7 +59,7 @@ For options 1–3, do not assume I know which reference material applies. Ask di
 
 When I name the surface up front, load that skill without asking.
 
-The plugin answers Rock questions only from its documented references (the injected knowledge-boundaries rule). When a topic is not covered it says so and asks whether to answer from general knowledge, marked unverified, or to start documenting it with `/rockrms:add-knowledge`. `/rockrms:knowledge-current` lists what is documented; `/rockrms:changelog` shows what changed in the plugin.
+The plugin answers Rock questions only from its documented references (the knowledge-boundaries house rule). When a topic is not covered it says so and asks whether to answer from general knowledge, marked unverified, or to start documenting it with the `rockrms-add-knowledge` skill. `rockrms-knowledge-current` lists what is documented; `rockrms-changelog` shows what changed in the plugin.
 
 ## Task Types
 
