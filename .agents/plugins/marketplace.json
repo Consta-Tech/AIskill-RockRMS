@@ -1,0 +1,21 @@
+{
+  "name": "consta-tech",
+  "interface": {
+    "displayName": "Consta Tech"
+  },
+  "plugins": [
+    {
+      "name": "rockrms",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Consta-Tech/AIskill-RockRMS.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

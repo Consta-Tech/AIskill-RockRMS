@@ -1,0 +1,37 @@
+{
+  "name": "rockrms",
+  "description": "Rock RMS development environment for Codex: house rules injected at session start, Lava / T-SQL / HTMX language references, Rock database schema docs, BEMA Room Management docs, workbench skills for the Dynamic Data, HTML Content, Helix, Lava Tester, and SQL editor surfaces, pre-push audit skills, and a provenance-tiered knowledge catalog (rockrms-knowledge-current, rockrms-knowledge-future, rockrms-changelog, rockrms-add-knowledge).",
+  "author": {
+    "name": "Consta Tech",
+    "email": "tim@consta.tips"
+  },
+  "homepage": "https://github.com/Consta-Tech/AIskill-RockRMS",
+  "repository": "https://github.com/Consta-Tech/AIskill-RockRMS",
+  "keywords": [
+    "rock-rms",
+    "rockrms",
+    "lava",
+    "t-sql",
+    "htmx",
+    "church",
+    "skills",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rock RMS",
+    "shortDescription": "Rock RMS development environment",
+    "longDescription": "House rules, language references (Lava, T-SQL, HTMX), Rock database schema docs, BEMA Room Management docs, workbench skills for each Rock surface, pre-push audits, and a provenance-tiered knowledge catalog for Rock RMS development.",
+    "developerName": "Consta Tech",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/Consta-Tech/AIskill-RockRMS",
+    "defaultPrompt": [
+      "Use $rockrms-knowledge-current to show what the plugin documents.",
+      "Use $format-tsql to restyle this query to house style.",
+      "Use $rockrms-init to set up this directory as a Rock workspace."
+    ]
+  }
+}
