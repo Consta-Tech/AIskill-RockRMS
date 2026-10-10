@@ -193,6 +193,8 @@ agy plugin uninstall rockrms
 
 Or keep it installed and turn it off: `agy plugin disable rockrms`.
 
+Tested 2026-OCT-10 on Antigravity CLI (`agy`) 1.3.2: install from the GitHub URL and from a local clone both work; 17 skills visible to the agent (`rockrms-init` is hidden by design and runs as `/rockrms-init`); all 8 house rules present in full.
+
 ### House rules
 
 The plugin's `rules/*.md` are always-on Antigravity rules (`trigger: always_on`). They total about 50 KB, inside Antigravity's 20,000-token budget for always-on rules, but if you keep large always-on rules of your own the budget may overflow — Antigravity then reduces the largest files to pointers the agent reads on demand, which is a degradation, not a failure.
