@@ -1,7 +1,8 @@
-# Fails a push or pull request when the knowledge catalog views are stale, a reference file
-# has no manifest row or provenance header, or a house rule outgrew its hook slots — the same
-# two checks .githooks/pre-commit runs locally, for contributors who never enabled that hook.
-# No model calls, no secrets; runs on GitHub's free tier for public repos.
+# Fails a push or pull request when any model-free repo check fails: stale knowledge catalog
+# views, a reference file without its manifest row or provenance header, a house rule that
+# outgrew its hook slots or the Antigravity caps, a broken host manifest, an OpenCode plugin
+# that registers less than it should, or a drifted INSTALL.md. Same script as .githooks/pre-commit,
+# for contributors who never enabled that hook. No model calls, no secrets.
 name: knowledge-check
 
 on:
@@ -14,17 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Knowledge catalog is current and complete
-        run: python3 knowledge/render.py --check
-      - name: House rules fit their hook slots
-        run: bash hooks/inject-rule.sh --check
-      - name: Overlay template manifest is valid
-        run: python3 knowledge/render.py --manifest examples/overlay-template/skills/knowledge-manifest/manifest.yaml --check
-      - name: Host manifests are valid JSON and the OpenCode plugin parses
-        run: |
-          for f in plugin.json .codex-plugin/plugin.json .agents/plugins/marketplace.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json; do
-            python3 -c "import json; json.load(open('$f'))" && echo "ok $f"
-          done
-          node --check .opencode/plugins/rockrms.mjs
-      - name: INSTALL.md keeps one block per host
-        run: python3 tests/check-install-docs.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run every model-free check
+        run: bash scripts/check.sh

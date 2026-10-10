@@ -75,9 +75,12 @@ The first thing after a reference file's title is one blockquote line stating th
 ```bash
 python3 knowledge/render.py            # rewrite knowledge/Knowledge-current.md and Knowledge-future.md
 python3 knowledge/render.py --check    # exit 1 on a stale view, a missing row, or a header/row tier mismatch
+bash scripts/check.sh                  # that check plus every other model-free one (hook slots, manifests, OpenCode plugin, INSTALL.md)
 ```
 
-Commit the rendered views with your change; the PR diff to `Knowledge-current.md` is the reviewer's summary of what you added. The same checks run on every push and pull request as the `knowledge-check` GitHub Action (`.github/workflows/knowledge-check.yml`), so a PR that skips them shows red before review — but the pre-commit hook catches it before you push, so enable it.
+Commit the rendered views with your change; the PR diff to `Knowledge-current.md` is the reviewer's summary of what you added. `scripts/check.sh` is what the pre-commit hook and the `knowledge-check` GitHub Action (`.github/workflows/knowledge-check.yml`) both run, so a PR that skips it shows red before review — but the pre-commit hook catches it before you push, so enable it.
+
+`scripts/` holds contributor tooling only; nothing in it ships to an installed session. The scripts that do ship (`knowledge/render.py`, `knowledge/changelog.sh`, `knowledge/plugin-identity.sh`, `hooks/inject-rule.sh`) live next to the data they read, must stay host-neutral and heredoc-free, and are only *called* from `scripts/check.sh`. A new script follows the same rule: next to its data if a skill runs it, in `scripts/` if only contributors do. `AGENTS.md` at the repo root repeats these rules for an agent working on a clone.
 
 ## Proposing a roadmap row
 

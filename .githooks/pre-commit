@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
-# Pre-commit hook: refuse the commit when the knowledge catalog views are stale, a reference
-# file is missing its manifest row / provenance header, or a house rule outgrew its hook slots.
+# Pre-commit hook: runs every model-free repo check (scripts/check.sh) and refuses the commit
+# when one fails — stale catalog views, a reference without its manifest row, a house rule that
+# outgrew its hook slots, a broken host manifest, or a drifted INSTALL.md.
 # Enable once per clone:  git config core.hooksPath .githooks
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-if ! command -v python3 >/dev/null 2>&1; then
-    echo "pre-commit: python3 not found; cannot run knowledge/render.py --check" >&2
-    exit 1
-fi
-python3 knowledge/render.py --check
-bash hooks/inject-rule.sh --check
-python3 tests/check-install-docs.py
+bash scripts/check.sh
