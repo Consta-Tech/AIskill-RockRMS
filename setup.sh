@@ -50,7 +50,7 @@ case "$HOST" in
         step "Install the rockrms plugin into Codex"
         try codex plugin marketplace add "$REPO_SLUG" --ref main
         try codex plugin add rockrms@consta-tech
-        INVOKE='$rockrms-init'
+        INVOKE='$rockrms:rockrms-init'
         START='codex'
         ;;
     opencode)

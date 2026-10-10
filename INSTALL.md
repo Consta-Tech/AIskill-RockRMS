@@ -74,7 +74,11 @@ codex plugin marketplace add Consta-Tech/AIskill-RockRMS --ref main
 codex plugin add rockrms@consta-tech
 ```
 
-Skills are typed with a `$`: `$rockrms-init`, `$format-tsql`. Codex also picks a skill on its own when your request matches its description; `rockrms-init` is the one exception and only runs when you name it.
+Skills are typed with a `$` and the plugin prefix Codex adds: `$rockrms:rockrms-init`, `$rockrms:format-tsql`. Codex also picks a skill on its own when your request matches its description; `rockrms-init` is the one exception and only runs when you name it.
+
+### Trust the hook (once)
+
+Codex installs a plugin's hooks but **skips them until you review them**. Start `codex` anywhere, type `/hooks`, find the `rockrms` SessionStart hook (one entry, `inject-rule.sh --all`) and trust it. Until then the skills work but the house rules are not in context. A later plugin update that changes the hook definition is marked for review again — `/hooks` shows it.
 
 ### Verify
 
@@ -101,7 +105,7 @@ codex plugin marketplace remove consta-tech
 
 ### House rules
 
-Codex runs the same `hooks/hooks.json` `SessionStart` hook Claude Code does (it sets `CLAUDE_PLUGIN_ROOT` for plugin hooks), so the rules are in context from the first message. Hooks are on by default in Codex; if you turned them off with `[features] hooks = false` in `~/.codex/config.toml`, the rules will not load.
+A `SessionStart` hook — `hooks/codex-hooks.json`, one command that emits every rule (`inject-rule.sh --all`) with `additionalContextLimit: 0` so Codex keeps the whole block — puts the rules in context from the first message, once you have trusted it in `/hooks`. Hooks are on by default in Codex; if you turned them off with `[features] hooks = false` in `~/.codex/config.toml`, the rules will not load.
 
 </details>
 
@@ -240,7 +244,7 @@ cd ~/GitHub/rockrms-workspace-<yourname>
 | Host | Start | Then type |
 |---|---|---|
 | Claude Code | `claude` | `/rockrms:rockrms-init` |
-| Codex | `codex` | `$rockrms-init` |
+| Codex | `codex` | `$rockrms:rockrms-init` |
 | OpenCode | `opencode` | `/rockrms-init` |
 | Antigravity | `agy` | `/rockrms-init` |
 
@@ -260,7 +264,7 @@ Prefer to scaffold by hand? Every file the skill writes comes from [`skills/rock
 | Host | Mechanism | Always on? |
 |---|---|---|
 | Claude Code | `hooks/hooks.json` SessionStart hook, one command per rule chunk | Yes |
-| Codex | the same hook, run from the plugin install | Yes (unless hooks are disabled in `config.toml`) |
+| Codex | `hooks/codex-hooks.json` SessionStart hook, one command for all rules | Yes, after you trust the hook once in `/hooks` |
 | OpenCode | `.opencode/plugins/rockrms.mjs` appends the rules to the system prompt every turn | Yes, with the plugin loader |
 | Antigravity | `rules/*.md` carry `trigger: always_on` | Yes, within the always-on budget |
 | Other harnesses | you paste the rules into the instructions file | Only if you do |
@@ -279,11 +283,11 @@ Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the prove
 
 ## Troubleshooting
 
-**Skills missing from autocomplete, or `rockrms-init` not offered.** Restart the agent — every host indexes plugins and skills at startup. On Codex, `codex plugin list` must show `rockrms`; on OpenCode, check that `~/.config/opencode/plugins/rockrms.js` exists and that its relative path reaches the clone.
+**Skills missing from autocomplete, or `rockrms-init` not offered.** Restart the agent — every host indexes plugins and skills at startup. `rockrms-init` is deliberately hidden from the agent's own skill picks (Claude Code `disable-model-invocation`, Codex `allow_implicit_invocation: false`, honored by Antigravity too), so it appears only when you type it. On Codex, `codex plugin list` must show `rockrms`; on OpenCode, check that `~/.config/opencode/plugins/rockrms.js` exists and that its relative path reaches the clone.
 
 **`claude plugin marketplace add` / `codex plugin marketplace add` fails.** Use the `Consta-Tech/AIskill-RockRMS` (owner/repo) form. A local path must point at the repo root, not `.claude-plugin/`.
 
-**House rules not in context.** Ask "which house rules are loaded?". Claude Code: `claude plugin list` must show `rockrms` enabled; start a new session and check `/context`. Codex: hooks must be enabled (`[features] hooks = false` in `config.toml` turns them off). OpenCode: the loader file must exist — a skills-only copy under `.agents/skills/` never loads the rules. Antigravity: a session with many large always-on rules overflows the 20,000-token budget and the largest files become pointers; trim your own rules. The hook itself needs bash and `python3`. If a Claude Code rule block shows only a short preview followed by a note that the rest was saved to a file, that rule outgrew the per-hook output cap — run `bash hooks/inject-rule.sh --check` in a clone and open an issue.
+**House rules not in context.** Ask "which house rules are loaded?". Claude Code: `claude plugin list` must show `rockrms` enabled; start a new session and check `/context`. Codex: the plugin's hook must be trusted — start `codex`, type `/hooks`, trust the `rockrms` entry; also hooks must be enabled (`[features] hooks = false` in `config.toml` turns them off). OpenCode: the loader file must exist — a skills-only copy under `.agents/skills/` never loads the rules. Antigravity: a session with many large always-on rules overflows the 20,000-token budget and the largest files become pointers; trim your own rules. The hook itself needs bash and `python3`. If a Claude Code rule block shows only a short preview followed by a note that the rest was saved to a file, that rule outgrew the per-hook output cap — run `bash hooks/inject-rule.sh --check` in a clone and open an issue.
 
 **Permission prompts when editing files under `_code/`** (Claude Code). Confirm `.claude/settings.json` contains the `additionalDirectories` entry and that the church clone actually sits at the sibling path.
 

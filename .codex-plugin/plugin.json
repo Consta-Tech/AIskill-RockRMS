@@ -29,9 +29,14 @@
     ],
     "websiteURL": "https://github.com/Consta-Tech/AIskill-RockRMS",
     "defaultPrompt": [
-      "Use $rockrms-knowledge-current to show what the plugin documents.",
-      "Use $format-tsql to restyle this query to house style.",
-      "Use $rockrms-init to set up this directory as a Rock workspace."
+      "Use $rockrms:rockrms-knowledge-current to show what the plugin documents.",
+      "Use $rockrms:format-tsql to restyle this query to house style.",
+      "Use $rockrms:rockrms-init to set up this directory as a Rock workspace."
     ]
+  },
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/codex-hooks.json"
+    }
   }
 }

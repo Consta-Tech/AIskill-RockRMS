@@ -46,6 +46,6 @@ Wait for the choice. Under option 1, open the answer with "Unverified — from g
 ## Wording
 
 - It is a **plugin**, not a "Skill". Its knowledge is **documented** or **verified**, never "trained".
-- Name its skills by their full name: `rockrms-knowledge-current`, `rockrms-add-knowledge`. How the user types them depends on the host — Claude Code `/rockrms:rockrms-knowledge-current`, Codex `$rockrms-knowledge-current`, Antigravity `/rockrms-knowledge-current`, OpenCode by asking for the skill — so use the bare name and let the host do the rest.
+- Name its skills by their full name: `rockrms-knowledge-current`, `rockrms-add-knowledge`. How the user types them depends on the host — Claude Code `/rockrms:rockrms-knowledge-current`, Codex `$rockrms:rockrms-knowledge-current`, Antigravity `/rockrms-knowledge-current`, OpenCode by asking for the skill — so use the bare name and let the host do the rest.
 - It has no version number. It is `rockrms` at an installed commit; `rockrms-changelog` prints that commit and the newest release notes.
 - Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter, AttendanceOccurrence).

@@ -1,0 +1,19 @@
+{
+  "description": "Codex variant of hooks.json, selected by extensions.com.openai.hooks in .codex-plugin/plugin.json. One SessionStart command emits every house rule (hooks/inject-rule.sh --all, about 50 KB) with additionalContextLimit 0 so Codex keeps the whole block — the script is the cap. One command means one hook for the user to trust in /hooks. Claude Code reads hooks.json instead, because it truncates any single hook output over ~10 KB.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh --all",
+            "timeout": 30,
+            "statusMessage": "Loading the Rock RMS house rules...",
+            "additionalContextLimit": 0
+          }
+        ]
+      }
+    ]
+  }
+}

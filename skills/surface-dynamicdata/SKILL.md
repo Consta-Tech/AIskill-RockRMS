@@ -1,6 +1,6 @@
 ---
 name: surface-dynamicdata
-description: Working in Rock's Dynamic Data block (Obsidian) — the SQL Query and Lava Template pair, the block settings that matter (Timeout Length, Query Params, Results Display Mode, Enabled Lava Commands, the grid's person actions), how a PageParameterFilter drives it and what re-renders when, the paste-test-iterate loop, and the two traps unique to this block: HTMX attributes in its output are never processed until the template calls htmx.process() on itself, and every "current URL" Lava source returns the block's BlockActions API endpoint instead of the page. Use when building, debugging, or reviewing a Dynamic Data block, its query file, its Lava template, or a PageParameterFilter that feeds it.
+description: "Working in Rock's Dynamic Data block (Obsidian) — the SQL Query and Lava Template pair, the block settings that matter (Timeout Length, Query Params, Results Display Mode, Enabled Lava Commands, the grid's person actions), how a PageParameterFilter drives it and what re-renders when, the paste-test-iterate loop, and the two traps unique to this block: HTMX attributes in its output are never processed until the template calls htmx.process() on itself, and every \"current URL\" Lava source returns the block's BlockActions API endpoint instead of the page. Use when building, debugging, or reviewing a Dynamic Data block, its query file, its Lava template, or a PageParameterFilter that feeds it."
 ---
 
 # The Dynamic Data Block as a Workbench

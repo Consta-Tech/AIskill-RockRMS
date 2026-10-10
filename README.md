@@ -9,7 +9,7 @@ A complete **Rock RMS development environment** for your coding agent — Claude
 | Host | Install | Type a skill as |
 |---|---|---|
 | Claude Code | `claude plugin marketplace add Consta-Tech/AIskill-RockRMS` then `claude plugin install rockrms@consta-tech` | `/rockrms:rockrms-init` |
-| Codex | `codex plugin marketplace add Consta-Tech/AIskill-RockRMS --ref main` then `codex plugin add rockrms@consta-tech` | `$rockrms-init` |
+| Codex | `codex plugin marketplace add Consta-Tech/AIskill-RockRMS --ref main` then `codex plugin add rockrms@consta-tech` | `$rockrms:rockrms-init` |
 | OpenCode | clone + a one-line plugin loader — see INSTALL.md | `/rockrms-init` |
 | Antigravity | `agy plugin install https://github.com/Consta-Tech/AIskill-RockRMS` | `/rockrms-init` |
 

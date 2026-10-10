@@ -8,7 +8,9 @@ Headings inside a release follow [Keep a Changelog](https://keepachangelog.com):
 
 ### Changed
 - **`rules/formatting-standards.md` is split by language:** `formatting-standards.md` (every language: indentation, boilerplate placement, dates), `formatting-standards-sql.md`, `formatting-standards-lava.md`, `formatting-standards-workflowtypes.md`. Antigravity truncates any rule file over 24,000 bytes and the single file had reached 25,335. The plugin copy also gains the "Dates go big-to-small" rule the upstream repo added, and every rule file now opens with the `trigger: always_on` frontmatter Antigravity requires (stripped before injection everywhere else).
-- **Hook chunks shrink to 6,000 bytes** (`hooks/inject-rule.sh`), under Codex's ~2,500-token per-hook default as well as Claude Code's cap; `hooks/hooks.json` now lists 13 chunk commands.
+- **Hook chunks shrink to 6,000 bytes** (`hooks/inject-rule.sh`), under Codex's ~2,500-token per-hook default as well as Claude Code's cap; `hooks/hooks.json` now lists 13 chunk commands. Codex gets its own `hooks/codex-hooks.json` — one `inject-rule.sh --all` command with `additionalContextLimit: 0` — so there is one hook to trust in `/hooks` instead of thirteen. `inject-rule.sh --check` now also enforces the Antigravity frontmatter and the 24,000-byte cap.
+- **No heredocs in the shipped scripts** (`inject-rule.sh`, `plugin-identity.sh`): Codex's read-only sandbox cannot create the temp file a heredoc needs, which made `plugin-identity.sh` print three errors before its header. The identity header now names the host it found the install under (Claude Code, Codex, Antigravity, OpenCode, or git checkout).
+- **`surface-dynamicdata`'s description is quoted** — it contains a `: ` that strict YAML parsers (Antigravity) reject in a plain scalar, which made the skill invisible there.
 
 ### Added
 - **OpenCode plugin** (`.opencode/plugins/rockrms.mjs`): registers every skill, injects the house rules into the system prompt on every turn, and adds a `/rockrms-init` command. Supports OpenCode V2 (`setup`) and V1 1.18.29+ (`server`).

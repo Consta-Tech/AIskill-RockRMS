@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 # knowledge/plugin-identity.sh — the one-line identity header every knowledge skill opens with:
-#   rockrms (marketplace consta-tech) · installed commit 5a1fe7b · latest release 2026-09-29
+#   rockrms · installed commit 5a1fe7b (Codex) · latest release 2026-09-29
 #
 # The plugin has no version number on purpose (see README "How updates work"), so identity is
 # the installed git commit. Lookup order:
 #   1. ~/.claude/plugins/installed_plugins.json  → plugins["rockrms@consta-tech"][0].gitCommitSha
 #   2. claude plugin list --json                  → the same record
-#   3. git rev-parse in the plugin root           → a git clone (OpenCode vendor install, dev checkout, eval run)
-#   4. "unknown"
+#   3. git rev-parse in the plugin root           → Codex and OpenCode installs are git checkouts,
+#                                                   as are development checkouts and eval runs
+#   4. "unknown"                                  → e.g. an Antigravity install, which is a copy
+# The host is inferred from where the plugin root sits.
+#
+# No heredocs here: skills run this inside Codex's read-only sandbox, where the temp file a heredoc
+# needs cannot be created. Python goes through -c, so the program strings contain no single quotes.
 #
 # Usage: plugin-identity.sh [plugin-root] [--sha-only | --date-only]
 #   plugin-root defaults to the directory above this script.
@@ -24,11 +29,7 @@ PLUGIN="rockrms"
 MARKET="consta-tech"
 KEY="${PLUGIN}@${MARKET}"
 
-sha=""
-suffix=""
-registry="${HOME:-}/.claude/plugins/installed_plugins.json"
-if [ -r "$registry" ] && command -v python3 >/dev/null 2>&1; then
-    sha="$(python3 - "$registry" "$KEY" <<'PY' 2>/dev/null
+PY_REGISTRY='
 import json, sys
 try:
     data = json.load(open(sys.argv[1]))
@@ -37,25 +38,38 @@ try:
     print(rec.get("gitCommitSha") or rec.get("version") or "")
 except Exception:
     print("")
-PY
-)"
-fi
-if [ -z "$sha" ] && command -v claude >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
-    sha="$(claude plugin list --json 2>/dev/null | python3 -c '
+'
+PY_LIST='
 import json, sys
 try:
     for rec in json.load(sys.stdin):
         if rec.get("id") == sys.argv[1]:
             print(rec.get("gitCommitSha") or rec.get("version") or ""); break
 except Exception:
-    pass' "$KEY" 2>/dev/null)"
+    pass
+'
+
+sha=""
+registry="${HOME:-}/.claude/plugins/installed_plugins.json"
+if [ -r "$registry" ] && command -v python3 >/dev/null 2>&1; then
+    sha="$(python3 -c "$PY_REGISTRY" "$registry" "$KEY" 2>/dev/null || true)"
+fi
+if [ -z "$sha" ] && command -v claude >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
+    sha="$(claude plugin list --json 2>/dev/null | python3 -c "$PY_LIST" "$KEY" 2>/dev/null || true)"
 fi
 if [ -z "$sha" ] && git -C "$ROOT" rev-parse --short=7 HEAD >/dev/null 2>&1; then
     sha="$(git -C "$ROOT" rev-parse --short=7 HEAD)"
-    suffix=" (git checkout)"
 fi
 [ -z "$sha" ] && sha="unknown"
 short="${sha:0:7}"
+
+case "$ROOT" in
+    "${HOME:-}"/.claude/plugins/*)        host="Claude Code" ;;
+    "${HOME:-}"/.codex/plugins/*)         host="Codex" ;;
+    "${HOME:-}"/.gemini/*)                host="Antigravity" ;;
+    *"/opencode/vendor/"*)                host="OpenCode" ;;
+    *)                                    host="git checkout" ;;
+esac
 
 release="$(grep -m1 -E '^## [0-9]{4}-[0-9]{2}-[0-9]{2}' "$ROOT/CHANGELOG.md" 2>/dev/null | sed -E 's/^## ([0-9]{4}-[0-9]{2}-[0-9]{2}).*/\1/')"
 [ -z "$release" ] && release="unknown"
@@ -63,5 +77,5 @@ release="$(grep -m1 -E '^## [0-9]{4}-[0-9]{2}-[0-9]{2}' "$ROOT/CHANGELOG.md" 2>/
 case "$MODE" in
     --sha-only)  echo "$short" ;;
     --date-only) echo "$release" ;;
-    *)           echo "${PLUGIN} (marketplace ${MARKET}) · installed commit ${short}${suffix} · latest release ${release}" ;;
+    *)           echo "${PLUGIN} · installed commit ${short} (${host}) · latest release ${release}" ;;
 esac
