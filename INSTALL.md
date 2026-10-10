@@ -136,6 +136,8 @@ git -C ~/.config/opencode/vendor/rockrms pull
 
 Then start a new session — the plugin reads the rules once per process.
 
+Tested 2026-OCT-09 on OpenCode v2.0.25: all 18 skills listed, all 8 house rules in the system prompt, `/rockrms-init` offered.
+
 ### Uninstall
 
 ```bash
