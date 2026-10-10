@@ -20,15 +20,17 @@
 # after this script, so the path is substituted here.
 set -euo pipefail
 
-BUDGET=8000   # bytes per emitted block; keep well under the measured cap
+BUDGET=6000   # bytes per emitted block; under Claude Code's measured cap and Codex's ~2,500-token default (additionalContextLimit)
 ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RULES_DIR="${ROOT}/rules"
 
 emit() {   # emit <file> <chunk-or-0>
     python3 - "$RULES_DIR/$1" "$2" "$BUDGET" "$ROOT" <<'PY'
 import re, sys
+def strip_fm(t):
+    return re.sub(r"\A---[ \t]*\n.*?\n---[ \t]*\n?", "", t, count=1, flags=re.S)   # Antigravity rule frontmatter
 path, chunk, budget, root = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
-text = open(path, encoding="utf-8").read().replace("${CLAUDE_PLUGIN_ROOT}", root).replace("<plugin-root>", root)
+text = strip_fm(open(path, encoding="utf-8").read()).replace("${CLAUDE_PLUGIN_ROOT}", root).replace("<plugin-root>", root)
 lines = text.split("\n")
 title = next((l[2:].strip() for l in lines if l.startswith("# ")), path.rsplit("/", 1)[-1])
 # Split into units at H2/H3 headings and top-level <details> blocks, then pack greedily.
@@ -62,9 +64,11 @@ PY
 plan() {
     for f in "$RULES_DIR"/*.md; do
         python3 - "$f" "$BUDGET" <<'PY'
-import sys
+import re, sys
+def strip_fm(t):
+    return re.sub(r"\A---[ \t]*\n.*?\n---[ \t]*\n?", "", t, count=1, flags=re.S)
 path, budget = sys.argv[1], int(sys.argv[2])
-lines = open(path, encoding="utf-8").read().split("\n")
+lines = strip_fm(open(path, encoding="utf-8").read()).split("\n")
 units, cur = [], []
 for l in lines:
     if (l.startswith("## ") or l.startswith("### ") or l.startswith("<details")) and cur:
@@ -86,6 +90,8 @@ PY
 check() {   # every rules/*.md must be listed in hooks/hooks.json with slots >= its chunk count
     python3 - "$ROOT" "$BUDGET" <<'PY'
 import glob, json, os, re, sys
+def strip_fm(t):
+    return re.sub(r"\A---[ \t]*\n.*?\n---[ \t]*\n?", "", t, count=1, flags=re.S)
 root, budget = sys.argv[1], int(sys.argv[2])
 hooks = json.load(open(os.path.join(root, "hooks", "hooks.json")))
 slots = {}
@@ -97,7 +103,7 @@ for group in hooks["hooks"].get("SessionStart", []):
 problems = []
 for path in sorted(glob.glob(os.path.join(root, "rules", "*.md"))):
     name = os.path.basename(path)
-    lines = open(path, encoding="utf-8").read().split("\n")
+    lines = strip_fm(open(path, encoding="utf-8").read()).split("\n")
     units, cur = [], []
     for l in lines:
         if (l.startswith("## ") or l.startswith("### ") or l.startswith("<details")) and cur:

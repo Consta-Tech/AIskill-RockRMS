@@ -1,5 +1,5 @@
 {
-  "description": "Injects the Rock RMS house rules into context at the start of every session \u2014 one hook command per rule chunk, because a single hook command's output is capped (see hooks/inject-rule.sh). Slots past a rule's last chunk print nothing; hooks/inject-rule.sh --check verifies every rule fits its slots.",
+  "description": "Injects the Rock RMS house rules into context at the start of every session — one hook command per rule chunk, because a single hook command's output is capped (Claude Code keeps ~10 KB inline; Codex ~2,500 tokens; see hooks/inject-rule.sh). Codex runs this same file from a plugin install and sets CLAUDE_PLUGIN_ROOT for it. Slots past a rule's last chunk print nothing; hooks/inject-rule.sh --check verifies every rule fits its slots.",
   "hooks": {
     "SessionStart": [
       {
@@ -11,42 +11,42 @@
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh knowledge-boundaries.md 2",
-            "timeout": 30
-          },
-          {
-            "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 1",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 2",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-sql.md 1",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 3",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-sql.md 2",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 4",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-sql.md 3",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards.md 5",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-lava.md 1",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-lava.md 2",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh formatting-standards-workflowtypes.md 1",
             "timeout": 30
           },
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh lava-conventions.md 1",
-            "timeout": 30
-          },
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh lava-conventions.md 2",
             "timeout": 30
           },
           {
@@ -57,11 +57,6 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh about-documentation.md 2",
-            "timeout": 30
-          },
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject-rule.sh about-documentation.md 3",
             "timeout": 30
           },
           {

@@ -955,7 +955,7 @@
 
 - id: house-rule-formatting-standards
   category: house
-  title: House rule — Formatting standards (SQL and Lava)
+  title: House rule — Formatting standards (every language)
   skill: null
   file: rules/formatting-standards.md
   source_url: null
@@ -963,7 +963,40 @@
   tier: traced
   status: current
   added: 2026-09-29
-  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact.
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Indentation, boilerplate placement, date formats; the language files follow.
+- id: house-rule-formatting-standards-sql
+  category: house
+  title: House rule — Formatting standards (SQL)
+  skill: null
+  file: rules/formatting-standards-sql.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
+- id: house-rule-formatting-standards-lava
+  category: house
+  title: House rule — Formatting standards (Lava)
+  skill: null
+  file: rules/formatting-standards-lava.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
+- id: house-rule-formatting-standards-workflowtypes
+  category: house
+  title: House rule — Formatting standards (Workflow Types)
+  skill: null
+  file: rules/formatting-standards-workflowtypes.md
+  source_url: null
+  rock_version: n/a
+  tier: traced
+  status: current
+  added: 2026-10-09
+  notes: Injected into every session by the SessionStart hook. House convention, not a Rock fact. Split out of formatting-standards.md on 2026-10-09 so each rule file stays under Antigravity's 24,000-byte cap.
 
 - id: house-rule-lava-conventions
   category: house
