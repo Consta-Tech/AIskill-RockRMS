@@ -12,6 +12,12 @@ Paste this into your coding agent:
 Install the rockrms plugin from https://github.com/Consta-Tech/AIskill-RockRMS — follow the repo's INSTALL.md for my agent, then run its rockrms-init skill in this directory.
 ```
 
+On Claude Code 2.1.275 or later, one step inside a session does the install:
+
+```text
+/plugin install rockrms --marketplace Consta-Tech/AIskill-RockRMS
+```
+
 Or follow **[INSTALL.md](INSTALL.md)** yourself: one block per agent with install, verify, update, and uninstall steps, then `rockrms-init` to scaffold your workspace. Prefer to watch? [Install walkthrough on YouTube](https://youtu.be/Kr5t_K2I0r4) (Claude Code, desktop app and terminal; recorded before the multi-host release, so it shows `/rockrms:rock-init` where the plugin now says `/rockrms:rockrms-init`).
 
 ## What changes
