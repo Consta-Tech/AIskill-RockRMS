@@ -31,6 +31,14 @@ claude plugin marketplace add Consta-Tech/AIskill-RockRMS
 claude plugin install rockrms@consta-tech
 ```
 
+On Claude Code 2.1.275 or later the two steps collapse into one, from the terminal or inside a session (`/plugin install …`):
+
+```bash
+claude plugin install rockrms --marketplace Consta-Tech/AIskill-RockRMS
+```
+
+Prefer to watch? [Install walkthrough on YouTube](https://youtu.be/Kr5t_K2I0r4) covers this block in the Claude Code desktop app and in the terminal. It was recorded before the multi-host release, so it shows `/rockrms:rock-init` where the plugin now says `/rockrms:rockrms-init`.
+
 No cloning needed — Claude Code fetches this repo from GitHub and keeps it updated. Skills are typed with the plugin prefix: `/rockrms:rockrms-init`, `/rockrms:format-tsql`.
 
 ### Verify
