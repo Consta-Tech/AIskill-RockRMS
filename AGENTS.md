@@ -25,6 +25,35 @@ Do not read secrets, home-directory configuration, or other repositories' files.
 | Overlay skeleton | `examples/overlay-template/` | What a church copies to publish its own private overlay plugin |
 | Evals | `evals/` | `claude plugin eval` cases (data, no scripts); results are gitignored |
 
+### Layout
+
+```
+AIskill-RockRMS/
+├── .claude-plugin/     # Claude Code: plugin.json + marketplace.json (this repo is its own marketplace)
+├── .codex-plugin/      # Codex: plugin.json
+├── .agents/plugins/    # Codex: marketplace.json
+├── .opencode/          # OpenCode: plugins/rockrms.mjs (skills + rules + /rockrms-init) and command/
+├── plugin.json         # Antigravity: plugin manifest
+├── rules/              # Always-on house rules (hook-injected on Claude Code and Codex; Antigravity rules; OpenCode system prompt)
+├── hooks/              # SessionStart hook that injects rules/ (Claude Code and Codex)
+├── skills/             # The skill packs (agentskills.io format, host-neutral)
+│   └── <skill>/
+│       ├── SKILL.md    # Index + when-to-use routing
+│       ├── references/ # Reference docs, loaded on demand
+│       └── assets/     # Templates and static resources
+├── knowledge/          # manifest.yaml (source of truth), render.py, the rendered catalog views
+├── evals/              # claude plugin eval suite
+├── scripts/            # Contributor tooling only, nothing here ships to a session: check.sh runs every model-free check
+├── .githooks/          # pre-commit: runs scripts/check.sh (git config core.hooksPath .githooks)
+├── .github/workflows/  # knowledge-check: the same script on every push and PR
+├── setup.sh            # One-host installer: --host claude|codex|opencode|antigravity
+├── AGENTS.md           # This file (CLAUDE.md imports it)
+├── CHANGELOG.md        # Date-stamped releases
+├── CONTRIBUTING.md
+├── INSTALL.md
+└── README.md
+```
+
 ## Runtime entry points
 
 | Host | Read first |
