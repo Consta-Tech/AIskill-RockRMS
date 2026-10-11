@@ -1,6 +1,6 @@
 # AIskill-RockRMS
 
-A **Rock RMS development environment** for your AI harness — packaged as a plugin. Install it and initialize it once, and every session gets the Lava and T-SQL references, the Rock database schema, the audit workflows, and every improvement pushed here reaches you on your next update.
+A **Rock RMS development environment** for your AI harness — packaged as a plugin. Install it and initialize it once, and every session gets the house rules, the Lava and T-SQL references, the Rock database schema, the audit workflows, and every improvement pushed here reaches you on your next update.
 
 ## Vocabulary
 
@@ -8,9 +8,11 @@ Three words are used strictly in this repo:
 
 | Term | Meaning here |
 |---|---|
-| **Model** | The AI that reasons: Claude Opus 5.5, GPT-6.1. You choose it inside your harness. |
-| **Agent** | A model running in a loop with tools, context, and a goal — what you collaborate with in a session. A harness can run several at once. |
-| **Harness** | The application around the agent: the loop, the tool permissions, the UI, the plugin system. Claude Code, Codex, OpenCode, and Antigravity are harnesses. |
+| **Harness** | The application around the agent: the loop, the tool permissions, the UI, the plugin system. Example harnesses: Claude Code, Codex, OpenCode, and Antigravity. |
+| **Agent** | A model running in a loop with tools, context, and a goal — what you collaborate with in a session. A harness can run several agents at once. |
+| **Model** | The AI that reasons. You choose it inside your harness and can switch it mid-session. Example models: Claude Opus 5.5, GPT-6.1. |
+
+Example: John uses the `OpenCode` harness in order to manage five agents: three agents that use `Opus 5.5` and two agents that use `GPT-6.1`.
 
 So: the plugin installs into a **harness**, the **agent** reads the house rules and loads a skill, and the **model** is whichever one your harness is configured to use.
 

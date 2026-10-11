@@ -4,7 +4,7 @@ Releases of the `rockrms` plugin are **date-stamped**, newest first. The plugin 
 
 Headings inside a release follow [Keep a Changelog](https://keepachangelog.com): Added, Changed, Fixed, Removed. Contributors add their bullet under `## Unreleased`; the maintainer renames that heading to the release date when cutting a release (see CONTRIBUTING.md).
 
-## Unreleased
+## 2026-10-10
 
 ### Changed
 - **`rules/formatting-standards.md` is split by language:** `formatting-standards.md` (every language: indentation, boilerplate placement, dates), `formatting-standards-sql.md`, `formatting-standards-lava.md`, `formatting-standards-workflowtypes.md`. Antigravity truncates any rule file over 24,000 bytes and the single file had reached 25,335. The plugin copy also gains the "Dates go big-to-small" rule the upstream repo added, and every rule file now opens with the `trigger: always_on` frontmatter Antigravity requires (stripped before injection everywhere else).
