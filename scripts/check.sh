@@ -22,7 +22,7 @@ python3 knowledge/render.py --manifest examples/overlay-template/skills/knowledg
 step "House rules fit their hook slots and the Antigravity caps"
 bash hooks/inject-rule.sh --check
 
-step "Host manifests are valid JSON"
+step "Harness manifests are valid JSON"
 for f in plugin.json .codex-plugin/plugin.json .agents/plugins/marketplace.json \
          .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json; do
     python3 -c "import json, sys; json.load(open(sys.argv[1]))" "$f" && echo "ok $f"
@@ -47,7 +47,7 @@ print("skill frontmatter OK" if not bad else f"{len(bad)} problem(s)")
 sys.exit(1 if bad else 0)
 EOF
 
-step "INSTALL.md keeps one block per host"
+step "INSTALL.md keeps one block per harness"
 python3 scripts/check-install-docs.py
 
 step "OpenCode plugin registers every skill, every rule, and /rockrms-init"

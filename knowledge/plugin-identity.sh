@@ -9,7 +9,7 @@
 #   3. git rev-parse in the plugin root           → Codex and OpenCode installs are git checkouts,
 #                                                   as are development checkouts and eval runs
 #   4. "unknown"                                  → e.g. an Antigravity install, which is a copy
-# The host is inferred from where the plugin root sits.
+# The harness is inferred from where the plugin root sits.
 #
 # No heredocs here: skills run this inside Codex's read-only sandbox, where the temp file a heredoc
 # needs cannot be created. Python goes through -c, so the program strings contain no single quotes.

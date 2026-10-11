@@ -15,7 +15,7 @@ Turn a source into a catalogued reference. The output is a **branch in a clone o
 
 ## Locate the plugin first
 
-Step 1 reads the installed plugin. Its root is the directory that holds `knowledge/` and `skills/`: Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other host it is two directories above this `SKILL.md`. Set it once:
+Step 1 reads the installed plugin. Its root is the directory that holds `knowledge/` and `skills/`: Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other harness it is two directories above this `SKILL.md`. Set it once:
 
 ```bash
 ROOT="${CLAUDE_PLUGIN_ROOT:-${PLUGIN_ROOT:-<absolute path two directories above this SKILL.md>}}"

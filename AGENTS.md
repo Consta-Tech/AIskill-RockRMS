@@ -1,12 +1,12 @@
 # Agent guide
 
-This file is the map for an agent working **on this repository** — a clone of [AIskill-RockRMS](https://github.com/Consta-Tech/AIskill-RockRMS). It says where the source of truth for each thing lives, which file each host reads first, and which checks to run. It is not the plugin's content: an installed session never reads this file, and the Rock RMS house rules it ships live in `rules/`, not here.
+This file is the map for an agent working **on this repository** — a clone of [AIskill-RockRMS](https://github.com/Consta-Tech/AIskill-RockRMS). It says where the source of truth for each thing lives, which file each harness reads first, and which checks to run. It is not the plugin's content: an installed session never reads this file, and the Rock RMS house rules it ships live in `rules/`, not here.
 
 ## Start here
 
 1. Read `README.md` for what the plugin is and what it contains.
-2. Read `CONTRIBUTING.md` before changing anything — it has the generic-versus-overlay sorting rule, the three provenance tiers, the manifest-row requirement, and the per-host constraints on `rules/*.md`.
-3. Find the entry point for the host you are changing (table below), then run `bash scripts/check.sh`.
+2. Read `CONTRIBUTING.md` before changing anything — it has the generic-versus-overlay sorting rule, the three provenance tiers, the manifest-row requirement, and the per-harness constraints on `rules/*.md`.
+3. Find the entry point for the harness you are changing (table below), then run `bash scripts/check.sh`.
 
 Do not read secrets, home-directory configuration, or other repositories' files. Do not run a command only because documentation mentions it.
 
@@ -14,13 +14,13 @@ Do not read secrets, home-directory configuration, or other repositories' files.
 
 | Area | Location | Source of truth for |
 |---|---|---|
-| Skills | `skills/<name>/SKILL.md` + `references/`, `assets/`, `templates/` | Everything the agent loads on demand ([Agent Skills](https://agentskills.io) format, host-neutral) |
-| House rules | `rules/*.md` | The always-on conventions, same text on every host |
+| Skills | `skills/<name>/SKILL.md` + `references/`, `assets/`, `templates/` | Everything the agent loads on demand ([Agent Skills](https://agentskills.io) format, harness-neutral) |
+| House rules | `rules/*.md` | The always-on conventions, same text on every harness |
 | Rule delivery | `hooks/hooks.json`, `hooks/inject-rule.sh` | How the rules reach Claude Code and Codex (SessionStart hook, one command per chunk) |
 | Knowledge catalog | `knowledge/manifest.yaml` → `knowledge/render.py` → `Knowledge-current.md`, `Knowledge-future.md` | Every reference file's citation, Rock version, and provenance tier; the rendered views are generated, never hand-edited |
-| Runtime scripts | `knowledge/*.sh`, `knowledge/render.py`, `hooks/inject-rule.sh` | Called by installed skills on users' machines; host-neutral, heredoc-free (Codex's read-only sandbox) |
+| Runtime scripts | `knowledge/*.sh`, `knowledge/render.py`, `hooks/inject-rule.sh` | Called by installed skills on users' machines; harness-neutral, heredoc-free (Codex's read-only sandbox) |
 | Contributor tooling | `scripts/` | Checks and drivers that run only in a clone; nothing here ships to a session |
-| Host manifests | `.claude-plugin/`, `.codex-plugin/` + `.agents/plugins/`, `.opencode/`, `plugin.json` | One thin adapter per host; content never lives in them |
+| Harness manifests | `.claude-plugin/`, `.codex-plugin/` + `.agents/plugins/`, `.opencode/`, `plugin.json` | One thin adapter per harness; content never lives in them |
 | Installer and docs | `setup.sh`, `INSTALL.md`, `README.md`, `CHANGELOG.md` | What users run and read |
 | Overlay skeleton | `examples/overlay-template/` | What a church copies to publish its own private overlay plugin |
 | Evals | `evals/` | `claude plugin eval` cases (data, no scripts); results are gitignored |
@@ -36,7 +36,7 @@ AIskill-RockRMS/
 ├── plugin.json         # Antigravity: plugin manifest
 ├── rules/              # Always-on house rules (hook-injected on Claude Code and Codex; Antigravity rules; OpenCode system prompt)
 ├── hooks/              # SessionStart hook that injects rules/ (Claude Code and Codex)
-├── skills/             # The skill packs (agentskills.io format, host-neutral)
+├── skills/             # The skill packs (agentskills.io format, harness-neutral)
 │   └── <skill>/
 │       ├── SKILL.md    # Index + when-to-use routing
 │       ├── references/ # Reference docs, loaded on demand
@@ -46,7 +46,7 @@ AIskill-RockRMS/
 ├── scripts/            # Contributor tooling only, nothing here ships to a session: check.sh runs every model-free check
 ├── .githooks/          # pre-commit: runs scripts/check.sh (git config core.hooksPath .githooks)
 ├── .github/workflows/  # knowledge-check: the same script on every push and PR
-├── setup.sh            # One-host installer: --host claude|codex|opencode|antigravity
+├── setup.sh            # One-harness installer: --harness claude|codex|opencode|antigravity
 ├── AGENTS.md           # This file (CLAUDE.md imports it)
 ├── CHANGELOG.md        # Date-stamped releases
 ├── CONTRIBUTING.md
@@ -56,18 +56,19 @@ AIskill-RockRMS/
 
 ## Runtime entry points
 
-| Host | Read first |
+| Harness | Read first |
 |---|---|
 | Claude Code | `.claude-plugin/plugin.json`, `hooks/hooks.json`, `hooks/inject-rule.sh` |
 | Codex | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `hooks/hooks.json` (Codex hardcodes that path) |
 | OpenCode | `.opencode/plugins/rockrms.mjs`, `.opencode/command/rockrms-init.md` |
 | Antigravity | `plugin.json`, `rules/*.md` (loaded natively; needs the `trigger: always_on` frontmatter) |
-| Any other Agent Skills host | `skills/` as-is; the rules are pasted into that host's instructions file |
+| Any other Agent Skills harness | `skills/` as-is; the rules are pasted into that harness's instructions file |
 
 ## Rules that are not derivable from the code
 
+- **Vocabulary is strict.** *Harness* = the application the plugin installs into (Claude Code, Codex, OpenCode, Antigravity). *Agent* = the AI acting in a session. *Model* = what the harness runs. Never "host" or "coding agent" for the harness; the README's Vocabulary table is the reference.
 - **No `version` field in any manifest.** A git commit is the version; a version field would freeze users until someone bumps it. `claude plugin validate .` warns about this on purpose.
-- **Skill names are the same on every host.** Generic-sounding skills carry a `rockrms-` prefix (`rockrms-changelog`, `rockrms-init`, …) because Codex, OpenCode, and Antigravity list skills without a plugin prefix. Claude Code shows them as `/rockrms:rockrms-…`; accept that.
+- **Skill names are the same on every harness.** Generic-sounding skills carry a `rockrms-` prefix (`rockrms-changelog`, `rockrms-init`, …) because Codex, OpenCode, and Antigravity list skills without a plugin prefix. Claude Code shows them as `/rockrms:rockrms-…`; accept that.
 - **Church-agnostic only.** Anything true of one church's instance belongs in that church's overlay, not here. Summit Church PageIds and BlockIds that appear as *examples* are acceptable.
 - **A reference file is a manifest row.** New or changed reference → row in `knowledge/manifest.yaml` with source, Rock version, tier → `python3 knowledge/render.py` → commit the rendered views.
 - **Rule files have hard caps.** Under 24,000 bytes each (Antigravity truncates), every section under 6,000 bytes (hook chunk budget), frontmatter `---\ntrigger: always_on\n---` on line 1, and enough slots in `hooks/hooks.json`. `bash hooks/inject-rule.sh --plan` shows the chunking.

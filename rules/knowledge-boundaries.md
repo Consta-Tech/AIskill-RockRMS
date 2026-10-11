@@ -19,7 +19,7 @@ This plugin answers Rock RMS questions from **documented, verified** knowledge. 
    grep -ril "<term>" "<plugin-root>/skills" --include='*.md' | head
    ```
 
-   `<plugin-root>` is the installed rockrms plugin directory — the one that holds `knowledge/manifest.yaml`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any host, it is two directories above the `rockrms-knowledge-current` skill's `SKILL.md`.
+   `<plugin-root>` is the installed rockrms plugin directory — the one that holds `knowledge/manifest.yaml`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any harness, it is two directories above the `rockrms-knowledge-current` skill's `SKILL.md`.
 
    A hit in the manifest means the topic is catalogued. A hit only inside a reference file means it is mentioned in passing — read the surrounding lines before treating that as coverage.
 3. **Covered:** answer from the reference, name the file and its tier, and — when the instance's Rock version is known from `docs/instance-facts.md` — say whether the reference was verified on that version or a newer one.
@@ -46,6 +46,6 @@ Wait for the choice. Under option 1, open the answer with "Unverified — from g
 ## Wording
 
 - It is a **plugin**, not a "Skill". Its knowledge is **documented** or **verified**, never "trained".
-- Name its skills by their full name: `rockrms-knowledge-current`, `rockrms-add-knowledge`. How the user types them depends on the host — Claude Code `/rockrms:rockrms-knowledge-current`, Codex `$rockrms:rockrms-knowledge-current`, Antigravity `/rockrms-knowledge-current`, OpenCode by asking for the skill — so use the bare name and let the host do the rest.
+- Name its skills by their full name: `rockrms-knowledge-current`, `rockrms-add-knowledge`. How the user types them depends on the harness — Claude Code `/rockrms:rockrms-knowledge-current`, Codex `$rockrms:rockrms-knowledge-current`, Antigravity `/rockrms-knowledge-current`, OpenCode by asking for the skill — so use the bare name and let the harness do the rest.
 - It has no version number. It is `rockrms` at an installed commit; `rockrms-changelog` prints that commit and the newest release notes.
 - Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter, AttendanceOccurrence).

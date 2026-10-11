@@ -1,25 +1,25 @@
 # Install AIskill-RockRMS
 
-Two parts: **(1)** install the `rockrms` plugin into your coding agent — pick your agent below, **(2)** initialize your personal Rock workspace with the `rockrms-init` skill. Part 1 is a few terminal commands; Part 2 happens inside the agent.
+Two parts: **(1)** install the `rockrms` plugin into your harness — pick it below, **(2)** initialize your personal Rock workspace with the `rockrms-init` skill. Part 1 is a few terminal commands; Part 2 happens inside a session.
 
-Every host gets the same content: the eighteen skills under `skills/`, and the house rules under `rules/`, which load into every session automatically. Only the install commands and the way you type a skill's name differ.
+Every harness gets the same content: the eighteen skills under `skills/`, and the house rules under `rules/`, which load into every session automatically. Only the install commands and the way you type a skill's name differ.
 
 ## Prerequisites
 
-- One of the agents below, installed and signed in
+- One of the harnesses below, installed and signed in
 - `git`, with access to GitHub (`gh auth status` to check)
 - macOS or Linux shell with `python3` (the house-rule hook and the knowledge catalog are bash + Python; on Windows use WSL or Git Bash)
 
 ## Quick install (scripted)
 
-[`setup.sh`](setup.sh) runs the install commands for one host, then prints the Part 2 commands:
+[`setup.sh`](setup.sh) runs the install commands for one harness, then prints the Part 2 commands:
 
 ```bash
 git clone https://github.com/Consta-Tech/AIskill-RockRMS.git ~/GitHub/AIskill-RockRMS
-bash ~/GitHub/AIskill-RockRMS/setup.sh --host claude      # or codex | opencode | antigravity
+bash ~/GitHub/AIskill-RockRMS/setup.sh --harness claude      # or codex | opencode | antigravity
 ```
 
-Safe to re-run. Prefer the manual steps? Pick your host.
+Safe to re-run. Prefer the manual steps? Pick your harness.
 
 <details>
 <summary><strong>Claude Code</strong></summary>
@@ -37,7 +37,7 @@ On Claude Code 2.1.275 or later the two steps collapse into one, from the termin
 claude plugin install rockrms --marketplace Consta-Tech/AIskill-RockRMS
 ```
 
-Prefer to watch? [Install walkthrough on YouTube](https://youtu.be/Kr5t_K2I0r4) covers this block in the Claude Code desktop app and in the terminal. It was recorded before the multi-host release, so it shows `/rockrms:rock-init` where the plugin now says `/rockrms:rockrms-init`.
+Prefer to watch? [Install walkthrough on YouTube](https://youtu.be/Kr5t_K2I0r4) covers this block in the Claude Code desktop app and in the terminal. It was recorded before the multi-harness release, so it shows `/rockrms:rock-init` where the plugin now says `/rockrms:rockrms-init`.
 
 No cloning needed — Claude Code fetches this repo from GitHub and keeps it updated. Skills are typed with the plugin prefix: `/rockrms:rockrms-init`, `/rockrms:format-tsql`.
 
@@ -212,7 +212,7 @@ The plugin's `rules/*.md` are always-on Antigravity rules (`trigger: always_on`)
 </details>
 
 <details>
-<summary><strong>Any other agent-skills harness (Cursor, Copilot, Zed, Gemini CLI, …)</strong></summary>
+<summary><strong>Any other Agent Skills harness (Cursor, Copilot, Zed, Gemini CLI, …)</strong></summary>
 
 The `skills/` tree follows the [Agent Skills](https://agentskills.io) standard, so any harness that reads `SKILL.md` can use the skills. The house rules are plain Markdown you paste into that harness's persistent instructions file.
 
@@ -223,7 +223,7 @@ npx skills add Consta-Tech/AIskill-RockRMS        # this workspace
 npx skills add Consta-Tech/AIskill-RockRMS -g     # all projects
 ```
 
-Without the CLI, copy the skill folders into whatever directory your agent scans (`.agents/skills/` is the cross-tool convention):
+Without the CLI, copy the skill folders into whatever directory your harness scans (`.agents/skills/` is the cross-tool convention):
 
 ```bash
 git clone https://github.com/Consta-Tech/AIskill-RockRMS.git
@@ -232,7 +232,7 @@ mkdir -p .agents/skills && cp -R AIskill-RockRMS/skills/* .agents/skills/
 
 ### House rules
 
-Append the rule files to your agent's instructions file (`AGENTS.md`, `.github/copilot-instructions.md`, `.cursor/rules/…`), dropping the three-line `trigger:` frontmatter each one starts with:
+Append the rule files to your harness's instructions file (`AGENTS.md`, `.github/copilot-instructions.md`, `.cursor/rules/…`), dropping the three-line `trigger:` frontmatter each one starts with:
 
 ```bash
 for f in AIskill-RockRMS/rules/*.md; do awk 'NR==1 && /^---$/ {skip=1; next} skip && /^---$/ {skip=0; next} !skip' "$f"; echo; done >> AGENTS.md
@@ -253,7 +253,7 @@ mkdir -p ~/GitHub/rockrms-workspace-<yourname>
 cd ~/GitHub/rockrms-workspace-<yourname>
 ```
 
-| Host | Start | Then type |
+| Harness | Start | Then type |
 |---|---|---|
 | Claude Code | `claude` | `/rockrms:rockrms-init` |
 | Codex | `codex` | `$rockrms:rockrms-init` |
@@ -273,7 +273,7 @@ Prefer to scaffold by hand? Every file the skill writes comes from [`skills/rock
 
 ## How the house rules load
 
-| Host | Mechanism | Always on? |
+| Harness | Mechanism | Always on? |
 |---|---|---|
 | Claude Code | `hooks/hooks.json` SessionStart hook, one command per rule chunk | Yes |
 | Codex | the same `hooks/hooks.json` SessionStart hook | Yes, after you authorize the hooks once at first start |
@@ -281,7 +281,7 @@ Prefer to scaffold by hand? Every file the skill writes comes from [`skills/rock
 | Antigravity | `rules/*.md` carry `trigger: always_on` | Yes, within the always-on budget |
 | Other harnesses | you paste the rules into the instructions file | Only if you do |
 
-The rules say how we write SQL, Lava, comments, and files; they are the same text on every host. The skills load on demand: each host shows the agent every skill's one-line description and the agent reads a skill when a task calls for it (or when you name it).
+The rules say how we write SQL, Lava, comments, and files; they are the same text on every harness. The skills load on demand: each harness shows the agent every skill's one-line description and the agent reads a skill when a task calls for it (or when you name it).
 
 ## Contributing improvements back
 
@@ -295,7 +295,7 @@ Branch, edit, and open a PR — [CONTRIBUTING.md](CONTRIBUTING.md) has the prove
 
 ## Troubleshooting
 
-**Skills missing from autocomplete, or `rockrms-init` not offered.** Restart the agent — every host indexes plugins and skills at startup. `rockrms-init` is deliberately hidden from the agent's own skill picks (Claude Code `disable-model-invocation`, Codex `allow_implicit_invocation: false`, honored by Antigravity too), so it appears only when you type it. On Codex, `codex plugin list` must show `rockrms`; on OpenCode, check that `~/.config/opencode/plugins/rockrms.js` exists and that its relative path reaches the clone.
+**Skills missing from autocomplete, or `rockrms-init` not offered.** Restart the harness — every harness indexes plugins and skills at startup. `rockrms-init` is deliberately hidden from the agent's own skill picks (Claude Code `disable-model-invocation`, Codex `allow_implicit_invocation: false`, honored by Antigravity too), so it appears only when you type it. On Codex, `codex plugin list` must show `rockrms`; on OpenCode, check that `~/.config/opencode/plugins/rockrms.js` exists and that its relative path reaches the clone.
 
 **`claude plugin marketplace add` / `codex plugin marketplace add` fails.** Use the `Consta-Tech/AIskill-RockRMS` (owner/repo) form. A local path must point at the repo root, not `.claude-plugin/`.
 

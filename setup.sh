@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# setup.sh — bootstrap for the rockrms plugin on any supported coding agent.
+# setup.sh — bootstrap for the rockrms plugin on any supported harness.
 #
-# Installs the plugin into ONE host (Part 1 of INSTALL.md) and prints how to
+# Installs the plugin into ONE harness (Part 1 of INSTALL.md) and prints how to
 # initialize a workspace with the rockrms-init skill afterwards (Part 2).
 #
-# Usage:  bash setup.sh [--host claude|codex|opencode|antigravity]
-#         (no --host: claude)
+# Usage:  bash setup.sh [--harness claude|codex|opencode|antigravity]
+#         (no --harness: claude; --host is accepted as an alias)
 #
-# Idempotent: safe to re-run. Each host's own package manager owns the install;
-# this script only issues the commands INSTALL.md documents for that host.
+# Idempotent: safe to re-run. Each harness's own package manager owns the install;
+# this script only issues the commands INSTALL.md documents for that harness.
 #
 # The Summit Church developers: use the setup.sh in the AIskill-RockRMS-TSC
 # repo instead — it also installs the TSC overlay plugin.
@@ -21,7 +21,8 @@ HOST="claude"
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        --host) HOST="${2:-}"; shift 2 ;;
+        --harness|--host) HOST="${2:-}"; shift 2 ;;
+        --harness=*) HOST="${1#--harness=}"; shift ;;
         --host=*) HOST="${1#--host=}"; shift ;;
         -h|--help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
         *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
@@ -79,7 +80,7 @@ case "$HOST" in
         START='agy'
         ;;
     *)
-        die "Unknown host '$HOST'. Use --host claude, codex, opencode, or antigravity."
+        die "Unknown harness '$HOST'. Use --harness claude, codex, opencode, or antigravity."
         ;;
 esac
 

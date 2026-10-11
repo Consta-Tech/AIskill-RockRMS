@@ -12,7 +12,7 @@ Thank you for helping keep this plugin honest. The plugin's value is that every 
    git config core.hooksPath .githooks
    ```
 
-Inside a session on any host, the `rockrms-add-knowledge` skill performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
+Inside a session on any harness, the `rockrms-add-knowledge` skill performs steps 2 and 3 for you from a URL or a pasted excerpt, and stops right before the commit.
 
 ## Where does it belong? The sorting rule
 
@@ -22,7 +22,7 @@ Inside a session on any host, the `rockrms-add-knowledge` skill performs steps 2
 | True only at one church — instance Ids, hostnames, page structure, an intentional deviation from stock behavior | That church's **overlay** plugin (see `examples/overlay-template/`) |
 | Only true for one developer or machine | That developer's workspace `docs/` |
 
-"Verified on our instance" is provenance, not scope: a behavior measured at one church that would reproduce on any Rock instance is generic knowledge. Strip church-specific names, Ids, and hostnames before it lands here (`{your-rock-host}` is the placeholder convention).
+"Verified on our instance" is provenance, not scope: a behavior measured at one church that would reproduce on any Rock instance is generic knowledge. Strip church-specific names, Ids, and hostnames before it lands here (`{your-rock-harness}` is the placeholder convention).
 
 ## The three provenance tiers
 
@@ -80,7 +80,7 @@ bash scripts/check.sh                  # that check plus every other model-free 
 
 Commit the rendered views with your change; the PR diff to `Knowledge-current.md` is the reviewer's summary of what you added. `scripts/check.sh` is what the pre-commit hook and the `knowledge-check` GitHub Action (`.github/workflows/knowledge-check.yml`) both run, so a PR that skips it shows red before review — but the pre-commit hook catches it before you push, so enable it.
 
-`scripts/` holds contributor tooling only; nothing in it ships to an installed session. The scripts that do ship (`knowledge/render.py`, `knowledge/changelog.sh`, `knowledge/plugin-identity.sh`, `hooks/inject-rule.sh`) live next to the data they read, must stay host-neutral and heredoc-free, and are only *called* from `scripts/check.sh`. A new script follows the same rule: next to its data if a skill runs it, in `scripts/` if only contributors do. `AGENTS.md` at the repo root repeats these rules for an agent working on a clone.
+`scripts/` holds contributor tooling only; nothing in it ships to an installed session. The scripts that do ship (`knowledge/render.py`, `knowledge/changelog.sh`, `knowledge/plugin-identity.sh`, `hooks/inject-rule.sh`) live next to the data they read, must stay harness-neutral and heredoc-free, and are only *called* from `scripts/check.sh`. A new script follows the same rule: next to its data if a skill runs it, in `scripts/` if only contributors do. `AGENTS.md` at the repo root repeats these rules for an agent working on a clone.
 
 ## Proposing a roadmap row
 
@@ -105,11 +105,11 @@ claude plugin eval . --case changelog-prints-newest --runs 1 --ablation none --a
 
 ## Editing a house rule (`rules/*.md`)
 
-A rule file is read by four hosts, and each imposes a size limit the file must respect:
+A rule file is read by four harnesses, and each imposes a size limit the file must respect:
 
 - **Claude Code** injects the rules at session start through `hooks/hooks.json` → `hooks/inject-rule.sh`, **one hook command per rule chunk**, because it keeps only a short preview of any single hook command's output above roughly 10 KB (measured 2026-09-29: 9.5 KB intact, 14.7 KB cut to a 2 KB preview). The script splits a rule at `##` / `###` headings and `<details>` boundaries into blocks under a 6 KB budget; `hooks.json` lists a fixed number of slots per rule. Hook commands run in parallel, so the blocks arrive in no particular order — each chunk is labelled `(part n of N)` and should read sensibly on its own, which is another reason to split only at headings.
 - **Codex** runs the same `hooks/hooks.json` — codex-cli 0.162.1 hardcodes that path for every plugin and offers no manifest key to choose another file (verified 2026-10-10 against the binary's strings and the `hooks.state` entries it writes to `config.toml`). Its default cap is ~2,500 tokens per hook command, which the 6 KB chunks respect. Codex authorizes all of a plugin's hooks in one prompt at first start, so the chunk count costs the user nothing.
-- **Scripts the hosts run never use heredocs** — Codex's read-only sandbox refuses the temp file a heredoc needs. Python goes through `python3 -c "$VAR"`, so those strings contain no single quotes.
+- **Scripts the harnesses run never use heredocs** — Codex's read-only sandbox refuses the temp file a heredoc needs. Python goes through `python3 -c "$VAR"`, so those strings contain no single quotes.
 - **Antigravity** loads `rules/*.md` directly as always-on rules and **silently drops a file without frontmatter**, so every rule file opens with `---\ntrigger: always_on\n---`; the hook and the OpenCode plugin strip those lines before injecting. Antigravity also truncates any rule file over **24,000 bytes** — the reason `formatting-standards.md` is four files — and shares a 20,000-token budget across all always-on rules.
 - **OpenCode** gets the rules from `.opencode/plugins/rockrms.mjs`, which concatenates `rules/*.md` into the system prompt once per process. No per-file limit, but every byte is in every turn.
 
@@ -121,5 +121,5 @@ Rule text that must name the plugin's install directory writes `<plugin-root>`; 
 
 - Skill names are lowercase-hyphen and equal their directory name; `SKILL.md` stays under 500 lines with depth in `references/`.
 - Cross-skill and cross-plugin references are **by skill name**, never by relative path — installed plugins live in separate directories.
-- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". Write skill names bare (`format-tsql`, `rockrms-knowledge-current`) — each host adds its own prefix (`/rockrms:` in Claude Code, `$rockrms:` in Codex).
+- Spell out BlockType and entity names (Dynamic Data block, PageParameterFilter). Say *documented* or *verified*, not "trained". The application the plugin installs into is a *harness* (never "host", "platform", or "coding agent"); the AI acting in the session is the *agent*; the README's Vocabulary table is the reference. Write skill names bare (`format-tsql`, `rockrms-knowledge-current`) — each harness adds its own prefix (`/rockrms:` in Claude Code, `$rockrms:` in Codex).
 - Nothing from a personal `input_box/` or other ephemeral location is cited in a shipped file.

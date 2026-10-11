@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# SessionStart hook: prints house-rule text to stdout, which the host adds to the session
+# SessionStart hook: prints house-rule text to stdout, which the harness adds to the session
 # context. Plugins cannot ship always-on rule files for Claude Code or Codex, so a hook
 # replicates that auto-load behavior. (Antigravity reads rules/*.md directly; the OpenCode
 # plugin injects them into the system prompt.)
 #
 # hooks/hooks.json calls this script — on Claude Code and on Codex, which reads the same path from
 # any plugin (codex-cli 0.162.1 hardcodes hooks/hooks.json; it has no manifest key to pick another
-# file). One command per rule CHUNK, because each host caps a single hook command's output: Claude
+# file). One command per rule CHUNK, because each harness caps a single hook command's output: Claude
 # Code keeps only a short preview above ~10 KB (measured 2026-09-29 on Claude Code 2.1.285: a
 # 9.5 KB block arrived intact, a 14.7 KB block was cut to a 2 KB preview); Codex defaults to
 # ~2,500 tokens per hook. Each rule larger than BUDGET bytes is split at heading / <details>

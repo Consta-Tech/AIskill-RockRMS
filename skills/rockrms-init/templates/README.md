@@ -6,7 +6,7 @@ These files double as the **manual** scaffold path: copy them into your workspac
 
 | Template | Becomes |
 |---|---|
-| `workspace-AGENTS.md` | `AGENTS.md` — the workspace instructions every supported agent reads (Claude Code, Codex, OpenCode, Antigravity) |
+| `workspace-AGENTS.md` | `AGENTS.md` — the workspace instructions every supported harness reads (Claude Code, Codex, OpenCode, Antigravity) |
 | `workspace-CLAUDE.md` | `CLAUDE.md` — one line, `@AGENTS.md`, so Claude Code imports the same file |
 | `workspace-docs-README.md` | `docs/README.md` |
 | `workspace-instance-facts.md` | `docs/instance-facts.md` |

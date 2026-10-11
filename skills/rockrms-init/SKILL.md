@@ -29,7 +29,7 @@ Check whether a church overlay plugin is installed by looking through your avail
 
 ## Step 3 — Interview
 
-Ask the questions below — with the host's structured-question tool when it has one (Claude Code: AskUserQuestion, in one call where possible), otherwise as one numbered block in plain prose. Only the applicable questions:
+Ask the questions below — with the harness's structured-question tool when it has one (Claude Code: AskUserQuestion, in one call where possible), otherwise as one numbered block in plain prose. Only the applicable questions:
 
 1. **Git preference** (always ask):
    - *No git* — "I do not want to track this directory as a git repo"
@@ -58,7 +58,7 @@ Create each item below, skipping anything that already exists:
      Fill the Rock version row as a **real table row**, never a comment: `{{ROCK_VERSION}}` becomes the answer (or the overlay's value), `{{ROCK_VERSION_VERIFIED}}` becomes today's date in `YYYY-MM-DD`. When the question was skipped, write `unknown` and leave the Verified cell empty — the row must still exist so it can be filled in later.
 3. **`input_box/`** — `mkdir input_box`.
 4. **`.gitignore`** from `templates/workspace-gitignore`. If one already exists, do not replace it — instead show which of the template's lines are missing and ask whether to append them.
-5. **`.claude/settings.json`** — **only when the agent running this skill is Claude Code** (other agents do not read it). From the overlay's `workspace-defaults` block when there is one. Otherwise build it: `permissions.additionalDirectories: ["../<church-repo>"]` only in the shared-repo layout, plus:
+5. **`.claude/settings.json`** — **only when the harness running this skill is Claude Code** (other harnesses do not read it). From the overlay's `workspace-defaults` block when there is one. Otherwise build it: `permissions.additionalDirectories: ["../<church-repo>"]` only in the shared-repo layout, plus:
 
    ```json
    "extraKnownMarketplaces": {
@@ -67,7 +67,7 @@ Create each item below, skipping anything that already exists:
    "enabledPlugins": { "rockrms@consta-tech": true }
    ```
 
-6. **`AGENTS.md`** from `templates/workspace-AGENTS.md`, replacing every placeholder. Every supported agent (Claude Code, Codex, OpenCode, Antigravity) reads this file at session start.
+6. **`AGENTS.md`** from `templates/workspace-AGENTS.md`, replacing every placeholder. Every supported harness (Claude Code, Codex, OpenCode, Antigravity) reads this file at session start.
 
    | Placeholder | Value |
    |---|---|
@@ -80,7 +80,7 @@ Create each item below, skipping anything that already exists:
 
    Delete the template's HTML comment blocks from the rendered file.
 
-7. **`CLAUDE.md`** from `templates/workspace-CLAUDE.md` — a one-line file that imports `AGENTS.md`, so Claude Code reads the same instructions as every other agent. Write it on every host (it is harmless elsewhere and keeps the workspace portable to a teammate who uses Claude Code). If a `CLAUDE.md` with other content already exists, leave it and tell the user it should import or be replaced by `AGENTS.md`.
+7. **`CLAUDE.md`** from `templates/workspace-CLAUDE.md` — a one-line file that imports `AGENTS.md`, so Claude Code reads the same instructions as every other harness. Write it on every harness (it is harmless elsewhere and keeps the workspace portable to a teammate who uses Claude Code). If a `CLAUDE.md` with other content already exists, leave it and tell the user it should import or be replaced by `AGENTS.md`.
 
 ## Step 5 — Git
 
@@ -94,9 +94,9 @@ Per the interview answer:
 
 1. Summarize: what was created, what already existed and was skipped, and (shared-repo layout) where the church clone sits.
 2. Note that a **new session** in this directory will pick up `AGENTS.md` (and, in Claude Code, the settings); instruction files are read when a session starts, so this session does not see them.
-3. Do **not** offer to start work in this session. Close by walking the user out and back in, matched to the agent they are running — if you cannot tell which one, give the terminal steps for all four and the new-session line for app users:
+3. Do **not** offer to start work in this session. Close by walking the user out and back in, matched to the harness they are running — if you cannot tell which one, give the terminal steps for all four and the new-session line for app users:
 
-   > One note: the files I just wrote apply fully in your NEXT session, so restart your agent before doing real work here.
+   > One note: the files I just wrote apply fully in your NEXT session, so restart your harness before doing real work here.
    >
    > 1. Type `exit`, press 'Enter'. (In Antigravity, close the chat instead.)
    > 2. Back at your terminal, start it again — `claude`, `codex`, `opencode`, or `agy` — and press 'Enter'.

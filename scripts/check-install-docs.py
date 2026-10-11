@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""tests/check-install-docs.py — INSTALL.md keeps one <details> block per host, each with the same headings.
+"""scripts/check-install-docs.py — INSTALL.md keeps one <details> block per harness, each with the same headings.
 
-Exit 1 when a host block lacks Install, Verify, Update, or Uninstall, or when a host named in the
+Exit 1 when a harness block lacks Install, Verify, Update, or Uninstall, or when a harness named in the
 "How the house rules load" table has no block. No model calls; run by .githooks/pre-commit and the
 knowledge-check workflow.
 
-    python3 tests/check-install-docs.py
+    python3 scripts/check-install-docs.py
 """
 import os
 import re
 import sys
 
 REQUIRED = ["### Install", "### Verify", "### Update", "### Uninstall"]
-# Hosts that must have a full block. "Any other agent-skills harness" is documented, not tested,
+# Harnesses that must have a full block. "Any other Agent Skills harness" is documented, not tested,
 # and is exempt from the Verify / Update / Uninstall requirement.
-HOSTS = ["Claude Code", "Codex", "OpenCode", "Antigravity"]
+HARNESSES = ["Claude Code", "Codex", "OpenCode", "Antigravity"]
 
 
 def main():
@@ -26,16 +26,16 @@ def main():
     for title, body in blocks:
         name = re.sub(r"<[^>]+>", "", title).strip()
         found[name] = body
-    for host in HOSTS:
-        block = next((b for n, b in found.items() if n.startswith(host)), None)
+    for harness in HARNESSES:
+        block = next((b for n, b in found.items() if n.startswith(harness)), None)
         if block is None:
-            problems.append(f"INSTALL.md: no <details> block for {host}")
+            problems.append(f"INSTALL.md: no <details> block for {harness}")
             continue
         for heading in REQUIRED:
             if heading not in block:
-                problems.append(f"INSTALL.md: {host} block lacks '{heading}'")
+                problems.append(f"INSTALL.md: {harness} block lacks '{heading}'")
         if "### House rules" not in block:
-            problems.append(f"INSTALL.md: {host} block lacks '### House rules'")
+            problems.append(f"INSTALL.md: {harness} block lacks '### House rules'")
     if "## How the house rules load" not in text:
         problems.append("INSTALL.md: missing '## How the house rules load'")
     if "## Troubleshooting" not in text:

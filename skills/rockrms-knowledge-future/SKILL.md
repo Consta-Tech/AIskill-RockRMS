@@ -10,7 +10,7 @@ Roadmap entries are manifest rows with `status: roadmap` — a title, a category
 
 ## Locate the plugin first
 
-The commands below need the plugin's root directory — the one that holds `knowledge/` and `skills/`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other host it is two directories above this `SKILL.md` (`<root>/skills/rockrms-knowledge-future/SKILL.md`). Set it once:
+The commands below need the plugin's root directory — the one that holds `knowledge/` and `skills/`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other harness it is two directories above this `SKILL.md` (`<root>/skills/rockrms-knowledge-future/SKILL.md`). Set it once:
 
 ```bash
 ROOT="${CLAUDE_PLUGIN_ROOT:-${PLUGIN_ROOT:-<absolute path two directories above this SKILL.md>}}"

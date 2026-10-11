@@ -1,6 +1,6 @@
 # Fails a push or pull request when any model-free repo check fails: stale knowledge catalog
 # views, a reference file without its manifest row or provenance header, a house rule that
-# outgrew its hook slots or the Antigravity caps, a broken host manifest, an OpenCode plugin
+# outgrew its hook slots or the Antigravity caps, a broken harness manifest, an OpenCode plugin
 # that registers less than it should, or a drifted INSTALL.md. Same script as .githooks/pre-commit,
 # for contributors who never enabled that hook. No model calls, no secrets.
 name: knowledge-check

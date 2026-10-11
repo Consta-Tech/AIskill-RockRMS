@@ -49,14 +49,14 @@ Declare both marketplaces and both plugins in your developers' workspace-repo `.
 }
 ```
 
-## Other hosts (Codex, OpenCode, Antigravity)
+## Other harnesses (Codex, OpenCode, Antigravity)
 
-The generic plugin ships one thin manifest or loader per host next to its Claude Code files; an overlay needs the same, with its own names. Copy from the generic repo and rename:
+The generic plugin ships one thin manifest or loader per harness next to its Claude Code files; an overlay needs the same, with its own names. Copy from the generic repo and rename:
 
-| Host | Copy from the generic repo | Change |
+| Harness | Copy from the generic repo | Change |
 |---|---|---|
 | Codex | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json` | plugin name, marketplace name, repo URL; drop `skills` entries that do not apply |
 | Antigravity | `plugin.json` | name and description |
 | OpenCode | `.opencode/plugins/rockrms.mjs` → `.opencode/plugins/rockrms-yourchurch.mjs` | the `PLUGIN_ID` constant; delete the `/rockrms-init` command registration (the generic plugin provides it). The loader reads `skills/` and, if present, `rules/` of whatever repo it sits in. |
 
-Never add a `version` field to any of them. Install order is the same on every host: the generic plugin first, then the overlay.
+Never add a `version` field to any of them. Install order is the same on every harness: the generic plugin first, then the overlay.

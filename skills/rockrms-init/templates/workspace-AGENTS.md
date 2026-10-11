@@ -5,8 +5,8 @@
 This is my Rock RMS development workspace{{CHURCH_SUFFIX}}. Rock RMS is an open-source church management system built on ASP.NET.
 
 {{PLUGINS_PARAGRAPH}}
-<!-- Generic (no overlay): "House rules, language references (Lava, T-SQL, HTMX), Rock schema docs, and audit skills come from the `rockrms` plugin (`Consta-Tech/AIskill-RockRMS`) installed in my coding agent. The house rules load automatically at session start — follow them."
-     Overlay installed: same sentence, but name both plugins, e.g. "... come from the `rockrms` and `rockrms-<church>` plugins installed in my coding agent. The house rules ..." -->
+<!-- Generic (no overlay): "House rules, language references (Lava, T-SQL, HTMX), Rock schema docs, and audit skills come from the `rockrms` plugin (`Consta-Tech/AIskill-RockRMS`) installed in my harness. The house rules load automatically at session start — follow them."
+     Overlay installed: same sentence, but name both plugins, e.g. "... come from the `rockrms` and `rockrms-<church>` plugins installed in my harness. The house rules ..." -->
 
 ## Layout
 

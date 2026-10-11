@@ -10,7 +10,7 @@ The plugin has no version number; it is identified by the installed git commit, 
 
 ## Locate the plugin first
 
-The commands below need the plugin's root directory — the one that holds `knowledge/` and `skills/`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other host it is two directories above this `SKILL.md` (`<root>/skills/rockrms-changelog/SKILL.md`). Set it once:
+The commands below need the plugin's root directory — the one that holds `knowledge/` and `skills/`. Claude Code and Codex expose it as `${CLAUDE_PLUGIN_ROOT}`; on any other harness it is two directories above this `SKILL.md` (`<root>/skills/rockrms-changelog/SKILL.md`). Set it once:
 
 ```bash
 ROOT="${CLAUDE_PLUGIN_ROOT:-${PLUGIN_ROOT:-<absolute path two directories above this SKILL.md>}}"
@@ -32,7 +32,7 @@ Do not paraphrase, reorder, or trim the sections. Do not add a version number of
 
 - Prints the identity header: `rockrms (marketplace consta-tech) · installed commit <sha> · latest release <date>`. The commit comes from Claude Code's `~/.claude/plugins/installed_plugins.json`, then `claude plugin list --json`, then `git rev-parse` in the plugin root, then `unknown`.
 - Prints the newest `## YYYY-MM-DD` section.
-- Stores the commit and release date in the plugin's data directory (`changelog-seen.tsv`) — `${CLAUDE_PLUGIN_DATA}` or `${PLUGIN_DATA}` when the host sets one, else `~/.local/share/rockrms/`. When the stored commit differs from the installed one, it first prints every release section newer than the stored date under **Since you last checked**, then updates the store.
+- Stores the commit and release date in the plugin's data directory (`changelog-seen.tsv`) — `${CLAUDE_PLUGIN_DATA}` or `${PLUGIN_DATA}` when the harness sets one, else `~/.local/share/rockrms/`. When the stored commit differs from the installed one, it first prints every release section newer than the stored date under **Since you last checked**, then updates the store.
 - Without a writable data directory it prints the latest section only and says so. That is not an error.
 
 ## If the script cannot run
