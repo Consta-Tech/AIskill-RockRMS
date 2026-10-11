@@ -82,10 +82,11 @@ AIskill-RockRMS/
 │       └── assets/     # Templates and static resources
 ├── knowledge/          # manifest.yaml (source of truth), render.py, the rendered catalog views
 ├── evals/              # claude plugin eval suite
-├── tests/              # Repo checks that need no model: INSTALL.md structure
-├── .githooks/          # pre-commit: render check + hook-slot check (git config core.hooksPath .githooks)
-├── .github/workflows/  # knowledge-check: the same checks on every push and PR
+├── scripts/            # Contributor tooling only, nothing here ships to a session: check.sh runs every model-free check
+├── .githooks/          # pre-commit: runs scripts/check.sh (git config core.hooksPath .githooks)
+├── .github/workflows/  # knowledge-check: the same script on every push and PR
 ├── setup.sh            # One-host installer: --host claude|codex|opencode|antigravity
+├── AGENTS.md           # Map for an agent working on this repo (CLAUDE.md imports it)
 ├── CHANGELOG.md        # Date-stamped releases
 ├── CONTRIBUTING.md
 ├── INSTALL.md
